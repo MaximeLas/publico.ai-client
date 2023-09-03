@@ -5,7 +5,7 @@ import "./Header.css";
 const Header = () => {
   return (
     <header className="my-header">
-      <img src={logo} className="my-logo" />
+      <img src={logo} alt="Publico main logo" className="my-logo" />
 
       <Button
         className="my-header-right-btn"
