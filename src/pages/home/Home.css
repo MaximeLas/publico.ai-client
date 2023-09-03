@@ -13,7 +13,7 @@
   color: white;
 }
 
-h1.my-type-animation {
+.my-type-animation {
   font-size: 50px;
 }
 
@@ -39,6 +39,12 @@ h1.my-type-animation {
   padding-top: 100px;
   padding-bottom: 100px;
   background-color: lightgoldenrodyellow;
+}
+
+.questions {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background-color: lightsteelblue;
 }
 
 .set-max-width-container-with-padding {
