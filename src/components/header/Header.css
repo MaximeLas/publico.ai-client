@@ -1,12 +1,14 @@
 .my-header {
+  width: 100%;
   padding: 0.5rem 1rem;
-  background-color: gray;
+  background-color: #c9e265;
   height: 55px;
 }
 
 .my-logo {
   height: 40px;
   float: left;
+  border-radius: 5px;
 }
 
 .my-header-right-btn {
