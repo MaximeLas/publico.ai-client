@@ -5,6 +5,9 @@ import "./index.css";
 import App from "./pages/app/App";
 import reportWebVitals from "./reportWebVitals";
 import "./";
+import { inject } from "@vercel/analytics";
+
+inject();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
