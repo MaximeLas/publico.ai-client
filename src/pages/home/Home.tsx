@@ -8,14 +8,14 @@ import Questions from "./Questions";
 
 const Home = () => {
   return (
-    <body className="my-home">
+    <div className="my-home">
       <FirstImpression />
       <TheProblem />
       <OurSolution />
       <OurMission />
       <OurTeam />
       <Questions />
-    </body>
+    </div>
   );
 };
 

@@ -1,8 +1,0 @@
-/*
-necessary to stick footer to bottom
-https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c 
-*/
-.page-container {
-  position: relative;
-  min-height: 100vh;
-}

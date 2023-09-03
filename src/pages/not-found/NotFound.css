@@ -1,0 +1,14 @@
+.not-found {
+  padding-bottom: 4rem; /* Footer height */
+}
+
+.not-found-content {
+  padding-top: 30vh;
+  height: 100%;
+  color: white;
+  text-align: center;
+}
+
+.big-text {
+  font-size: 50px;
+}

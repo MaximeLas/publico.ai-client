@@ -2,10 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
-import App from "./pages/app/App";
+import PublicoRoutes from "./router/PublicoRoutes";
 import reportWebVitals from "./reportWebVitals";
 import "./";
 import { inject } from "@vercel/analytics";
+import { BrowserRouter } from "react-router-dom";
 
 inject();
 
@@ -14,7 +15,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <PublicoRoutes />
+    </BrowserRouter>
   </React.StrictMode>
 );
 
