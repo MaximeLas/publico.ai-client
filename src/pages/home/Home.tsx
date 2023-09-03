@@ -4,6 +4,7 @@ import TheProblem from "./TheProblem";
 import OurSolution from "./OurSolution";
 import OurMission from "./OurMission";
 import OurTeam from "./OurTeam";
+import Questions from "./Questions";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <OurSolution />
       <OurMission />
       <OurTeam />
+      <Questions />
     </body>
   );
 };
