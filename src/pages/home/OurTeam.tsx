@@ -21,7 +21,11 @@ const OurTeam = () => (
         </Col>
         <Col>
           <p>
-            <img className="home-img" src={img} alt="AI grantwriting coach" />
+            <img
+              className="home-img d-block mx-auto img-fluid"
+              src={img}
+              alt="AI grantwriting coach"
+            />
           </p>
         </Col>
       </Row>
