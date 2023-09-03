@@ -11,7 +11,9 @@ const TheProblem = () => (
         <Col>
           <p>
             <img
-              className="home-img"
+              // Below link explains why "d-block mx-auto img-fluid" classes are needed
+              // https://stackoverflow.com/questions/56452405/centering-image-with-react-react-bootstrap-flexbox#:~:text=The%20first%20m%2Dauto%20in,is%20displayed%20as%20inline%20block.
+              className="home-img d-block mx-auto img-fluid"
               src={img}
               alt="Crumpled papers on a desk frustrating someone"
             />
