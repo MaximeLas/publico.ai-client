@@ -1,3 +1,52 @@
 .my-home {
-  width: 100%;
+  padding-bottom: 4rem; /* Footer height */
+}
+
+.center-align {
+  text-align: center;
+}
+
+.first-impression {
+  padding-top: 40vh;
+  padding-bottom: 40vh;
+  background-color: darkslategray;
+  color: white;
+}
+
+h1.my-type-animation {
+  font-size: 50px;
+}
+
+.the-problem {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background-color: lightgray;
+}
+
+.our-solution {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background-color: lightblue;
+}
+
+.our-mission {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background-color: lightsalmon;
+}
+
+.our-team {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background-color: lightgoldenrodyellow;
+}
+
+.set-max-width-container-with-padding {
+  /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
+  width: min(100% - 2rem, 900px);
+  margin-inline: auto;  
+}
+
+.home-img {
+  max-width: 380px;
 }
