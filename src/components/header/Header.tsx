@@ -28,6 +28,11 @@ const ResponsiveNavbar = () => {
         <nav className="my-side-nav">
           <ul>
             <li onClick={hideSideNavbar}>
+              <NavLink to="/" className="my-navlink-mobile">
+                HOME
+              </NavLink>
+            </li>
+            <li onClick={hideSideNavbar}>
               <NavLink to="/how-it-works" className="my-navlink-mobile">
                 HOW IT WORKS
               </NavLink>
