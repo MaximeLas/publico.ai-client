@@ -3,11 +3,11 @@ necessary to stick footer to bottom
 https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c
 */
 .my-footer {
-  background-color: #265e4c;
+  background-color: black;
   position: absolute;
   display: flex;
   bottom: 0;
   width: 100%;
   height: 4rem; /* Footer height */
-  color: lightgray;
+  color: white;
 }
