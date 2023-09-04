@@ -9,7 +9,7 @@ const FirstSlide = () => (
           "type-animation-text" +
           (isMobileDevice() ? " type-animation-text-mobile" : "")
         }
-        sequence={[`Grantwriting,\n`, 1500, `Grantwriting,\nsimplified.`, 1000]}
+        sequence={[`Grantwriting,\n`, 750, `Grantwriting,\nsimplified.`]}
       />
     </h1>
   </div>

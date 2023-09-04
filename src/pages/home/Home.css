@@ -6,6 +6,18 @@
   text-align: center;
 }
 
+.divider-green {
+  width: 100%;
+  padding: 5px;
+  background-color: #c9e265;
+}
+
+.divider-gray {
+  width: 100%;
+  padding: 5px;
+  background-color: lightgray;
+}
+
 .first-slide {
   padding-top: 25vh;
   padding-bottom: 35vh;
@@ -31,13 +43,13 @@
 }
 
 .second-slide-mobile {
-  padding-top: 0px;
+  padding-top: 75px;
   padding-bottom: 100px;
 }
 
 .third-slide-mobile, .fourth-slide-mobile {
   padding-top: 50px;
-  padding-bottom: 100px;
+  padding-bottom: 75px;
 }
 
 .emphasized-text {

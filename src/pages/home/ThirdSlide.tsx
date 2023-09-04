@@ -10,7 +10,7 @@ const ThirdSlide = () => (
       <Row>
         <Col className="m-auto">
           <h1>
-            Profession grantwriting, within reach{" "}
+            Professional grantwriting, within reach{" "}
             <span className="emphasized-text">for all</span>.
           </h1>
         </Col>
