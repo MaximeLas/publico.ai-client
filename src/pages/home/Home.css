@@ -58,6 +58,10 @@
   font-weight: bold;
 }
 
+.extra-padding-right {
+  padding-right: 40px;
+}
+
 .set-max-width-container-with-padding {
   /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
   width: min(100% - 2rem, 900px);
