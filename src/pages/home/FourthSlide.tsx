@@ -6,7 +6,7 @@ const FourthSlide = () => (
     <div className="set-max-width-container-with-padding">
       <br></br>
       <Row>
-        <Col>
+        <Col className={isMobileDevice() ? "" : "extra-padding-right"}>
           <p>
             We're a team of{" "}
             <span className="emphasized-text">
