@@ -1,17 +1,30 @@
 .my-header {
   width: 100%;
-  padding: 0.5rem 1rem;
-  background-color: #c9e265;
-  height: 55px;
+  padding: 1rem 1rem;
+  height: 73px;
+  border: 4px;
+  border-color: #c9e265;
 }
 
 .my-logo {
-  height: 40px;
+  height: 61px;
+  margin-top: -0.65rem;
   float: left;
-  border-radius: 5px;
 }
 
-.my-header-right-btn {
+.my-header-right-navlink {
   float: right;
   margin-left: 5px;
+  font-family: 'Navbar-Buttons';
+}
+
+button.my-header-right-btn-light {
+  border-radius: 0px;
+  background-color: #eee;
+  border-color: #eee;
+  font-size: larger;
+}
+
+button.my-header-right-btn-dark {
+  font-size: larger;
 }

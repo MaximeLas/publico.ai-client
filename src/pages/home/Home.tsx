@@ -1,20 +1,16 @@
 import "./Home.css";
-import FirstImpression from "./FirstImpression";
-import TheProblem from "./TheProblem";
-import OurSolution from "./OurSolution";
-import OurMission from "./OurMission";
-import OurTeam from "./OurTeam";
-import Questions from "./Questions";
+import FirstSlide from "./FirstSlide";
+import SecondSlide from "./SecondSlide";
+import ThirdSlide from "./ThirdSlide";
+import FourthSlide from "./FourthSlide";
 
 const Home = () => {
   return (
     <div className="my-home">
-      <FirstImpression />
-      <TheProblem />
-      <OurSolution />
-      <OurMission />
-      <OurTeam />
-      <Questions />
+      <FirstSlide />
+      <SecondSlide />
+      <ThirdSlide />
+      <FourthSlide />
     </div>
   );
 };
