@@ -36,3 +36,7 @@ p {
 form {
   font-family: 'Lora';
 }
+
+.center-align {
+  text-align: center;
+}

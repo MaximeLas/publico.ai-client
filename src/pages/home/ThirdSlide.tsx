@@ -1,7 +1,7 @@
 import { Col, Row } from "react-bootstrap";
-import bullet_1 from "../../assets/images/home/1-bullet.png";
-import bullet_2 from "../../assets/images/home/2-bullet.png";
-import bullet_3 from "../../assets/images/home/3-bullet.png";
+import bullet_1 from "../../assets/home/1-bullet.png";
+import bullet_2 from "../../assets/home/2-bullet.png";
+import bullet_3 from "../../assets/home/3-bullet.png";
 import { isMobileDevice } from "../../utilities/validation";
 
 const ThirdSlide = () => (
