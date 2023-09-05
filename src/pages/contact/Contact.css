@@ -1,15 +1,15 @@
-.my-login {
+.my-contact {
   padding-bottom: 4rem; /* Footer height */
 }
 
-.my-login-container {
+.my-contact-container {
   padding-top: 50px;
-  padding-bottom: 100px;
+  padding-bottom: 50px;
 }
 
-.set-max-width-container-with-padding {
+.set-max-width-container-with-padding-contact {
   /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
-  width: min(100% - 2rem, 400px);
+  width: min(100% - 2rem, 600px);
   margin-inline: auto;  
 }
 

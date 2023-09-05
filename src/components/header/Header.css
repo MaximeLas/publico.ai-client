@@ -47,7 +47,6 @@
   right: 0;
   background-color: #000000;
   overflow-x: hidden;
-  transition: all 0.5s ease;
   margin-top: 65px;
   position: fixed;
 }
