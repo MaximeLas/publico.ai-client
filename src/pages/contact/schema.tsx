@@ -1,8 +1,5 @@
 import * as yup from "yup";
 
-// minimum 10 characters, 1 uppercase letter, 1 lowercase letter, 1 numeric digit
-const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
-
 const contactSchema = yup.object().shape({
   name: yup.string().required("Please enter your name."),
   email: yup

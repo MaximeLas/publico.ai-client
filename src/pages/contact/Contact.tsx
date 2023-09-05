@@ -11,6 +11,7 @@ type ContactFormTypes = {
   message: string;
 };
 
+// TODO: Actually handle submit
 const onSubmit = async (values: ContactFormTypes, actions: any) => {
   console.log("submitted form, values: ", values);
   console.log(values);
