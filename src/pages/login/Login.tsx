@@ -7,7 +7,6 @@ import MySpinner from "../../components/spinner/Spinner";
 type LoginFormTypes = {
   email: string;
   password: string;
-  confirmPassword: string;
 };
 
 // TODO: Actually handle submit
@@ -32,7 +31,6 @@ const Login = () => {
     initialValues: {
       email: "",
       password: "",
-      confirmPassword: "",
     },
     onSubmit,
     validationSchema: loginSchema,
@@ -40,7 +38,7 @@ const Login = () => {
 
   return (
     <div className="my-login">
-      <div className="my-login-container set-max-width-container-with-padding">
+      <div className="my-login-container set-max-width-container-with-padding-login">
         <h1 className="center-align">Welcome back!</h1>
         <br></br>
         <p className="center-align">
@@ -83,24 +81,6 @@ const Login = () => {
                 />
                 <Form.Control.Feedback type="invalid">
                   {touched.password && errors.password}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Confirm password</Form.Label>
-                <Form.Control
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="Confirm password"
-                  value={values.confirmPassword}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={
-                    touched.confirmPassword && !!errors.confirmPassword
-                  }
-                />
-                <Form.Control.Feedback type="invalid">
-                  {touched.confirmPassword && errors.confirmPassword}
                 </Form.Control.Feedback>
               </Form.Group>
             </Form>

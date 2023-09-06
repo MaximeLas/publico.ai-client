@@ -106,7 +106,7 @@ const Contact = () => {
                   name="message"
                   as="textarea"
                   rows={8}
-                  placeholder="Please provide details about your organiztion and how we can be of help."
+                  placeholder="Please provide details about your organization and how we can help you."
                   value={values.message}
                   onChange={handleChange}
                   onBlur={handleBlur}

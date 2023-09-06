@@ -3,7 +3,7 @@ import { isMobileDevice } from "../../utilities/validation";
 
 const FourthSlide = () => (
   <div className={isMobileDevice() ? "fourth-slide-mobile" : "fourth-slide"}>
-    <div className="set-max-width-container-with-padding">
+    <div className="set-max-width-container-with-padding-home">
       <br></br>
       <Row>
         <Col className={isMobileDevice() ? "" : "extra-padding-right"}>

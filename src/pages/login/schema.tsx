@@ -16,10 +16,6 @@ const loginSchema = yup.object().shape({
         "Password must include at least 1 uppercase letter, 1 lowercase letter, and 1 number.",
     })
     .required("Please enter a password."),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref("password"), ""], "Passwords must match.")
-    .required("Please re-enter your password."),
 });
 
 export { loginSchema };

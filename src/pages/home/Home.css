@@ -8,12 +8,6 @@
   background-color: #c9e265;
 }
 
-.divider-gray {
-  width: 100%;
-  padding: 5px;
-  background-color: lightgray;
-}
-
 .first-slide {
   padding-top: 25vh;
   padding-bottom: 35vh;
@@ -58,7 +52,7 @@
   padding-right: 40px;
 }
 
-.set-max-width-container-with-padding {
+.set-max-width-container-with-padding-home {
   /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
   width: min(100% - 2rem, 900px);
   margin-inline: auto;  
