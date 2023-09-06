@@ -7,7 +7,7 @@
   padding-bottom: 100px;
 }
 
-.set-max-width-container-with-padding {
+.set-max-width-container-with-padding-login {
   /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
   width: min(100% - 2rem, 400px);
   margin-inline: auto;  

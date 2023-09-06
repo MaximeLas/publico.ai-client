@@ -1,5 +1,5 @@
 import "./Home.css";
-import Dividers from "./Dividers";
+import Divider from "./Divider";
 import FirstSlide from "./FirstSlide";
 import FourthSlide from "./FourthSlide";
 import SecondSlide from "./SecondSlide";
@@ -9,11 +9,11 @@ const Home = () => {
   return (
     <div className="my-home">
       <FirstSlide />
-      <Dividers />
+      <Divider />
       <SecondSlide />
-      <Dividers />
+      <Divider />
       <ThirdSlide />
-      <Dividers />
+      <Divider />
       <FourthSlide />
     </div>
   );

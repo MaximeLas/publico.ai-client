@@ -20,7 +20,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #eee;
+  /* The below 2 attributes add the green border around the page */
+  background-color: #c9e265;
+  border: 5px solid #c9e265;
 }
 
 code {
