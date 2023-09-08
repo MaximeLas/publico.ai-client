@@ -18,3 +18,8 @@
   justify-content: center;
   display: flex;
 }
+
+.form-sent-alert {
+  padding-top: 10px;
+  font-family: 'Lora';
+}
