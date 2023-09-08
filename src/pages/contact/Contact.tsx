@@ -1,8 +1,10 @@
-import { Button, Card, Form } from "react-bootstrap";
+import { Alert, Button, Card, Form } from "react-bootstrap";
 import "./Contact.css";
 import { useFormik } from "formik";
 import { contactSchema } from "./schema";
 import MySpinner from "../../components/spinner/Spinner";
+import emailjs from "emailjs-com";
+import { useState } from "react";
 
 type ContactFormTypes = {
   name: string;
@@ -11,15 +13,42 @@ type ContactFormTypes = {
   message: string;
 };
 
-// TODO: Actually handle submit
-const onSubmit = async (values: ContactFormTypes, actions: any) => {
-  console.log("submitted form, values: ", values);
-  console.log(values);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  actions.resetForm();
-};
-
 const Contact = () => {
+  const [displaySuccess, setDisplaySuccess] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
+
+  const onSubmit = async (values: ContactFormTypes, actions: any) => {
+    console.log("submitted form, values: ", values);
+    console.log(values);
+
+    try {
+      // send email through emailjs, spinner will appear
+      await emailjs.send(
+        "service_emg84m4",
+        "template_hbapzge",
+        values,
+        "user_yrFtprBSSzbOcdxi8Nelk"
+      );
+
+      // display success
+      setDisplaySuccess(true);
+      setDisplayError(false);
+
+      // reset variables
+      setTimeout(() => {
+        actions.resetForm();
+        setDisplaySuccess(false);
+      }, 3000);
+    } catch (err) {
+      // display error
+      setDisplayError(true);
+      setDisplaySuccess(false);
+
+      // reset variables
+      setTimeout(() => setDisplayError(false), 3000);
+    }
+  };
+
   // Good formik tutorial - https://www.youtube.com/watch?v=7Ophfq0lEAY
   const {
     values,
@@ -127,6 +156,20 @@ const Contact = () => {
             </div>
           </Card.Footer>
         </Card>
+        {displaySuccess && <br />}
+        {displayError && <br />}
+        {displaySuccess && (
+          <Alert variant="success" className="form-sent-alert">
+            Thank you for sending us a message. We will be in contact soon.
+          </Alert>
+        )}
+        {displayError && (
+          <Alert variant="danger" className="form-sent-alert">
+            An error occurred. Please try again. If the error persists, please
+            email us directly at{" "}
+            <a href="mailto: liam@publico.ai">liam@publico.ai</a>.
+          </Alert>
+        )}
       </div>
     </div>
   );
