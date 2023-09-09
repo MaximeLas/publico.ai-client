@@ -15,11 +15,11 @@ const PublicoRoutes = () => {
         {/* Important: Every non-Header non-Footer class must get 4rem padding-bottom added.
           For details, go to Footer.css .my-footer */}
         <Route index element={<Home />} />
-        {/* <Route path="login" element={<Login />} /> */}
+        <Route path="login" element={<Login />} />
         <Route path="contact" element={<Contact />} />
-        {/* <Route path="try-it" element={<TryIt />} />
+        <Route path="try-it" element={<TryIt />} />
         <Route path="how-it-works" element={<HowItWorks />} />
-        <Route path="dashboard" element={<Dashboard />} /> */}
+        <Route path="dashboard" element={<Dashboard />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

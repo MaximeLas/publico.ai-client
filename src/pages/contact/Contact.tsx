@@ -22,7 +22,7 @@ const Contact = () => {
     console.log(values);
 
     try {
-      // send email through emailjs, spinner will appear
+      // Send email through emailjs, spinner will appear. For more info, check out www.emailjs.com
       await emailjs.send(
         "service_emg84m4",
         "template_hbapzge",
