@@ -32,7 +32,7 @@ const ResponsiveNavbar = () => {
                 HOME
               </NavLink>
             </li>
-            {/* <li onClick={hideSideNavbar}>
+            <li onClick={hideSideNavbar}>
               <NavLink to="/how-it-works" className="my-navlink-mobile">
                 HOW IT WORKS
               </NavLink>
@@ -41,17 +41,17 @@ const ResponsiveNavbar = () => {
               <NavLink to="/try-it" className="my-navlink-mobile">
                 TRY IT
               </NavLink>
-            </li> */}
+            </li>
             <li onClick={hideSideNavbar}>
               <NavLink to="/contact" className="my-navlink-mobile">
                 CONTACT
               </NavLink>
             </li>
-            {/* <li onClick={hideSideNavbar}>
+            <li onClick={hideSideNavbar}>
               <NavLink to="/login" className="my-navlink-mobile">
                 LOG IN
               </NavLink>
-            </li> */}
+            </li>
           </ul>
         </nav>
       )}
@@ -69,18 +69,18 @@ const DesktopNavbar = () => (
       {/* NavLink and Link are the same except that NavLink has extra styling
         functionality but I'm not using it here. For more info, can go to
         https://www.youtube.com/watch?v=Ul3y1LXxzdU at 34:10 */}
-      {/* <NavLink to="/login" className="my-navlink my-navlink-dark">
+      <NavLink to="/login" className="my-navlink my-navlink-dark">
         LOG IN
-      </NavLink> */}
+      </NavLink>
       <NavLink to="/contact" className="my-navlink">
         CONTACT
       </NavLink>
-      {/* <NavLink to="/try-it" className="my-navlink">
+      <NavLink to="/try-it" className="my-navlink">
         TRY IT
       </NavLink>
       <NavLink to="/how-it-works" className="my-navlink">
         HOW IT WORKS
-      </NavLink> */}
+      </NavLink>
     </nav>
   </header>
 );
