@@ -7,7 +7,7 @@ const TryIt = () => {
       <div className="publico-demo-iframe-container">
         <iframe
           className="publico-demo-iframe"
-          src="http://ec2-54-153-106-76.us-west-1.compute.amazonaws.com:7860/"
+          src="https://f3c897ed632845224e.gradio.live"
           title="Publico.ai Demo App"
         ></iframe>
       </div>
