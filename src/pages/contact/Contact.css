@@ -7,7 +7,7 @@
   padding-bottom: 50px;
 }
 
-.set-max-width-container-with-padding-contact {
+.my-contact-container-max-width {
   /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
   width: min(100% - 2rem, 600px);
   margin-inline: auto;  

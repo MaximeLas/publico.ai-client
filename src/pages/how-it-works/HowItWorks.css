@@ -1,0 +1,26 @@
+.how-it-works {
+  padding-bottom: 4rem; /* Footer height */
+}
+
+.how-it-works-container {
+  padding-top: 50px;
+}
+
+.how-it-works-max-width {
+  /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
+  width: min(100% - 2rem, 600px);
+  margin-inline: auto;  
+}
+
+.publico-demo-video-container {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.publico-demo-video {
+  width: min(900px, 100% - 2rem);
+  height: auto;
+  padding-bottom: 25px;
+  padding-top: 5px;
+}

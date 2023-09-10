@@ -71,7 +71,7 @@ const Contact = () => {
 
   return (
     <div className="my-contact">
-      <div className="my-contact-container set-max-width-container-with-padding-contact">
+      <div className="my-contact-container my-contact-container-max-width">
         <h1 className="center-align">Contact Us</h1>
         <br />
 
@@ -150,7 +150,11 @@ const Contact = () => {
           </Card.Body>
           <Card.Footer>
             <div className="align-card-btn-center">
-              <Button disabled={isSubmitting} onClick={() => handleSubmit()}>
+              <Button
+                variant="dark"
+                disabled={isSubmitting}
+                onClick={() => handleSubmit()}
+              >
                 {isSubmitting ? <MySpinner /> : "Submit"}
               </Button>
             </div>
@@ -167,7 +171,7 @@ const Contact = () => {
           <Alert variant="danger" className="form-sent-alert">
             An error occurred. Please try again. If the error persists, please
             email us directly at{" "}
-            <a href="mailto: liam@publico.ai">liam@publico.ai</a>.
+            <a href="mailto: david@publico.ai">david@publico.ai</a>.
           </Alert>
         )}
       </div>
