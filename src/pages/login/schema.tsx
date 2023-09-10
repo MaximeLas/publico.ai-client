@@ -1,8 +1,5 @@
 import * as yup from "yup";
 
-// minimum 10 characters, 1 uppercase letter, 1 lowercase letter, 1 numeric digit
-const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
-
 const loginSchema = yup.object().shape({
   email: yup
     .string()
@@ -10,11 +7,7 @@ const loginSchema = yup.object().shape({
     .required("Please enter an email."),
   password: yup
     .string()
-    .min(10)
-    .matches(passwordRules, {
-      message:
-        "Password must include at least 1 uppercase letter, 1 lowercase letter, and 1 number.",
-    })
+    .min(10, "Password must be at least 10 characters.")
     .required("Please enter a password."),
 });
 

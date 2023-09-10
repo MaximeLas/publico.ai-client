@@ -2,7 +2,7 @@ import { Alert, Button, Card, Form } from "react-bootstrap";
 import "./Contact.css";
 import { useFormik } from "formik";
 import { contactSchema } from "./schema";
-import MySpinner from "../../components/spinner/Spinner";
+import MySpinner from "../../components/spinner/MySpinner";
 import emailjs from "emailjs-com";
 import { useState } from "react";
 

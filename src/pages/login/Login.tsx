@@ -2,22 +2,29 @@ import { Button, Card, Form } from "react-bootstrap";
 import "./Login.css";
 import { useFormik } from "formik";
 import { loginSchema } from "./schema";
-import MySpinner from "../../components/spinner/Spinner";
+import MySpinner from "../../components/spinner/MySpinner";
+import { useNavigate } from "react-router-dom";
 
 type LoginFormTypes = {
   email: string;
   password: string;
 };
 
-// TODO: Actually handle submit
-const onSubmit = async (values: LoginFormTypes, actions: any) => {
-  console.log("submitted form, values: ", values);
-  console.log(values);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  actions.resetForm();
-};
-
 const Login = () => {
+  const navigate = useNavigate();
+
+  const onSubmit = async (values: LoginFormTypes, actions: any) => {
+    console.log("submitted form, values: ", values);
+    console.log(values);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1000);
+    });
+    navigate("/dashboard", {
+      state: { isLoggedIn: true, values },
+    });
+    actions.resetForm();
+  };
+
   // Good formik tutorial - https://www.youtube.com/watch?v=7Ophfq0lEAY
   const {
     values,

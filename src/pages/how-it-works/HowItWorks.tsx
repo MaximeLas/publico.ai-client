@@ -9,15 +9,16 @@ const HowItWorks = () => {
         <h1>How it works</h1>
       </div>
       <br />
-      <p className="how-it-works-max-width">
-        Step I - Session Start and Document Upload
+      <p className="how-it-works-paragraph">
+        <b>Step I</b> - Session Start and Document Upload
       </p>
       <div className="publico-demo-video-container">
         <video className="publico-demo-video" src={video_1} autoPlay />
       </div>
       <br />
-      <p className="how-it-works-max-width">
-        Steps II and III - General and Implicit Questioning with Human Editing
+      <p className="how-it-works-paragraph">
+        <b>Steps II and III</b> - General and Implicit Questioning with Human
+        Editing
       </p>
       <div className="publico-demo-video-container">
         <video className="publico-demo-video" src={video_2} autoPlay />
