@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 
 const SecondSlide = () => (
   <div className={isMobileDevice() ? "second-slide-mobile" : "second-slide"}>
-    <div className="set-max-width-container-with-padding-home">
+    <div className="my-home-container-max-width">
       <Row>
         {/* Below m-auto and mx-auto are explained:
         https://stackoverflow.com/questions/56452405/centering-image-with-react-react-bootstrap-flexbox#:~:text=The%20first%20m%2Dauto%20in,is%20displayed%20as%20inline%20block. */}

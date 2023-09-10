@@ -38,7 +38,7 @@ const Login = () => {
 
   return (
     <div className="my-login">
-      <div className="my-login-container set-max-width-container-with-padding-login">
+      <div className="my-login-container my-login-container-max-width">
         <h1 className="center-align">Welcome back!</h1>
         <br></br>
         <p className="center-align">
@@ -87,7 +87,11 @@ const Login = () => {
           </Card.Body>
           <Card.Footer>
             <div className="align-card-btn-center">
-              <Button disabled={isSubmitting} onClick={() => handleSubmit()}>
+              <Button
+                variant="dark"
+                disabled={isSubmitting}
+                onClick={() => handleSubmit()}
+              >
                 {isSubmitting ? <MySpinner /> : "Log In"}
               </Button>
             </div>
