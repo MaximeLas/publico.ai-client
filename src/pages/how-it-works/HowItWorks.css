@@ -3,13 +3,13 @@
 }
 
 .how-it-works-container {
-  padding-top: 50px;
+  padding-top: 30px;
 }
 
-.how-it-works-max-width {
+.how-it-works-paragraph {
   /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
   width: min(100% - 2rem, 600px);
-  margin-inline: auto;  
+  margin-inline: auto;
 }
 
 .publico-demo-video-container {
@@ -21,6 +21,9 @@
 .publico-demo-video {
   width: min(900px, 100% - 2rem);
   height: auto;
-  padding-bottom: 25px;
-  padding-top: 5px;
+  padding: 1px;
+  background-color: #c9e265;
+  border-radius: 5px;
+  margin-bottom: 25px;
+  margin-top: 5px;
 }
