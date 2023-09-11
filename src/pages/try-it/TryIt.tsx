@@ -56,7 +56,7 @@ const TryIt = () => {
   });
 
   return (
-    <div className="try-it">
+    <div className="add-footer-padding-bottom">
       <div className="try-it-container">
         <h1 className="center-align">Try it today!</h1>
         <br></br>

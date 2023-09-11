@@ -70,111 +70,109 @@ const Contact = () => {
   });
 
   return (
-    <div className="my-contact">
-      <div className="my-contact-container my-contact-container-max-width">
-        <h1 className="center-align">Contact Us</h1>
-        <br />
+    <div className="my-contact-container my-contact-container-max-width">
+      <h1 className="center-align">Contact Us</h1>
+      <br />
 
-        <Card>
-          <Card.Header>
-            <Card.Title>Contact Form</Card.Title>
-          </Card.Header>
-          <Card.Body>
-            <Form>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  name="name"
-                  type="text"
-                  placeholder="Enter name"
-                  value={values.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={touched.name && !!errors.name}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {touched.name && errors.name}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  name="email"
-                  type="email"
-                  placeholder="Enter email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={touched.email && !!errors.email}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {touched.email && errors.email}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Organization</Form.Label>
-                <Form.Control
-                  name="organization"
-                  type="text"
-                  placeholder="Enter organization name"
-                  value={values.organization}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={touched.organization && !!errors.organization}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {touched.organization && errors.organization}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Message</Form.Label>
-                <Form.Control
-                  name="message"
-                  as="textarea"
-                  rows={8}
-                  placeholder="Please provide details about your organization and how we can help you."
-                  value={values.message}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={touched.message && !!errors.message}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {touched.message && errors.message}
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Form>
-          </Card.Body>
-          <Card.Footer>
-            <div className="align-card-btn-center">
-              <Button
-                variant="dark"
-                disabled={isSubmitting}
-                onClick={() => handleSubmit()}
-              >
-                {isSubmitting ? <MySpinner /> : "Submit"}
-              </Button>
-            </div>
-          </Card.Footer>
-        </Card>
-        {displaySuccess && <br />}
-        {displayError && <br />}
-        {displaySuccess && (
-          <Alert variant="success" className="form-sent-alert">
-            Thank you for sending us a message. We will be in contact soon.
-          </Alert>
-        )}
-        {displayError && (
-          <Alert variant="danger" className="form-sent-alert">
-            An error occurred. Please try again. If the error persists, please
-            email us directly at{" "}
-            <a href="mailto: david@publico.ai">david@publico.ai</a>.
-          </Alert>
-        )}
-      </div>
+      <Card>
+        <Card.Header>
+          <Card.Title>Contact Form</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          <Form>
+            <Form.Group className="mb-3 form-group">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                name="name"
+                type="text"
+                placeholder="Enter name"
+                value={values.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                isInvalid={touched.name && !!errors.name}
+              />
+              <Form.Control.Feedback type="invalid">
+                {touched.name && errors.name}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3 form-group">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                name="email"
+                type="email"
+                placeholder="Enter email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                isInvalid={touched.email && !!errors.email}
+              />
+              <Form.Control.Feedback type="invalid">
+                {touched.email && errors.email}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3 form-group">
+              <Form.Label>Organization</Form.Label>
+              <Form.Control
+                name="organization"
+                type="text"
+                placeholder="Enter organization name"
+                value={values.organization}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                isInvalid={touched.organization && !!errors.organization}
+              />
+              <Form.Control.Feedback type="invalid">
+                {touched.organization && errors.organization}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3 form-group">
+              <Form.Label>Message</Form.Label>
+              <Form.Control
+                name="message"
+                as="textarea"
+                rows={8}
+                placeholder="Please provide details about your organization and how we can help you."
+                value={values.message}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                isInvalid={touched.message && !!errors.message}
+              />
+              <Form.Control.Feedback type="invalid">
+                {touched.message && errors.message}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Form>
+        </Card.Body>
+        <Card.Footer>
+          <div className="align-card-btn-center">
+            <Button
+              variant="dark"
+              disabled={isSubmitting}
+              onClick={() => handleSubmit()}
+            >
+              {isSubmitting ? <MySpinner /> : "Submit"}
+            </Button>
+          </div>
+        </Card.Footer>
+      </Card>
+      {displaySuccess && <br />}
+      {displayError && <br />}
+      {displaySuccess && (
+        <Alert variant="success" className="form-sent-alert">
+          Thank you for sending us a message. We will be in contact soon.
+        </Alert>
+      )}
+      {displayError && (
+        <Alert variant="danger" className="form-sent-alert">
+          An error occurred. Please try again. If the error persists, please
+          email us directly at{" "}
+          <a href="mailto: david@publico.ai">david@publico.ai</a>.
+        </Alert>
+      )}
     </div>
   );
 };

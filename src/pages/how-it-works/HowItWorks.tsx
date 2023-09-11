@@ -4,7 +4,7 @@ import video_2 from "../../assets/how-it-works/Steps3-4-video.mp4";
 
 const HowItWorks = () => {
   return (
-    <div className="how-it-works center-align">
+    <div className="center-align">
       <div className="how-it-works-container">
         <h1>How it works</h1>
       </div>

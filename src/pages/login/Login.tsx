@@ -44,67 +44,65 @@ const Login = () => {
   });
 
   return (
-    <div className="my-login">
-      <div className="my-login-container my-login-container-max-width">
-        <h1 className="center-align">Welcome back!</h1>
-        <br></br>
-        <p className="center-align">
-          You're one step closer to writing your next grant.
-        </p>
+    <div className="my-login-container my-login-container-max-width">
+      <h1 className="center-align">Welcome back!</h1>
+      <br></br>
+      <p className="center-align">
+        You're one step closer to writing your next grant.
+      </p>
 
-        <Card>
-          <Card.Header>
-            <Card.Title>Log In</Card.Title>
-          </Card.Header>
-          <Card.Body>
-            <Form>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  name="email"
-                  type="email"
-                  placeholder="Enter email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={touched.email && !!errors.email}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {touched.email && errors.email}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  name="password"
-                  type="password"
-                  placeholder="Enter password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={touched.password && !!errors.password}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {touched.password && errors.password}
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Form>
-          </Card.Body>
-          <Card.Footer>
-            <div className="align-card-btn-center">
-              <Button
-                variant="dark"
-                disabled={isSubmitting}
-                onClick={() => handleSubmit()}
-              >
-                {isSubmitting ? <MySpinner /> : "Log In"}
-              </Button>
-            </div>
-          </Card.Footer>
-        </Card>
-      </div>
+      <Card>
+        <Card.Header>
+          <Card.Title>Log In</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          <Form>
+            <Form.Group className="mb-3 form-group">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                name="email"
+                type="email"
+                placeholder="Enter email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                isInvalid={touched.email && !!errors.email}
+              />
+              <Form.Control.Feedback type="invalid">
+                {touched.email && errors.email}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3 form-group">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                name="password"
+                type="password"
+                placeholder="Enter password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                isInvalid={touched.password && !!errors.password}
+              />
+              <Form.Control.Feedback type="invalid">
+                {touched.password && errors.password}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Form>
+        </Card.Body>
+        <Card.Footer>
+          <div className="align-card-btn-center">
+            <Button
+              variant="dark"
+              disabled={isSubmitting}
+              onClick={() => handleSubmit()}
+            >
+              {isSubmitting ? <MySpinner /> : "Log In"}
+            </Button>
+          </div>
+        </Card.Footer>
+      </Card>
     </div>
   );
 };

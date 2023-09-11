@@ -1,13 +1,20 @@
-import { useLocation } from "react-router-dom";
+import "./Dashboard.css";
+import Account from "./account/Account";
+import Documents from "./documents/Documents";
+import NewGrant from "./new-grant/NewGrant";
+import PreviousGrants from "./previous-grants/PreviousGrants";
 
 const Dashboard = () => {
-  const location = useLocation();
-  console.log(location.state);
   return (
-    <p>
-      abc TODO Dashboard{" "}
-      {location.state.isLoggedIn ? "logged in" : "not logged in"}
-    </p>
+    <div className="dashboard-container dashboard-container-max-width">
+      <h1 className="center-align">Dashboard</h1>
+      <div className="center-align line-below-dashboard"></div>
+      <br />
+      <NewGrant />
+      <PreviousGrants />
+      <Documents />
+      <Account />
+    </div>
   );
 };
 

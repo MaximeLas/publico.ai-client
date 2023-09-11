@@ -7,7 +7,7 @@ import ThirdSlide from "./ThirdSlide";
 
 const Home = () => {
   return (
-    <div className="my-home">
+    <>
       <FirstSlide />
       <Divider />
       <SecondSlide />
@@ -15,7 +15,7 @@ const Home = () => {
       <ThirdSlide />
       <Divider />
       <FourthSlide />
-    </div>
+    </>
   );
 };
 

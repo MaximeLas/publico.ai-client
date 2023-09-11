@@ -1,14 +1,14 @@
-.not-found {
-  padding-bottom: 4rem; /* Footer height */
-}
-
-.not-found-content {
-  padding-top: 30vh;
-  height: 100%;
-  color: white;
+.not-found-container {
+  padding-top: 5vh;
   text-align: center;
 }
 
 .big-text {
-  font-size: 50px;
+  font-size: 40px;
+}
+
+.dog-pic {
+  width: min(400px, 100vw - 2rem);
+  border-radius: 5px;
+  margin: 5px;
 }
