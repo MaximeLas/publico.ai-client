@@ -1,9 +1,6 @@
 .my-contact-container {
   padding-top: 30px;
   padding-bottom: 50px;
-}
-
-.my-contact-container-max-width {
   /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
   width: min(100% - 2rem, 600px);
   margin-inline: auto;  

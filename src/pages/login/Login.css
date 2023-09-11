@@ -1,9 +1,6 @@
 .my-login-container {
   padding-top: 30px;
   padding-bottom: 100px;
-}
-
-.my-login-container-max-width {
   /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
   width: min(100% - 2rem, 400px);
   margin-inline: auto;  

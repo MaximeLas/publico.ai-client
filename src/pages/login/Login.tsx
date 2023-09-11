@@ -44,7 +44,7 @@ const Login = () => {
   });
 
   return (
-    <div className="my-login-container my-login-container-max-width">
+    <div className="my-login-container">
       <h1 className="center-align">Welcome back!</h1>
       <br></br>
       <p className="center-align">

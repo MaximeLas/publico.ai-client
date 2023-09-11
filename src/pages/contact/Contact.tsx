@@ -70,7 +70,7 @@ const Contact = () => {
   });
 
   return (
-    <div className="my-contact-container my-contact-container-max-width">
+    <div className="my-contact-container">
       <h1 className="center-align">Contact Us</h1>
       <br />
 
