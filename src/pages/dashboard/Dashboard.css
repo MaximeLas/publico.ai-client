@@ -16,7 +16,7 @@
 
 .dashboard-btn {
   height: 150px;
-  width: 200px;
+  width: min(50vw - 2rem, 200px);
   margin: 5px;
 }
 
