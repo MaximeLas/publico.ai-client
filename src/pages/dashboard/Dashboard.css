@@ -1,0 +1,24 @@
+.dashboard-container {
+  padding-top: 30px;
+  padding-bottom: 50px;
+  /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
+  width: min(100% - 2rem, 900px);
+  margin-inline: auto;  
+}
+
+.line-below-dashboard {
+  background-color: #c9e265;
+  height: 5px;
+}
+
+.dashboard-btn {
+  height: 150px;
+  width: min(50vw - 2rem, 200px);
+  margin: 5px;
+}
+
+.dashboard-btn-icon {
+  height: 40px;
+  width: 40px;
+  margin-bottom: 8px;
+}

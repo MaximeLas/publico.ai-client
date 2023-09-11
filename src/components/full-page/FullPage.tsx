@@ -9,7 +9,9 @@ const FullPage = () => {
       <Header />
       {/* For more info about Outlet from react-router-dom, check out
         https://www.youtube.com/watch?v=Ul3y1LXxzdU at 20:48 */}
-      <Outlet />
+      <div className="add-footer-padding-bottom">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

@@ -6,3 +6,7 @@
 .page-container {
   background-color: #eee;
 }
+
+.add-footer-padding-bottom {
+  padding-bottom: 4rem; /* Footer height */
+}

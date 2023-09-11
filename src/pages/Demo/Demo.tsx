@@ -2,7 +2,7 @@ import "./Demo.css";
 
 const Demo = () => {
   return (
-    <div className="demo">
+    <>
       <h1 className="center-align medium-text">Try our demo below!</h1>
       <div className="publico-demo-iframe-container">
         <iframe
@@ -11,7 +11,7 @@ const Demo = () => {
           title="Publico.ai Demo App"
         ></iframe>
       </div>
-    </div>
+    </>
   );
 };
 
