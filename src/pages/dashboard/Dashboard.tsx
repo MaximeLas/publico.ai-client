@@ -1,19 +1,32 @@
+import { Button } from "react-bootstrap";
 import "./Dashboard.css";
-import Account from "./account/Account";
-import Documents from "./documents/Documents";
-import NewGrant from "./new-grant/NewGrant";
-import PreviousGrants from "./previous-grants/PreviousGrants";
+import { TfiWrite } from "react-icons/tfi";
+import { HiOutlineDocumentSearch } from "react-icons/hi";
+import { IoDocumentsOutline } from "react-icons/io5";
+import { MdAccountBox } from "react-icons/md";
+import { MdContactSupport } from "react-icons/md";
 
 const Dashboard = () => {
+  const BUTTONS = [
+    { text: "Start a new grant", Icon: TfiWrite },
+    { text: "My previous grants", Icon: HiOutlineDocumentSearch },
+    { text: "My Documents", Icon: IoDocumentsOutline },
+    { text: "My Account", Icon: MdAccountBox },
+    { text: "Support", Icon: MdContactSupport },
+  ];
+
   return (
     <div className="dashboard-container dashboard-container-max-width">
       <h1 className="center-align">Dashboard</h1>
       <div className="center-align line-below-dashboard"></div>
       <br />
-      <NewGrant />
-      <PreviousGrants />
-      <Documents />
-      <Account />
+      {BUTTONS.map((button) => (
+        <Button className="dashboard-btn" variant="light">
+          <button.Icon className="dashboard-btn-icon" />
+          <br />
+          {button.text}
+        </Button>
+      ))}
     </div>
   );
 };
