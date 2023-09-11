@@ -3,19 +3,16 @@ import { useNavigate } from "react-router-dom";
 import MySpinner from "../../components/spinner/MySpinner";
 import { useFormik } from "formik";
 import "./TryIt.css";
-import { ORG_TYPES, signUpSchema } from "./schema";
+import { ORG_SIZES, ORG_TYPES, signUpSchema } from "./schema";
 
 type TryItFormTypes = {
   email: string;
   password: string;
   confirmPassword: string;
+  name: string;
   organization: string;
-  organizationSize: number;
-  organizationType:
-    | "Nonprofit"
-    | "Research"
-    | "Other social enterprise"
-    | "Other";
+  organizationSize: string;
+  organizationType: string;
   acceptedTnC: boolean;
 };
 
@@ -48,9 +45,10 @@ const TryIt = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      name: "",
       organization: "",
-      organizationSize: 0,
-      organizationType: "Nonprofit",
+      organizationSize: "",
+      organizationType: "",
       acceptedTnC: false,
     },
     onSubmit,
@@ -62,7 +60,9 @@ const TryIt = () => {
       <div className="try-it-container">
         <h1 className="center-align">Try it today!</h1>
         <br></br>
-        <p className="center-align">Sign up below to try our demo.</p>
+        <p className="center-align">
+          See how Publico's grantwriting coach can save your team time.
+        </p>
 
         <Card>
           <Card.Header>
@@ -121,6 +121,22 @@ const TryIt = () => {
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3 form-group">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  name="name"
+                  type="text"
+                  placeholder="Enter your name"
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  isInvalid={touched.name && !!errors.name}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {touched.name && errors.name}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3 form-group">
                 <Form.Label>Name of organization</Form.Label>
                 <Form.Control
                   name="organization"
@@ -137,11 +153,10 @@ const TryIt = () => {
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3 form-group">
-                <Form.Label>Organization size</Form.Label>
+                <Form.Label>Team size</Form.Label>
                 <Form.Control
                   name="organizationSize"
-                  type="number"
-                  placeholder="Enter size of organization"
+                  as="select"
                   value={values.organizationSize}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -149,14 +164,19 @@ const TryIt = () => {
                   isInvalid={
                     touched.organizationSize && !!errors.organizationSize
                   }
-                />
+                >
+                  {["", ...ORG_SIZES].map((orgSize) => (
+                    <option value={orgSize} key={orgSize}>
+                      {orgSize}
+                    </option>
+                  ))}
+                </Form.Control>
                 <Form.Control.Feedback type="invalid">
                   {touched.organizationSize && errors.organizationSize}
                 </Form.Control.Feedback>
               </Form.Group>
-
               <Form.Group className="mb-3 form-group">
-                <Form.Label>Organization type</Form.Label>
+                <Form.Label>Type of organization</Form.Label>
                 <Form.Control
                   name="organizationType"
                   as="select"
@@ -168,7 +188,7 @@ const TryIt = () => {
                     touched.organizationType && !!errors.organizationType
                   }
                 >
-                  {ORG_TYPES.map((orgType) => (
+                  {["", ...ORG_TYPES].map((orgType) => (
                     <option value={orgType} key={orgType}>
                       {orgType}
                     </option>
@@ -177,6 +197,19 @@ const TryIt = () => {
                 <Form.Control.Feedback type="invalid">
                   {touched.organizationType && errors.organizationType}
                 </Form.Control.Feedback>
+              </Form.Group>
+              <br />
+              <Form.Group className="mb-3 form-group">
+                <Form.Check
+                  name="acceptedTnC"
+                  required
+                  label="I accept the Terms and Conditions."
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={touched.acceptedTnC && !!errors.acceptedTnC}
+                  feedback="You must accept the Terms and Conditions to create an account."
+                  feedbackType="invalid"
+                />
               </Form.Group>
             </Form>
           </Card.Body>
