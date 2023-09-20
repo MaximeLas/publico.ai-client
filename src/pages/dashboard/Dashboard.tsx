@@ -24,7 +24,7 @@ const Dashboard = () => {
       <div className="center-align line-below-dashboard"></div>
       <br />
       {BUTTONS.map((button) => (
-        <Button className="dashboard-btn" variant="light">
+        <Button className="dashboard-btn" variant="light" onClick={button.action}>
           <button.Icon className="dashboard-btn-icon" />
           <br />
           {button.text}
