@@ -11,7 +11,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const BUTTONS = [
-    { text: "Start a new grant", Icon: TfiWrite, action: () => navigate('/try-it') },
+    { text: "Start a new grant", Icon: TfiWrite, action: () => navigate('/demo') },
     { text: "My previous grants", Icon: HiOutlineDocumentSearch },
     { text: "My Documents", Icon: IoDocumentsOutline },
     { text: "My Account", Icon: MdAccountBox },
