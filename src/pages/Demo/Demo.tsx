@@ -7,7 +7,7 @@ const Demo = () => {
       <div className="publico-demo-iframe-container">
         <iframe
           className="publico-demo-iframe"
-          src="https://b1f628c49edc20ccba.gradio.live"
+          src="https://b8f03af3ef0fce3143.gradio.live"
           title="Publico.ai Demo App"
         ></iframe>
       </div>
