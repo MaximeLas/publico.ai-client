@@ -56,6 +56,10 @@
   color: white;
 }
 
+.my-navlink-mobile:hover, .active:not(.active:not(.my-navlink-mobile)) {
+  color: #c9e265;
+}
+
 nav.my-side-nav ul li {
   list-style-type: none;
 }

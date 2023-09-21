@@ -4,16 +4,3 @@
   width: min(100% - 2rem, 400px);
   margin-inline: auto;
 }
-
-.publico-demo-iframe-container {
-  align-items: center;
-  justify-content: center;
-  display: flex;
-}
-
-.publico-demo-iframe {
-  width: min(800px, 100% - 2rem);
-  height: calc(100vh - 73px - 4rem);
-  padding-bottom: 25px;
-  padding-top: 5px;
-}
