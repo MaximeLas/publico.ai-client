@@ -8,6 +8,7 @@ import TryIt from "../pages/try-it/TryIt";
 import HowItWorks from "../pages/how-it-works/HowItWorks";
 import Contact from "../pages/contact/Contact";
 import Demo from "../pages/Demo/Demo";
+import Logout from "../pages/logout/Logout";
 
 const PublicoRoutes = () => {
   return (
@@ -22,6 +23,7 @@ const PublicoRoutes = () => {
         <Route path="login" element={<Login />} />
         <Route path="demo" element={<Demo />} />
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

@@ -3,7 +3,7 @@ import "./Login.css";
 import { useFormik } from "formik";
 import { loginSchema } from "./schema";
 import MySpinner from "../../components/spinner/MySpinner";
-import { useNavigate } from "react-router-dom";
+import { isLoggedIn } from "../../utilities/account";
 
 type LoginFormTypes = {
   email: string;
@@ -11,17 +11,15 @@ type LoginFormTypes = {
 };
 
 const Login = () => {
-  const navigate = useNavigate();
-
   const onSubmit = async (values: LoginFormTypes, actions: any) => {
     console.log("submitted form, values: ", values);
     console.log(values);
     await new Promise((resolve) => {
       setTimeout(resolve, 1000);
     });
-    navigate("/dashboard", {
-      state: { isLoggedIn: true, values },
-    });
+    // TODO: Fix
+    localStorage.setItem("publico_ai_token", new Date().toString());
+    window.location.href = "/dashboard";
     actions.resetForm();
   };
 
@@ -42,6 +40,11 @@ const Login = () => {
     onSubmit,
     validationSchema: loginSchema,
   });
+
+  if (isLoggedIn()) {
+    window.location.href = "/dashboard";
+    return <></>;
+  }
 
   return (
     <div className="my-login-container">

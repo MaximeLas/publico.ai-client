@@ -1,13 +1,19 @@
+import { isLoggedIn } from "../../utilities/account";
 import "./Demo.css";
 
 const Demo = () => {
+  if (!isLoggedIn()) {
+    window.location.href = "/login";
+    return <></>;
+  }
+
   return (
     <>
       <h1 className="center-align medium-text">Try our demo below!</h1>
       <div className="publico-demo-iframe-container">
         <iframe
           className="publico-demo-iframe"
-          src="https://b1f628c49edc20ccba.gradio.live"
+          src="https://3c19c3ced08da770cf.gradio.live"
           title="Publico.ai Demo App"
         ></iframe>
       </div>
