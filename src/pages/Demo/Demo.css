@@ -9,8 +9,8 @@
 }
 
 .publico-demo-iframe {
-  width: min(800px, 100% - 2rem);
-  height: calc(100vh - 73px - 4rem);
+  width: min(1550px, 100% - 2rem);
+  height: calc(100vh - 50px - 4rem);
   padding-bottom: 25px;
   padding-top: 5px;
 }
