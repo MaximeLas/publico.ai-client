@@ -5,7 +5,7 @@ import FourthSlide from "./FourthSlide";
 import SecondSlide from "./SecondSlide";
 import ThirdSlide from "./ThirdSlide";
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <>
       <FirstSlide />

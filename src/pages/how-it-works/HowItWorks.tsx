@@ -4,7 +4,7 @@ import pic_2 from "../../assets/how-it-works/2 - Beyond ChatGPT.jpg";
 import video_1 from "../../assets/how-it-works/Steps1-2-video.mp4";
 import video_2 from "../../assets/how-it-works/Steps3-4-video.mp4";
 
-const HowItWorks = () => {
+const HowItWorks: React.FC = () => {
   return (
     <div className="center-align">
       <div className="how-it-works-container">

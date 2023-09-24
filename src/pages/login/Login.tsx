@@ -3,24 +3,21 @@ import "./Login.css";
 import { useFormik } from "formik";
 import { loginSchema } from "./schema";
 import MySpinner from "../../components/spinner/MySpinner";
-import { isLoggedIn } from "../../utilities/account";
+import useAuth from "../../auth/useAuth";
+import { useNavigate } from "react-router-dom";
+import { LoginInfo } from "../../auth/auth";
 
-type LoginFormTypes = {
-  email: string;
-  password: string;
-};
+const Login: React.FC = () => {
+  const auth = useAuth();
+  const navigate = useNavigate();
 
-const Login = () => {
-  const onSubmit = async (values: LoginFormTypes, actions: any) => {
-    console.log("submitted form, values: ", values);
-    console.log(values);
-    await new Promise((resolve) => {
-      setTimeout(resolve, 1000);
-    });
-    // TODO: Fix
-    localStorage.setItem("publico_ai_token", new Date().toString());
-    window.location.href = "/dashboard";
+  const onSubmit = async (values: LoginInfo, actions: any) => {
+    console.log("submitted form: ", values);
+    console.log(auth);
+
+    await auth?.login(values);
     actions.resetForm();
+    navigate("/dashboard");
   };
 
   // Good formik tutorial - https://www.youtube.com/watch?v=7Ophfq0lEAY
@@ -40,11 +37,6 @@ const Login = () => {
     onSubmit,
     validationSchema: loginSchema,
   });
-
-  if (isLoggedIn()) {
-    window.location.href = "/dashboard";
-    return <></>;
-  }
 
   return (
     <div className="my-login-container">

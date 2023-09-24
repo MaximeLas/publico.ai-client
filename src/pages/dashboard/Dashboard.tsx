@@ -5,9 +5,8 @@ import { HiOutlineDocumentSearch } from "react-icons/hi";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { MdAccountBox } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { isLoggedIn } from "../../utilities/account";
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   const BUTTONS = [
@@ -20,11 +19,6 @@ const Dashboard = () => {
     { text: "My Documents", Icon: IoDocumentsOutline },
     { text: "My Account", Icon: MdAccountBox },
   ];
-
-  if (!isLoggedIn()) {
-    window.location.href = "/login";
-    return <></>;
-  }
 
   return (
     <div className="dashboard-container center-align">

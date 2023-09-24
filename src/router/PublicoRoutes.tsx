@@ -1,16 +1,17 @@
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "../pages/dashboard/Dashboard";
-import Home from "../pages/home/Home";
-import Login from "../pages/login/Login";
-import FullPage from "../components/full-page/FullPage";
-import NotFound from "../pages/not-found/NotFound";
-import TryIt from "../pages/try-it/TryIt";
-import HowItWorks from "../pages/how-it-works/HowItWorks";
 import Contact from "../pages/contact/Contact";
-import Demo from "../pages/Demo/Demo";
+import Dashboard from "../pages/dashboard/Dashboard";
+import Demo from "../pages/demo/Demo";
+import FullPage from "../components/full-page/FullPage";
+import Home from "../pages/home/Home";
+import HowItWorks from "../pages/how-it-works/HowItWorks";
+import Login from "../pages/login/Login";
 import Logout from "../pages/logout/Logout";
+import NotFound from "../pages/not-found/NotFound";
+import PrivateRoute from "./PrivateRoute";
+import TryIt from "../pages/try-it/TryIt";
 
-const PublicoRoutes = () => {
+const PublicoRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/*" element={<FullPage />}>
@@ -21,8 +22,11 @@ const PublicoRoutes = () => {
         <Route path="try-it" element={<TryIt />} />
         <Route path="contact" element={<Contact />} />
         <Route path="login" element={<Login />} />
-        <Route path="demo" element={<Demo />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route
+          path="dashboard"
+          element={<PrivateRoute component={Dashboard} />}
+        />
+        <Route path="demo" element={<PrivateRoute component={Demo} />} />
         <Route path="logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
       </Route>

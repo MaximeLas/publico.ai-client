@@ -4,31 +4,19 @@ import MySpinner from "../../components/spinner/MySpinner";
 import { useFormik } from "formik";
 import "./TryIt.css";
 import { ORG_SIZES, ORG_TYPES, signUpSchema } from "./schema";
+import useAuth from "../../auth/useAuth";
+import { SignupInfo } from "../../auth/auth";
 
-type TryItFormTypes = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  name: string;
-  organization: string;
-  organizationSize: string;
-  organizationType: string;
-  acceptedTnC: boolean;
-};
-
-const TryIt = () => {
+const TryIt: React.FC = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
 
-  const onSubmit = async (values: TryItFormTypes, actions: any) => {
-    console.log("submitted form, values: ", values);
-    console.log(values);
-    await new Promise((resolve) => {
-      setTimeout(resolve, 1000);
-    });
-    navigate("/dashboard", {
-      state: { isLoggedIn: true, values },
-    });
+  const onSubmit = async (values: SignupInfo, actions: any) => {
+    console.log("submitted form: ", values);
+
+    await auth?.signup(values);
     actions.resetForm();
+    navigate("/dashboard");
   };
 
   // Good formik tutorial - https://www.youtube.com/watch?v=7Ophfq0lEAY

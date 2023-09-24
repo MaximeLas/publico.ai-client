@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./NotFound.css";
 
-const NotFound = () => {
-  const [imgUrl, setImgUrl] = useState();
+const NotFound: React.FC = () => {
+  const [imgUrl, setImgUrl] = useState(null);
 
   useEffect(() => {
     fetch("https://dog.ceo/api/breeds/image/random")

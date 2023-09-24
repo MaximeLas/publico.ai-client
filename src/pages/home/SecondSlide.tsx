@@ -2,7 +2,7 @@ import { isMobileDevice } from "../../utilities/validation";
 import quill_img from "../../assets/home/quill.png";
 import { Col, Row } from "react-bootstrap";
 
-const SecondSlide = () => (
+const SecondSlide: React.FC = () => (
   <div className={isMobileDevice() ? "second-slide-mobile" : "second-slide"}>
     <div className="my-home-container-max-width">
       <Row>

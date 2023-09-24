@@ -1,3 +1,3 @@
-const Divider = () => <div className="divider-green"></div>;
+const Divider: React.FC = () => <div className="divider-green"></div>;
 
 export default Divider;

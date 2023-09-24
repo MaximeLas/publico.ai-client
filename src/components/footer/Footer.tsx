@@ -1,6 +1,6 @@
 import "./Footer.css";
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <footer className="my-footer">
       <p className="m-auto">Publico.ai © {new Date().getFullYear()}</p>
