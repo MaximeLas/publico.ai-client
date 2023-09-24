@@ -4,7 +4,7 @@ import bullet_2 from "../../assets/home/2-bullet.png";
 import bullet_3 from "../../assets/home/3-bullet.png";
 import { isMobileDevice } from "../../utilities/validation";
 
-const ThirdSlide = () => (
+const ThirdSlide: React.FC = () => (
   <div className={isMobileDevice() ? "third-slide-mobile" : "third-slide"}>
     <div className="my-home-container-max-width">
       <Row>

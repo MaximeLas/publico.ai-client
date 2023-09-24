@@ -1,7 +1,7 @@
 import { Col, Row } from "react-bootstrap";
 import { isMobileDevice } from "../../utilities/validation";
 
-const FourthSlide = () => (
+const FourthSlide: React.FC = () => (
   <div className={isMobileDevice() ? "fourth-slide-mobile" : "fourth-slide"}>
     <div className="my-home-container-max-width">
       <br></br>

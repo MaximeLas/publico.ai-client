@@ -6,20 +6,19 @@ import MySpinner from "../../components/spinner/MySpinner";
 import emailjs from "emailjs-com";
 import { useState } from "react";
 
-type ContactFormTypes = {
+type ContactForm = {
   name: string;
   email: string;
   organization: string;
   message: string;
 };
 
-const Contact = () => {
+const Contact: React.FC = () => {
   const [displaySuccess, setDisplaySuccess] = useState(false);
   const [displayError, setDisplayError] = useState(false);
 
-  const onSubmit = async (values: ContactFormTypes, actions: any) => {
-    console.log("submitted form, values: ", values);
-    console.log(values);
+  const onSubmit = async (values: ContactForm, actions: any) => {
+    console.log("submitted form: ", values);
 
     try {
       // Send email through emailjs, spinner will appear. For more info, check out www.emailjs.com

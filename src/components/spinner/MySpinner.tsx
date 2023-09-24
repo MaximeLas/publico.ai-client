@@ -1,6 +1,6 @@
 import { Spinner } from "react-bootstrap";
 
-const MySpinner = () => (
+const MySpinner: React.FC = () => (
   <>
     <Spinner
       animation="border"

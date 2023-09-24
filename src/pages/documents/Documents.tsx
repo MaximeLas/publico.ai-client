@@ -1,4 +1,4 @@
-const Documents = () => {
+const Documents: React.FC = () => {
   return (
     <div>
       <p>My Documents</p>

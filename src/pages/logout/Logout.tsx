@@ -1,10 +1,10 @@
-import { logout } from "../../utilities/account";
+import { Navigate } from "react-router-dom";
+import useAuth from "../../auth/useAuth";
 
-const Logout = () => {
-  logout();
-  window.location.href = "/";
-
-  return <></>;
+const Logout: React.FC = () => {
+  const auth = useAuth();
+  auth?.logout();
+  return <Navigate to="/" />;
 };
 
 export default Logout;

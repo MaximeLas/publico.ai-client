@@ -1,12 +1,6 @@
-import { isLoggedIn } from "../../utilities/account";
 import "./Demo.css";
 
-const Demo = () => {
-  if (!isLoggedIn()) {
-    window.location.href = "/login";
-    return <></>;
-  }
-
+const Demo: React.FC = () => {
   return (
     <>
       <h1 className="center-align medium-text">Try our demo below!</h1>
