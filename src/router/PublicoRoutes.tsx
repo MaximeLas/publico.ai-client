@@ -6,10 +6,10 @@ import FullPage from "../components/full-page/FullPage";
 import Home from "../pages/home/Home";
 import HowItWorks from "../pages/how-it-works/HowItWorks";
 import Login from "../pages/login/Login";
-import Logout from "../pages/logout/Logout";
 import NotFound from "../pages/not-found/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import TryIt from "../pages/try-it/TryIt";
+import Logout from "../pages/logout/Logout";
 
 const PublicoRoutes: React.FC = () => {
   return (

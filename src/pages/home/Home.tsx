@@ -8,6 +8,7 @@ import ThirdSlide from "./ThirdSlide";
 const Home: React.FC = () => {
   return (
     <>
+      Hello
       <FirstSlide />
       <Divider />
       <SecondSlide />
