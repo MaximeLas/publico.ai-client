@@ -7,7 +7,7 @@ const loginSchema = yup.object().shape({
     .required("Please enter an email."),
   password: yup
     .string()
-    .min(10, "Password must be at least 10 characters.")
+    .min(8, "Password must be at least 8 characters.")
     .required("Please enter a password."),
 });
 
