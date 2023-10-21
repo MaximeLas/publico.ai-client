@@ -16,7 +16,7 @@ const ThirdSlide: React.FC = () => (
         </Col>
         <Col className="m-auto">
           <Row className="mb-4 d-flex align-items-center">
-            <Col xs={2}>
+            <Col xs={1}>
               <img
                 className="home-bullet-img"
                 src={bullet_1}
@@ -24,7 +24,7 @@ const ThirdSlide: React.FC = () => (
               />
             </Col>
             <Col>
-              <p className="no-margin-bottom">
+              <p className="custom-margin">
                 Interactive guidance{" "}
                 <span className="emphasized-text">radically simplifies</span>{" "}
                 every step of the application process.
@@ -32,7 +32,7 @@ const ThirdSlide: React.FC = () => (
             </Col>
           </Row>
           <Row className="mb-4 d-flex align-items-center">
-            <Col xs={2}>
+            <Col xs={1}>
               <img
                 className="home-bullet-img"
                 src={bullet_2}
@@ -40,7 +40,7 @@ const ThirdSlide: React.FC = () => (
               />
             </Col>
             <Col>
-              <p className="no-margin-bottom">
+              <p className="custom-margin">
                 AI-powered grantwriting coach offers the{" "}
                 <span className="emphasized-text">
                   power of a professional team
@@ -50,7 +50,7 @@ const ThirdSlide: React.FC = () => (
             </Col>
           </Row>
           <Row className="d-flex align-items-center">
-            <Col xs={2}>
+            <Col xs={1}>
               <img
                 className="home-bullet-img"
                 src={bullet_3}
@@ -58,7 +58,7 @@ const ThirdSlide: React.FC = () => (
               />
             </Col>
             <Col>
-              <p className="no-margin-bottom">
+              <p className="custom-margin">
                 Affordable for everyone, so funding goes to the{" "}
                 <span className="emphasized-text">
                   best ideas, not the deepest pockets

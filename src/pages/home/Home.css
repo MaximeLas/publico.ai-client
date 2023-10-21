@@ -45,11 +45,12 @@
 }
 
 .extra-padding-right {
-  padding-right: 50px;
+  padding-right: 60px;
 }
 
-.no-margin-bottom {
+.custom-margin {
   margin-bottom: 0;
+  margin-left: 20px;
 }
 
 .my-home-container-max-width {
