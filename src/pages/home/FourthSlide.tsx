@@ -16,7 +16,7 @@ const FourthSlide: React.FC = () => (
             grant funding.
           </p>
           <p>
-            Publico is our answer to the frutration of the grantwriting slog.
+            Publico is our answer to the frustration of the grantwriting slog.
             Our goal is simple:{" "}
             <span className="emphasized-text">
               less time doing grants, more time doing good

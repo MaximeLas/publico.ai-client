@@ -45,17 +45,16 @@
 }
 
 .extra-padding-right {
-  padding-right: 40px;
+  padding-right: 50px;
 }
 
 .my-home-container-max-width {
   /* Based on https://youtube.com/shorts/SGlpOnIgk1w?feature=share */
-  width: min(100% - 2rem, 900px);
+  width: min(100% - 2rem, 1000px);
   margin-inline: auto;  
 }
 
 .home-bullet-img {
   max-width: 40px;
   float: left;
-  margin-right: 15px;
 }
