@@ -24,7 +24,7 @@ const ThirdSlide: React.FC = () => (
               />
             </Col>
             <Col>
-              <p>
+              <p className="no-margin-bottom">
                 Interactive guidance{" "}
                 <span className="emphasized-text">radically simplifies</span>{" "}
                 every step of the application process.
@@ -40,7 +40,7 @@ const ThirdSlide: React.FC = () => (
               />
             </Col>
             <Col>
-              <p>
+              <p className="no-margin-bottom">
                 AI-powered grantwriting coach offers the{" "}
                 <span className="emphasized-text">
                   power of a professional team
@@ -58,7 +58,7 @@ const ThirdSlide: React.FC = () => (
               />
             </Col>
             <Col>
-              <p>
+              <p className="no-margin-bottom">
                 Affordable for everyone, so funding goes to the{" "}
                 <span className="emphasized-text">
                   best ideas, not the deepest pockets
