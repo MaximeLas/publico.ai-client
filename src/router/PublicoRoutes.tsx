@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Contact from "../pages/contact/Contact";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Demo from "../pages/demo/Demo";
+import Bloomsbury from "../pages/demo/Bloomsbury";
 import FullPage from "../components/full-page/FullPage";
 import Home from "../pages/home/Home";
 import HowItWorks from "../pages/how-it-works/HowItWorks";
@@ -22,6 +23,7 @@ const PublicoRoutes: React.FC = () => {
         <Route path="try-it" element={<TryIt />} />
         <Route path="contact" element={<Contact />} />
         <Route path="login" element={<Login />} />
+        <Route path="bloomsbury" element={<Bloomsbury />} />
         <Route
           path="dashboard"
           element={<PrivateRoute component={Dashboard} />}
