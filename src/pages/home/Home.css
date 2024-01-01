@@ -83,8 +83,8 @@
   border: 3px solid black;
   border-radius: 10px;
   cursor: pointer;
-  animation: fadeIn 3s ease-in forwards;
-  animation-delay: 2s;
+  animation: fadeIn 1.5s ease-in forwards;
+  animation-delay: 2.25s;
   opacity: 0;
 }
 

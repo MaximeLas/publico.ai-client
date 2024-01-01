@@ -122,7 +122,7 @@ const ResponsiveNavbarPub: React.FC = () => {
                 </NavLink>
               </li>
               <li onClick={hideSideNavbar}>
-                <NavLink to="/schedule-a-demo" className="my-navlink-mobile">
+                <NavLink to="/schedule-demo" className="my-navlink-mobile">
                   Schedule a demo
                 </NavLink>
               </li>
@@ -140,7 +140,7 @@ const ResponsiveNavbarPub: React.FC = () => {
                 </NavLink>
               </li>
               <li onClick={hideSideNavbar}>
-                <NavLink to="/schedule-a-demo" className="my-navlink-mobile">
+                <NavLink to="/schedule-demo" className="my-navlink-mobile">
                   Schedule a demo
                 </NavLink>
               </li>
