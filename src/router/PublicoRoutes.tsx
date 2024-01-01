@@ -7,11 +7,14 @@ import Dev from "../pages/demo/Dev";
 import FullPage from "../components/full-page/FullPage";
 import Home from "../pages/home/Home";
 import HowItWorks from "../pages/how-it-works/HowItWorks";
+import ScheduleDemo from "../pages/schedule-demo/ScheduleDemo";
 import Login from "../pages/login/Login";
 import Logout from "../pages/logout/Logout";
 import NotFound from "../pages/not-found/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import TryIt from "../pages/try-it/TryIt";
+import Placeholder from "../pages/home/Placeholder";
+
 
 const PublicoRoutes: React.FC = () => {
   return (
@@ -19,7 +22,8 @@ const PublicoRoutes: React.FC = () => {
       <Route path="/*" element={<FullPage />}>
         {/* Important: Every non-Header non-Footer class must get 4rem padding-bottom added.
           For details, go to Footer.css .my-footer */}
-        <Route index element={<Home />} />
+        <Route index element={<Placeholder />} />
+        <Route path="schedule-demo" element={<ScheduleDemo />} />
         <Route path="how-it-works" element={<HowItWorks />} />
         <Route path="try-it" element={<TryIt />} />
         <Route path="contact" element={<Contact />} />

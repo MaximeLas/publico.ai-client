@@ -63,3 +63,32 @@
   max-width: 40px;
   float: left;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.button-container {
+  margin-top: 2rem; /* Adjust as necessary */
+  text-align: center;
+}
+
+.placeholder-button {
+  margin: 7rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem; /* Adjust to match your design */
+  background-color: #c9e265;
+  color: black;
+  border: 3px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  animation: fadeIn 3s ease-in forwards;
+  animation-delay: 2s;
+  opacity: 0;
+}
+
+/* You can add :hover states for the buttons if desired */
+.placeholder-button:hover {
+  /* hover state styles */
+}

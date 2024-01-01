@@ -1,0 +1,42 @@
+/* pages/schedule-demo/ScheduleDemo.css */
+
+.schedule-demo-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .schedule-demo-container h1 {
+    margin-bottom: 2rem;
+  }
+  
+  .schedule-demo-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .schedule-demo-container label {
+    margin-bottom: 0.5rem;
+  }
+  
+  .schedule-demo-container input {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .schedule-demo-container input[type="submit"] {
+    background-color: #c9e265; /* Use your brand color */
+    color: white;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .schedule-demo-container input[type="submit"]:hover {
+    background-color: darken(#c9e265, 10%); /* Darken for hover effect, replace with actual color if not using a preprocessor */
+  }
+  
