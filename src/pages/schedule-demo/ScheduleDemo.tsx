@@ -4,12 +4,12 @@ import emailjs from 'emailjs-com';
 import './ScheduleDemo.css';
 
 const ScheduleDemo: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const [formMessage, setFormMessage] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const onSubmit = (data: any) => {
-    const USER_ID = 'ODDlwU5SWiQsfCRvS';
+    const USER_ID = process.env.REACT_APP_USER_ID;
     const SERVICE_ID = 'service_zk3ndcg';
     const TEMPLATE_ID = 'template_f0yiw19';
 
