@@ -1,38 +1,67 @@
-// pages/schedule-demo/ScheduleDemo.tsx
-
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import './ScheduleDemo.css'; // Create and import your CSS file for styling
+import emailjs from 'emailjs-com';
+import './ScheduleDemo.css';
 
 const ScheduleDemo: React.FC = () => {
   const { register, handleSubmit, reset } = useForm();
+  const [formMessage, setFormMessage] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const onSubmit = (data: any) => {
-    // Here you would handle the form submission.
-    // For example, sending the data to your backend or an email service
-    console.log(data);
-    reset(); // Reset the form after submission
+    const USER_ID = 'ODDlwU5SWiQsfCRvS';
+    const SERVICE_ID = 'service_zk3ndcg';
+    const TEMPLATE_ID = 'template_f0yiw19';
+
+    // Send the email
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+        name: data.name,
+        email: data.email,
+        organization_name: data.organizationName || 'Not provided.',
+        program_details: data.programDetails || 'Not provided.'
+    }, USER_ID)
+    .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        setIsSubmitted(true);
+    }, (error) => {
+        console.log('FAILED...', error);
+        setFormMessage('Failed to send your request. Please try again later.');
+    });
   };
 
   return (
     <div className="schedule-demo-container">
-      <h1>Schedule a Demo</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="name">Name</label>
-        <input id="name" {...register('name')} required />
+        <h1>Schedule a Demo</h1>
+        {!isSubmitted ? (
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <label htmlFor="name">
+                    Name
+                </label>
+                <input id="name" {...register('name')} required />
 
-        <label htmlFor="email">Email</label>
-        <input id="email" type="email" {...register('email')} required />
+                 <label htmlFor="email">
+                    Email
+                </label>
+                <input id="email" type="email" {...register('email')} required />
 
-        <label htmlFor="phone">Phone Number (optional)</label>
-        <input id="phone" type="tel" {...register('phone')} />
+                <label htmlFor="organizationName">
+                    Organization Name (optional)
+                </label>
+                <input id="organizationName" {...register('organizationName')} />
 
-        {/* If you want to allow users to suggest a date/time for the demo: */}
-        <label htmlFor="datetime">Preferred Date and Time (optional)</label>
-        <input id="datetime" type="datetime-local" {...register('datetime')} />
+                <label htmlFor="programDetails">
+                    Anything we should know about your program or grantwriting needs? (optional)
+                </label>
+                <textarea id="programDetails" {...register('programDetails')} />
 
-        <input type="submit" value="Submit" />
-      </form>
+                <input type="submit" value="Submit" />
+            </form>
+        ) : (
+            <p className="form-response-message">
+                Thank you for submitting your request! We will be in touch soon.
+            </p>
+        )}
+      {formMessage && <p className="form-response-message">{formMessage}</p>}
     </div>
   );
 };
