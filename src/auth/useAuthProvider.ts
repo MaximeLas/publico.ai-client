@@ -17,7 +17,6 @@ const useAuthProvider = (): UseAuthProvider => {
   const login = async (data: LoginInfo) => {
     sendSignInLinkToEmail(auth, data.email, 
     { 
-      // Replace this link with deployed url
       url: 'https://www.publico.ai/login',
       handleCodeInApp: true
     }).then(() => {
