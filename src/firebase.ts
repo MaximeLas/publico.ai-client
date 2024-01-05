@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCx7WvdpIlqcLbFN1cEkYaOJJynsAm65rE",
-  authDomain: "demoauth-cfd7f.firebaseapp.com",
-  projectId: "demoauth-cfd7f",
-  storageBucket: "demoauth-cfd7f.appspot.com",
-  messagingSenderId: "564390557009",
-  appId: "1:564390557009:web:5c4f0d300946179b578f70"
+  apiKey: "AIzaSyBHrE5orvmeVRDmVF11GytKuxhowRnvi5Y",
+  authDomain: "publico-ai.firebaseapp.com",
+  projectId: "publico-ai",
+  storageBucket: "publico-ai.appspot.com",
+  messagingSenderId: "939990736039",
+  appId: "1:939990736039:web:f0bc501e8a0f1a35920f82"
 };
 
 // Initialize Firebase

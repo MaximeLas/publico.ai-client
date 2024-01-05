@@ -2,59 +2,30 @@ import { useEffect, useState } from "react"
 import { PUBLICO_AI_TOKEN } from "../utilities/constants";
 import { LoginInfo, SignupInfo } from "./auth";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut} from "firebase/auth";
+import { signOut, sendSignInLinkToEmail} from "firebase/auth";
 
 export type UseAuthProvider = {
-  signup: (data: SignupInfo) => Promise<any>;
   login: (data: LoginInfo) => Promise<any>;
   logout: () => void;
+  setCurrentUser: (user: string) => void;
   user: string | null;
 }
 
 const useAuthProvider = (): UseAuthProvider => {
   const [user, setUser] = useState<null | string>(null)
 
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user.uid)
-        console.log(user.uid);
-      } else {
-        setUser(null)
-      }
-    });
-    return () => listen();
-  }, []);
-
-  const signup = async (data: SignupInfo) => {
-    await new Promise((resolve, reject) => {
-      createUserWithEmailAndPassword(auth, data.email, data.password)
-        .then((userCredential) => {
-          // Signed up 
-          console.log(userCredential);
-          setUser(userCredential.user.uid);
-          resolve(userCredential);
-        }).catch((error) => {
-          console.log(error);
-          reject(error);
-        });
-    });
-  }
-
   const login = async (data: LoginInfo) => {
-    await new Promise((resolve, reject) => {
-      signInWithEmailAndPassword(auth, data.email, data.password)
-        .then((userCredential) => {
-          // Signed in 
-          console.log(userCredential);
-          setUser(userCredential.user.uid);
-          localStorage.setItem(PUBLICO_AI_TOKEN, userCredential.user.uid);
-          resolve(userCredential);
-        }).catch((error) => {
-          console.log(error);
-          reject(error);
-        });
-    });
+    sendSignInLinkToEmail(auth, data.email, 
+    { 
+      // Replace this link with deployed url
+      url: 'http://localhost:3000/login',
+      handleCodeInApp: true
+    }).then(() => {
+      // The link was successfully sent. Inform the user.
+      localStorage.setItem('emailForSignIn', data.email);
+    }).catch((error) => {
+      // Some error occurred, you can inspect the code: error.code
+    })
   }
 
   const logout = async (): Promise<void> => {
@@ -73,7 +44,13 @@ const useAuthProvider = (): UseAuthProvider => {
     });
   };
 
-  return { user, signup, login, logout }
+  const setCurrentUser = async (user: string) => {
+    setUser(user);
+    console.log(user);
+    localStorage.setItem(PUBLICO_AI_TOKEN, user);
+  }
+
+  return { user, login, logout, setCurrentUser }
 }
 
 export default useAuthProvider

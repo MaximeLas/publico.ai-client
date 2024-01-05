@@ -12,25 +12,7 @@ const signUpSchema = yup.object().shape({
     .string()
     .email("Please enter a valid email.")
     .required("Please enter an email."),
-  password: yup
-    .string()
-    .min(10, "Password must be at least 10 characters.")
-    .matches(passwordRules, {
-      message:
-        "Password must include at least 1 uppercase letter, 1 lowercase letter, and 1 number.",
-    })
-    .required("Please enter a password."),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref("password")], "Passwords must match."),
   name: yup.string().required("Please enter your first and last name."),
-  organization: yup.string().required("Please enter your organization's name."),
-  organizationSize: yup
-    .string()
-    .oneOf(ORG_SIZES, "Please select a valid size."),
-  organizationType: yup
-    .string()
-    .oneOf(ORG_TYPES, "Please select a valid type of organization."),
   acceptedTnC: yup
     .boolean()
     .oneOf([true], "Please accept the terms of service"),

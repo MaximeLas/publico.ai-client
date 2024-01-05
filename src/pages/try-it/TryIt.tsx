@@ -14,9 +14,9 @@ const TryIt: React.FC = () => {
   const onSubmit = async (values: SignupInfo, actions: any) => {
     console.log("submitted form: ", values);
 
-    await auth?.signup(values);
+    const loginInfo = { email: values.email };
+    await auth?.login(loginInfo);
     actions.resetForm();
-    navigate("/dashboard");
   };
 
   // Good formik tutorial - https://www.youtube.com/watch?v=7Ophfq0lEAY
@@ -31,12 +31,7 @@ const TryIt: React.FC = () => {
   } = useFormik({
     initialValues: {
       email: "",
-      password: "",
-      confirmPassword: "",
       name: "",
-      organization: "",
-      organizationSize: "",
-      organizationType: "",
       acceptedTnC: false,
     },
     onSubmit,
@@ -75,40 +70,6 @@ const TryIt: React.FC = () => {
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3 form-group">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  name="password"
-                  type="password"
-                  placeholder="Enter password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={touched.password && !!errors.password}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {touched.password && errors.password}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Confirm password</Form.Label>
-                <Form.Control
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="Re-enter password"
-                  value={values.confirmPassword}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={
-                    touched.confirmPassword && !!errors.confirmPassword
-                  }
-                />
-                <Form.Control.Feedback type="invalid">
-                  {touched.confirmPassword && errors.confirmPassword}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3 form-group">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
                   name="name"
@@ -122,68 +83,6 @@ const TryIt: React.FC = () => {
                 />
                 <Form.Control.Feedback type="invalid">
                   {touched.name && errors.name}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Name of organization</Form.Label>
-                <Form.Control
-                  name="organization"
-                  type="text"
-                  placeholder="Enter name of organization"
-                  value={values.organization}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={touched.organization && !!errors.organization}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {touched.organization && errors.organization}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Team size</Form.Label>
-                <Form.Control
-                  name="organizationSize"
-                  as="select"
-                  value={values.organizationSize}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={
-                    touched.organizationSize && !!errors.organizationSize
-                  }
-                >
-                  {["", ...ORG_SIZES].map((orgSize) => (
-                    <option value={orgSize} key={orgSize}>
-                      {orgSize}
-                    </option>
-                  ))}
-                </Form.Control>
-                <Form.Control.Feedback type="invalid">
-                  {touched.organizationSize && errors.organizationSize}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3 form-group">
-                <Form.Label>Type of organization</Form.Label>
-                <Form.Control
-                  name="organizationType"
-                  as="select"
-                  value={values.organizationType}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  isInvalid={
-                    touched.organizationType && !!errors.organizationType
-                  }
-                >
-                  {["", ...ORG_TYPES].map((orgType) => (
-                    <option value={orgType} key={orgType}>
-                      {orgType}
-                    </option>
-                  ))}
-                </Form.Control>
-                <Form.Control.Feedback type="invalid">
-                  {touched.organizationType && errors.organizationType}
                 </Form.Control.Feedback>
               </Form.Group>
               <br />
