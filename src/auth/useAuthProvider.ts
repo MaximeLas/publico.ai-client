@@ -1,47 +1,55 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { PUBLICO_AI_TOKEN } from "../utilities/constants";
 import { LoginInfo, SignupInfo } from "./auth";
+import { auth } from "../firebase";
+import { signOut, sendSignInLinkToEmail} from "firebase/auth";
 
 export type UseAuthProvider = {
-  signup: (data: SignupInfo) => Promise<any>;
   login: (data: LoginInfo) => Promise<any>;
   logout: () => void;
+  setCurrentUser: (user: string) => void;
   user: string | null;
 }
 
 const useAuthProvider = (): UseAuthProvider => {
   const [user, setUser] = useState<null | string>(null)
 
-  const signup = async (data: SignupInfo) => {
-    // 1. Do API call - doing this just to simulate waiting some time for an API call
-    await new Promise((resolve) => setTimeout(resolve, 3000))
-
-    // 2. Set state
-    setUser(data.email)
-    localStorage.setItem(PUBLICO_AI_TOKEN, data.email)
-
-    // 3. Return status of operatiom
-    return { status: 'OK' }
-  }
-
   const login = async (data: LoginInfo) => {
-    // 1. Do API call - doing this just to simulate waiting some time for an API call
-    await new Promise((resolve) => setTimeout(resolve, 3000))
-
-    // 2. Set state
-    setUser(data.email)
-    localStorage.setItem(PUBLICO_AI_TOKEN, data.email)
-
-    // 3. Return status of operatiom
-    return { status: 'OK' }
+    sendSignInLinkToEmail(auth, data.email, 
+    { 
+      url: 'https://www.publico.ai/login',
+      handleCodeInApp: true
+    }).then(() => {
+      // The link was successfully sent. Inform the user.
+      localStorage.setItem('emailForSignIn', data.email);
+    }).catch((error) => {
+      // Some error occurred, you can inspect the code: error.code
+    })
   }
 
-  const logout = async () => {
-    setUser(null)
-    localStorage.removeItem(PUBLICO_AI_TOKEN)
+  const logout = async (): Promise<void> => {
+    await new Promise<void>((resolve, reject) => {
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful.
+          setUser(null);
+          localStorage.removeItem(PUBLICO_AI_TOKEN);
+          resolve();
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error);
+        });
+    });
+  };
+
+  const setCurrentUser = async (user: string) => {
+    setUser(user);
+    console.log(user);
+    localStorage.setItem(PUBLICO_AI_TOKEN, user);
   }
 
-  return { user, signup, login, logout }
+  return { user, login, logout, setCurrentUser }
 }
 
 export default useAuthProvider
