@@ -10,7 +10,7 @@
 
 .publico-demo-iframe {
   width: min(1280px, 100% - 2rem);
-  height: calc(100vh - 73px - 4rem);
+  height: calc(90vh - 73px - 2rem);
   padding-bottom: 25px;
   padding-top: 3px;
 }

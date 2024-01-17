@@ -3,6 +3,7 @@ import Contact from "../pages/contact/Contact";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Demo from "../pages/demo/Demo";
 import Bloomsbury from "../pages/demo/Bloomsbury";
+import Rachel from "../pages/demo/Rachel";
 import Dev from "../pages/demo/Dev";
 import FullPage from "../components/full-page/FullPage";
 import Home from "../pages/home/Home";
@@ -29,6 +30,7 @@ const PublicoRoutes: React.FC = () => {
         <Route path="contact" element={<Contact />} />
         <Route path="login" element={<Login />} />
         <Route path="bloomsbury" element={<Bloomsbury />} />
+        <Route path="rachel" element={<Rachel />} />
         <Route path="dev" element={<Dev />} />
         <Route
           path="dashboard"

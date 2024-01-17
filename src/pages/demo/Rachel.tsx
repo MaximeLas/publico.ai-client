@@ -1,18 +1,18 @@
 import "./Demo.css";
 
-const Demo: React.FC = () => {
+const Rachel: React.FC = () => {
   return (
     <>
-      <h1 className="center-align medium-text">Try our demo below!</h1>
+      <h1 className="center-align medium-text">Welcome, Rachel!</h1>
       <div className="publico-demo-iframe-container">
         <iframe
           className="publico-demo-iframe"
           src="https://a372acf75e18fa51d3.gradio.live"
-          title="Publico.ai Demo App"
+          title="Publico.ai Rachel"
         ></iframe>
       </div>
     </>
   );
 };
 
-export default Demo;
+export default Rachel;
