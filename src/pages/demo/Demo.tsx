@@ -7,7 +7,7 @@ const Demo: React.FC = () => {
       <div className="publico-demo-iframe-container">
         <iframe
           className="publico-demo-iframe"
-          src="https://a372acf75e18fa51d3.gradio.live"
+          src="https://bd42ee08c7ddce3037.gradio.live"
           title="Publico.ai Demo App"
         ></iframe>
       </div>
