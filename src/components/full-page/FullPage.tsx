@@ -11,7 +11,7 @@ const FullPage: React.FC = () => (
       <Header />
       {/* For more info about Outlet from react-router-dom, check out
         https://www.youtube.com/watch?v=Ul3y1LXxzdU at 20m 48s */}
-      <div className="add-footer-padding-bottom">
+      <div className="content add-footer-padding-bottom">
         <Outlet />
       </div>
       <Footer />

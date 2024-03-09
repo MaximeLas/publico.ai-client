@@ -9,6 +9,11 @@
 }
 
 @font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
   font-family: 'Navbar-Buttons';
   src: url('../../assets/fonts/navbar-buttons.woff2');
 }
@@ -45,11 +50,15 @@ form {
 
 .page-container {
   position: relative;
-  min-height: 100vh;
+  min-height: 98.8vh;
 }
 
 .page-container {
   background-color: #eee;
+}
+
+.content {
+  height: calc(100vh - 73px - 2rem);
 }
 
 .add-footer-padding-bottom {
