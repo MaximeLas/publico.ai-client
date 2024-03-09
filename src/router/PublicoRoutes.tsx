@@ -16,6 +16,7 @@ import PrivateRoute from "./PrivateRoute";
 import TryIt from "../pages/try-it/TryIt";
 import Placeholder from "../pages/home/Placeholder";
 
+import { ChatProvider } from "../context/Chat";
 
 const PublicoRoutes: React.FC = () => {
   return (
@@ -36,7 +37,14 @@ const PublicoRoutes: React.FC = () => {
           path="dashboard"
           element={<PrivateRoute component={Dashboard} />}
         />
-        <Route path="demo" element={<PrivateRoute component={Demo} />} />
+        <Route
+          path="demo"
+          element={
+            <ChatProvider>
+              <PrivateRoute component={Demo} />
+            </ChatProvider>
+          }
+        />
         <Route path="logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
       </Route>
