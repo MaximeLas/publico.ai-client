@@ -18,11 +18,14 @@ export interface UserMessage extends MessageBase {
 
 export type Message = BotMessage | UserMessage;
 
-export interface AnswerResponse {
+export interface GuidingQuestion {
+  question: string;
+  wordCount: number;
   index: number;
-  question?: string;
-  word_count?: number;
-  answer?: string;
+}
+
+export interface QuestionRegenerateResponse extends Partial<GuidingQuestion> {
+  index: number;
 }
 
 export interface MessageProps {
