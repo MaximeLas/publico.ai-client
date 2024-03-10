@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import "./";
 import { inject } from "@vercel/analytics";
 import { BrowserRouter } from "react-router-dom";
+import './theme/palette.scss'
 
 inject();
 

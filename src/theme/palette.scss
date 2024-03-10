@@ -1,0 +1,23 @@
+// required to get $orange variable
+@use "sass:color";
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+
+// merge with existing $theme-colors map
+$theme-colors: map-merge(
+  $theme-colors, (
+    "light":      #f8f8f8,
+    "dark":       #0f0a2e,
+    "primary":    #cae364,
+    "primary-dark": #446b1c,
+    "secondary":  #d65d7e,
+    "info":       #8775c2,
+    "success":    #49c230,
+    "warning":    #fdcb62,
+    "danger":     #fb1c5a,
+  ),
+);
+
+// set changes
+@import "bootstrap";
