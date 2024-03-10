@@ -1,5 +1,6 @@
 import { Button, Card } from "react-bootstrap";
 import Chat from "../../components/chat/Chat";
+import QuestionsDisplay from "../../components/questionsDisplay/QuestionsDisplay";
 import styles from "./Demo.module.scss";
 
 const Demo: React.FC = () => {
@@ -14,7 +15,7 @@ const Demo: React.FC = () => {
           <p className="mb-0">- Dec 30, 2023</p>
         </span>
         <span className="mt-auto">
-          <Button size="sm" className="me-1 rounded-5 px-4">
+          <Button size="sm" variant="primary-dark" className="me-1 rounded-5 px-4">
             View Mode
           </Button>
           <Button
@@ -37,7 +38,8 @@ const Demo: React.FC = () => {
       <div className={styles.content}>
         <Chat />
         <div className={styles.questionsWrapper}>
-          <Card>
+          <QuestionsDisplay />
+          {/* <Card>
             <Card.Header className="fw-bold">Question 1</Card.Header>
             <Card.Body>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -122,7 +124,7 @@ const Demo: React.FC = () => {
               definitiones cu, id eam populo quaestio adipiscing, usu quod
               malorum te.
             </Card.Body>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </div>

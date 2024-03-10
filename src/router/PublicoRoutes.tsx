@@ -15,8 +15,7 @@ import NotFound from "../pages/not-found/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import TryIt from "../pages/try-it/TryIt";
 import Placeholder from "../pages/home/Placeholder";
-
-import { ChatProvider } from "../context/Chat";
+import { StoreContextProvider } from '../context/Store';
 
 const PublicoRoutes: React.FC = () => {
   return (
@@ -40,9 +39,9 @@ const PublicoRoutes: React.FC = () => {
         <Route
           path="demo"
           element={
-            <ChatProvider>
+            <StoreContextProvider>
               <PrivateRoute component={Demo} />
-            </ChatProvider>
+            </StoreContextProvider>
           }
         />
         <Route path="logout" element={<Logout />} />

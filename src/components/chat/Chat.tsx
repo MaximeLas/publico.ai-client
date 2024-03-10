@@ -1,11 +1,12 @@
 import { useRef, HTMLProps } from "react";
 import { Form, ListGroup, ListGroupItem } from "react-bootstrap";
-import useChat from "../../hooks/context/useChat";
-import TextArea from "../../sharedComponents/textArea/TextArea";
 import ChatMessage from "../chatMessage/ChatMessage";
-import useHeadlessSubmit from "../../hooks/useHeadlessSubmit";
 import clsx from "clsx";
 import styles from "./Chat.module.css";
+import useStore from "../../hooks/useStore";
+import useChatHelper from "../../hooks/useChatHelper";
+import ChatControlDisplay from "../chatControlDisplay/ChatControlDisplay";
+import { ChatControls } from "../../enums/Messages";
 
 export interface ChatProps
   extends Omit<
@@ -14,23 +15,15 @@ export interface ChatProps
   > {}
 
 function Chat({ className, ...rest }: ChatProps) {
-  const {
-    inputValue,
-    messages,
-    handleInputChange: handleChange,
-    handleSubmit,
-  } = useChat();
+  const { messages } = useStore();
+  const { handleSubmit } = useChatHelper();
   const formRef = useRef<HTMLFormElement>(null);
-  const submit = useHeadlessSubmit(formRef);
   const rootClassName = clsx(
-    "bg-body d-flex flex-column",
+    "bg-light d-flex flex-column",
     styles.root,
     className
   );
-  const listGroupClassName = clsx(
-    "overflow-auto",
-    styles.listGroup
-  );
+  const listGroupClassName = clsx("overflow-auto", styles.listGroup);
   return (
     <Form
       ref={formRef}
@@ -45,13 +38,14 @@ function Chat({ className, ...rest }: ChatProps) {
           </ListGroupItem>
         ))}
       </ListGroup>
-      <Form.Control
-        type="submit"
-        onChange={handleChange}
-        onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && submit()}
-        as={TextArea}
-        value={inputValue}
-        className={styles.input}
+      <ChatControlDisplay
+        controls={[
+          ChatControls.File,
+          ChatControls.Yes,
+          ChatControls.Text,
+          ChatControls.Yes,
+          ChatControls.No,
+        ]}
       />
     </Form>
   );

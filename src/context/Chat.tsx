@@ -112,7 +112,7 @@ const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
-    didInputChange.current = true;
+    didInputChange.current = !!event.target.value.trim();
   };
 
   return (

@@ -1,6 +1,6 @@
 import { RefObject } from "react";
 
-export default function useHeadlessSubmit(ref: RefObject<HTMLFormElement>) {
+export default function useSubmit(ref: RefObject<HTMLElement>) {
   return () => {
     if (ref.current) {
       const input = document.createElement("input");
