@@ -7,7 +7,7 @@ const Bloomsbury: React.FC = () => {
       <div className="publico-demo-iframe-container">
         <iframe
           className="publico-demo-iframe"
-          src="https://7e5605f7538b9f7919.gradio.live"
+          src="https://bac0c867871cf4ca17.gradio.live"
           title="Publico.ai Bloomsbury"
         ></iframe>
       </div>
