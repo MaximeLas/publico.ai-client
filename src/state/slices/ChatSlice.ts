@@ -1,9 +1,20 @@
 import { StateCreator } from "zustand";
+import { InputType } from "../../enums/API";
+import { UserInput } from "../../types/API";
 import { ChatSliceState, RootState } from "../types";
 
-const createChatSlice: StateCreator<RootState, [], [], ChatSliceState> = (set, get) => ({
+const createChatSlice: StateCreator<RootState, [], [], ChatSliceState> = (
+  set,
+  get
+) => ({
   messages: [],
-  inputValue: "",
+  userInput: { input_type: InputType.Button, input_value: -1 },
+  currentControls: [],
+  initialMessage: null,
+  isFetching: false,
+  setIsFetching: (isFetching) => {
+    set({ isFetching });
+  },
   setMessages: (messages) => {
     set({ messages });
   },
@@ -12,8 +23,24 @@ const createChatSlice: StateCreator<RootState, [], [], ChatSliceState> = (set, g
       messages: state.messages.concat(messages),
     }));
   },
-  setInputValue: (value) => {
-    set({ inputValue: value });
+  setCurrentControls: (controls) => {
+    set({ currentControls: controls });
+  },
+  setUserInput: (input) => {
+    set({ userInput: input });
+  },
+  setUserInputType: (inputType) => {
+    set((state) => ({
+      userInput: { ...state.userInput, input_type: inputType } as UserInput,
+    }));
+  },
+  setUserInputValue: (inputValue) => {
+    set((state) => ({
+      userInput: { ...state.userInput, input_value: inputValue } as UserInput,
+    }));
+  },
+  setInitialMessage(message) {
+    set({ initialMessage: message });
   },
 });
 

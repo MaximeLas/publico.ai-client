@@ -1,67 +1,132 @@
 import { useCallback, useState, useRef, useEffect } from "react";
+import { InputType } from "../enums/API";
 import { MessageSender } from "../enums/Messages";
+import useAfterChatRoute from "./API/useAfterChatRoute";
+import useChatRoute from "./API/useChatRoute";
+import useNewSessionRoute from "./API/useNewSessionRoute";
 import useStore from "./useStore";
 import useStoreApi from "./useStoreApi";
+import { NewSessionResponse } from "../types/API";
+import store from "../state/store";
+
+const handleFetchNewSession = async (
+  fetchSession: () => Promise<NewSessionResponse>
+) => {
+  if (store.getState().isFetching) return;
+  store.setState({ isFetching: true });
+  const response = await fetchSession();
+  store.setState((state) => ({
+    currentChatSession: response.session_id,
+    currentControls: Array.from(response.components),
+    isFetching: false,
+    messages: [
+      ...state.messages,
+      {
+        content: [response.initial_message],
+        createdAt: new Date(),
+        sender: MessageSender.Bot,
+      },
+    ],
+  }));
+};
 
 export default function useChatHelper() {
   const [botRes, setBotRes] = useState<string[]>([]);
   const didInputChange = useRef(false);
   const storeApi = useStoreApi();
-  const inputValue = useStore((state) => state.inputValue);
+  const sessionId = useStore((state) => state.currentChatSession);
+  const setInputValue = useStore((state) => state.setUserInputValue);
   const addMessages = useStore((state) => state.addMessages);
-  const setInputValue = useStore((state) => state.setInputValue);
   const setMessages = useStore((state) => state.setMessages);
+  const setCurrentControls = useStore((state) => state.setCurrentControls);
+  const fetchNewSession = useNewSessionRoute({});
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (!sessionId) {
+      handleFetchNewSession(fetchNewSession);
+    }
+  }, [sessionId, fetchNewSession]);
+
+  const fetchAfterChat = useAfterChatRoute({});
+
+  const onNewToken = useCallback(
+    (token: string) => {
+      console.log(token);
+      setBotRes((r) => [...r, token]);
+    },
+    [setBotRes]
+  );
+
+  const onStreamEnd = useCallback(() => {
+    setBotRes([]);
+    didInputChange.current = false;
+    fetchAfterChat({ session_id: sessionId! }).then((response) => {
+      addMessages({
+        content: [response.initial_message],
+        createdAt: new Date(),
+        sender: MessageSender.Bot,
+      });
+      setCurrentControls(Array.from(response.components));
+    });
+  }, [sessionId, setBotRes, fetchAfterChat, addMessages, setCurrentControls]);
+
+  const fetchChatRoute = useChatRoute({ onNewToken, onStreamEnd });
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setInputValue(event.target.value);
     didInputChange.current = !!event.target.value.trim();
   };
 
-  const handleSubmit = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      if (didInputChange.current) {
-        setInputValue("");
-        addMessages(
-          {
-            content: inputValue,
-            createdAt: new Date(),
-            sender: MessageSender.User,
-          },
-          {
-            content: [],
-            createdAt: new Date(),
-            sender: MessageSender.Bot,
-          }
-        );
-        fetch("http://localhost:3001", { method: "POST" })
-          .then(async (response) => {
-            if (!response.ok || !response.body) {
-              throw response.statusText;
-            }
-
-            // Here we start prepping for the streaming response
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            const loopRunner = true;
-
-            while (loopRunner) {
-              // Here we start reading the stream, until its done.
-              const { value, done } = await reader.read();
-              if (done) {
-                setBotRes([]);
-                break;
-              }
-              const decodedChunk = decoder.decode(value, { stream: true });
-              setBotRes((r) => [...r, decodedChunk]);
-            }
-            didInputChange.current = false;
-          })
-          .catch(console.error);
+  const handleButtonClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      if (!sessionId) return;
+      let value = parseInt((e.target as HTMLButtonElement).value);
+      if (isNaN(value)) return;
+      fetchChatRoute({
+        session_id: sessionId,
+        user_input: {
+          input_type: InputType.Button,
+          input_value: value,
+        },
+      });
+    },
+    [fetchChatRoute, sessionId]
+  );
+  const handleChatInputKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      if (e.key === "Enter" && !e.shiftKey && sessionId) {
+        e?.preventDefault();
+        const target = e.target as HTMLInputElement;
+        const value = target.value;
+        if (target.type === "number") {
+          fetchChatRoute({
+            session_id: sessionId,
+            user_input: {
+              input_type: InputType.NumberInput,
+              input_value: parseInt(value),
+            },
+          });
+        } else if (target.type === "textarea" || target.type === "text") {
+          fetchChatRoute({
+            session_id: sessionId,
+            user_input: {
+              input_type: InputType.Chatbot,
+              input_value: value,
+            },
+          });
+        }
       }
     },
-    [inputValue, addMessages, setInputValue]
+    [fetchChatRoute, sessionId]
   );
+
+  const handleSubmit = (
+    event: React.SyntheticEvent<HTMLFormElement, SubmitEvent>
+  ) => {
+    event.preventDefault();
+  };
 
   useEffect(() => {
     if (!botRes.length) return;
@@ -84,5 +149,7 @@ export default function useChatHelper() {
   return {
     handleInputChange,
     handleSubmit,
+    handleButtonClick,
+    handleChatInputKeyDown,
   };
 }

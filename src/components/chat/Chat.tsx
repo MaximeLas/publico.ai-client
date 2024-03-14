@@ -6,7 +6,6 @@ import styles from "./Chat.module.css";
 import useStore from "../../hooks/useStore";
 import useChatHelper from "../../hooks/useChatHelper";
 import ChatControlDisplay from "../chatControlDisplay/ChatControlDisplay";
-import { ChatControls } from "../../enums/Messages";
 
 export interface ChatProps
   extends Omit<
@@ -16,7 +15,13 @@ export interface ChatProps
 
 function Chat({ className, ...rest }: ChatProps) {
   const { messages } = useStore();
-  const { handleSubmit } = useChatHelper();
+  const {
+    handleSubmit,
+    handleInputChange,
+    handleButtonClick,
+    handleChatInputKeyDown,
+  } = useChatHelper();
+  const currentControl = useStore((state) => state.currentControls);
   const formRef = useRef<HTMLFormElement>(null);
   const rootClassName = clsx(
     "bg-light d-flex flex-column",
@@ -26,6 +31,7 @@ function Chat({ className, ...rest }: ChatProps) {
   const listGroupClassName = clsx("overflow-auto", styles.listGroup);
   return (
     <Form
+      id="chat-form"
       ref={formRef}
       onSubmit={handleSubmit}
       className={rootClassName}
@@ -39,13 +45,10 @@ function Chat({ className, ...rest }: ChatProps) {
         ))}
       </ListGroup>
       <ChatControlDisplay
-        controls={[
-          ChatControls.File,
-          ChatControls.Yes,
-          ChatControls.Text,
-          ChatControls.Yes,
-          ChatControls.No,
-        ]}
+        handleInputKeyDown={handleChatInputKeyDown}
+        handleButtonClick={handleButtonClick}
+        handleInputChange={handleInputChange}
+        controls={currentControl}
       />
     </Form>
   );
