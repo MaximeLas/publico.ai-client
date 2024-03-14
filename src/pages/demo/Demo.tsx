@@ -1,4 +1,4 @@
-import { Button, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Chat from "../../components/chat/Chat";
 import QuestionsDisplay from "../../components/questionsDisplay/QuestionsDisplay";
 import styles from "./Demo.module.scss";
@@ -27,104 +27,10 @@ const Demo: React.FC = () => {
           </Button>
         </span>
       </div>
-      {/* <span
-        style={{
-          display: "block",
-          width: "100%",
-          height: "1px",
-          backgroundColor: "grey",
-        }}
-      /> */}
       <div className={styles.content}>
         <Chat />
         <div className={styles.questionsWrapper}>
           <QuestionsDisplay />
-          {/* <Card>
-            <Card.Header className="fw-bold">Question 1</Card.Header>
-            <Card.Body>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum. Pri
-              posse graeco definitiones cu, id eam populo quaestio adipiscing,
-              usu quod malorum te. Offendit eleifend moderatius ex vix, quem
-              odio mazim et qui, purto expetendis cotidieque quo cu, veri
-              persius vituperata ei nec. Scripta periculis ei eam, te pro movet
-              reformidans. Pri posse graeco definitiones cu, id eam populo
-              quaestio adipiscing, usu quod malorum te. Offendit eleifend
-              moderatius ex vix, quem odio mazim et qui, purto expetendis
-              cotidieque quo cu, veri persius vituperata ei nec. Quot populo ad
-              qui. Quot populo ad qui. Scripta periculis ei eam, te pro movet
-              reformidans. Ad per diam dicant interesset, lorem iusto sensibus
-              ut sed. Pri posse graeco definitiones cu, id eam populo quaestio
-              adipiscing, usu quod malorum te. Pri posse graeco definitiones cu,
-              id eam populo quaestio adipiscing, usu quod malorum te. Pri posse
-              graeco definitiones cu, id eam populo quaestio adipiscing, usu
-              quod malorum te. moderatius ex vix, quem odio mazim et qui, purto
-              expetendis cotidieque quo cu, veri persius vituperata ei nec. Quot
-              populo ad qui. Quot populo ad qui. Scripta periculis ei eam, te
-              pro movet reformidans. Ad per diam dicant interesset, lorem iusto
-              sensibus ut sed. Pri posse graeco definitiones cu, id eam populo
-              quaestio adipiscing, usu quod malorum te. Pri posse graeco
-              definitiones cu, id eam populo quaestio adipiscing, usu quod
-              malorum te. Pri posse graeco definitiones cu, id eam populo
-              quaestio adipiscing, usu quod malorum te. moderatius ex vix, quem
-              odio mazim et qui, purto expetendis cotidieque quo cu, veri
-              persius vituperata ei nec. Quot populo ad qui. Quot populo ad qui.
-              Scripta periculis ei eam, te pro movet reformidans. Ad per diam
-              dicant interesset, lorem iusto sensibus ut sed. Pri posse graeco
-              definitiones cu, id eam populo quaestio adipiscing, usu quod
-              malorum te. Pri posse graeco definitiones cu, id eam populo
-              quaestio adipiscing, usu quod malorum te. Pri posse graeco
-              definitiones cu, id eam populo quaestio adipiscing, usu quod
-              malorum te.
-            </Card.Body>
-            <Card.Header>Question 2</Card.Header>
-            <Card.Body>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum. Pri
-              posse graeco definitiones cu, id eam populo quaestio adipiscing,
-              usu quod malorum te. Offendit eleifend moderatius ex vix, quem
-              odio mazim et qui, purto expetendis cotidieque quo cu, veri
-              persius vituperata ei nec. Scripta periculis ei eam, te pro movet
-              reformidans. Pri posse graeco definitiones cu, id eam populo
-              quaestio adipiscing, usu quod malorum te. Offendit eleifend
-              moderatius ex vix, quem odio mazim et qui, purto expetendis
-              cotidieque quo cu, veri persius vituperata ei nec. Quot populo ad
-              qui. Quot populo ad qui. Scripta periculis ei eam, te pro movet
-              reformidans. Ad per diam dicant interesset, lorem iusto sensibus
-              ut sed. Pri posse graeco definitiones cu, id eam populo quaestio
-              adipiscing, usu quod malorum te. Pri posse graeco definitiones cu,
-              id eam populo quaestio adipiscing, usu quod malorum te. Pri posse
-              graeco definitiones cu, id eam populo quaestio adipiscing, usu
-              quod malorum te. moderatius ex vix, quem odio mazim et qui, purto
-              expetendis cotidieque quo cu, veri persius vituperata ei nec. Quot
-              populo ad qui. Quot populo ad qui. Scripta periculis ei eam, te
-              pro movet reformidans. Ad per diam dicant interesset, lorem iusto
-              sensibus ut sed. Pri posse graeco definitiones cu, id eam populo
-              quaestio adipiscing, usu quod malorum te. Pri posse graeco
-              definitiones cu, id eam populo quaestio adipiscing, usu quod
-              malorum te. Pri posse graeco definitiones cu, id eam populo
-              quaestio adipiscing, usu quod malorum te. moderatius ex vix, quem
-              odio mazim et qui, purto expetendis cotidieque quo cu, veri
-              persius vituperata ei nec. Quot populo ad qui. Quot populo ad qui.
-              Scripta periculis ei eam, te pro movet reformidans. Ad per diam
-              dicant interesset, lorem iusto sensibus ut sed. Pri posse graeco
-              definitiones cu, id eam populo quaestio adipiscing, usu quod
-              malorum te. Pri posse graeco definitiones cu, id eam populo
-              quaestio adipiscing, usu quod malorum te. Pri posse graeco
-              definitiones cu, id eam populo quaestio adipiscing, usu quod
-              malorum te.
-            </Card.Body>
-          </Card> */}
         </div>
       </div>
     </div>
