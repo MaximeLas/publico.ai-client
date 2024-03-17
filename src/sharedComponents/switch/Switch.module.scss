@@ -1,0 +1,49 @@
+.root {
+  --bar-width: 50px;
+  --bar-height: 10px;
+  --thumb-size: 16px;
+  --thumb-offset: 4px;
+  --bar-bg-color: var(--bs-primary);
+  --bar-active-bg-color: var(--bs-primary);
+  --thumb-bg-color: var(--bs-gray-500);
+  --thumb-active-bg-color: var(--bs-primary-dark);
+  --thumb-transition: 0.3s;
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.root:focus,
+.root:active,
+.root:hover {
+  .bar {
+    background-color: var(--bar-active-bg-color);
+  }
+  .thumb {
+    background-color: var(--thumb-active-bg-color);
+  }
+}
+
+.bar {
+  width: var(--bar-width);
+  height: var(--bar-height);
+  display: block;
+  background-color: var(--bar-bg-color);
+}
+
+.thumb {
+  background-color: var(--thumb-bg-color);
+  display: block;
+  height: var(--thumb-size);
+  width: var(--thumb-size);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: var(--thumb-offset);
+  transition: var(--thumb-transition);
+}
+
+.thumbActive {
+  left: calc(100% - 16px - var(--thumb-offset));
+}
