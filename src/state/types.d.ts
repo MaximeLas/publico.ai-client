@@ -24,12 +24,14 @@ export interface ChatActions {
 export interface ChatSliceState extends ChatState, ChatActions {}
 
 export interface QuestionsState {
+  isEditMode: boolean;
   questions: GuidingQuestion[];
   currentQuestion: GuidingQuestion | null;
 }
 
 export interface QuestionsActions {
-  onQuestionEdit: (index: number, question: GuidingQuestion) => void;
+  setIsEditMode: (isEditMode: boolean) => void;
+  onQuestionEdit: (index: number, question: string) => void;
   onQuestionSelect: (index: number) => void;
 }
 

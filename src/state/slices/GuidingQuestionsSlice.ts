@@ -1,13 +1,24 @@
 import { StateCreator } from "zustand";
 import { QuestionsSliceState, RootState } from "../types";
 
-const createQuestionsSlice: StateCreator<RootState, [], [], QuestionsSliceState> = (set, get) => ({
+const createQuestionsSlice: StateCreator<
+  RootState,
+  [],
+  [],
+  QuestionsSliceState
+> = (set, get) => ({
+  isEditMode: false,
   questions: [],
   currentQuestion: null,
-  onQuestionEdit: (index, question) => {
+  setIsEditMode: (isEditMode) => {
+    set({ isEditMode });
+  },
+  onQuestionEdit: (index, answer) => {
     set((state) => {
       const newQuestions = [...state.questions];
-      newQuestions[index] = question;
+      const newQuestion = { ...newQuestions[index] };
+      newQuestion.answer = answer;
+      newQuestions[index] = newQuestion;
       return { questions: newQuestions };
     });
   },
