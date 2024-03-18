@@ -1,31 +1,32 @@
-import { useRef } from "react";
 import { EditorProvider, FloatingMenu } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { Markdown } from "tiptap-markdown";
 import BubbleMenu from "./BubbleMenu";
 
-const extensions = [StarterKit];
-
-const content = "<p>Hello World!</p>";
+const extensions = [StarterKit, Markdown];
 
 export interface TextEditorProps {
-  content: string;
-  onChange: (content: string) => void;
+  content?: string;
+  onChange?: (content: string) => void;
 }
 
-function TextEditor() {
-  const ref = useRef<HTMLDivElement>();
+function TextEditor({ content, onChange }: TextEditorProps) {
   return (
     <>
       {/* <div ref={r }></div> */}
       <EditorProvider
         // element={ref.current}
         editorProps={{ scrollThreshold: 100 }}
-        onUpdate={(e) => console.log(e.editor.getJSON())}
+        onUpdate={(e) => onChange?.(e.editor.storage.markdown.getMarkdown())}
         extensions={extensions}
         content={content}
       >
-        <FloatingMenu>This is the floating menu</FloatingMenu>
-        <BubbleMenu />
+        <div>
+          <FloatingMenu>This is the floating menu</FloatingMenu>
+        </div>
+        <div>
+          <BubbleMenu />
+        </div>
       </EditorProvider>
     </>
   );
