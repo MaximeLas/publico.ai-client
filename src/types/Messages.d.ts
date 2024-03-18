@@ -19,8 +19,9 @@ export interface UserMessage extends MessageBase {
 export type Message = BotMessage | UserMessage;
 
 export interface GuidingQuestion {
-  question: string;
-  wordCount: number;
+  questionTitle: string;
+  answer: string;
+  wordLimit: number;
   index: number;
 }
 

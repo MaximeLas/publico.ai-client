@@ -1,13 +1,18 @@
 import { useCallback, useState, useRef, useEffect } from "react";
-import { InputType } from "../enums/API";
+import { ChatControl, InputType } from "../enums/API";
 import { MessageSender } from "../enums/Messages";
 import useAfterChatRoute from "./API/useAfterChatRoute";
 import useChatRoute from "./API/useChatRoute";
 import useNewSessionRoute from "./API/useNewSessionRoute";
 import useStore from "./useStore";
 import useStoreApi from "./useStoreApi";
-import { NewSessionResponse } from "../types/API";
+import {
+  AfterChatRequest,
+  AfterChatResponse,
+  NewSessionResponse,
+} from "../types/API";
 import store from "../state/store";
+import ChatControlLabels from "../constants/ChatControlLabels";
 
 const handleFetchNewSession = async (
   fetchSession: () => Promise<NewSessionResponse>
@@ -28,6 +33,50 @@ const handleFetchNewSession = async (
       },
     ],
   }));
+};
+
+const handleFetchAfterChat = async (
+  fetchAfterChat: (body: AfterChatRequest) => Promise<AfterChatResponse>,
+  sessionId: string
+) => {
+  if (store.getState().isFetching) return;
+  store.setState({ isFetching: true });
+  const response = await fetchAfterChat({ session_id: sessionId });
+  store.setState((state) => {
+    const questions = [...state.questions];
+    const updatedContent = response.updated_content;
+    if (updatedContent) {
+      if (questions.length > updatedContent.question_index) {
+        const question = { ...questions[updatedContent.question_index] };
+        if (updatedContent.question)
+          question.questionTitle = updatedContent.question;
+        if (updatedContent.answer) question.answer = updatedContent.answer;
+        if (updatedContent.word_limit)
+          question.wordLimit = updatedContent.word_limit;
+        questions[updatedContent.question_index] = question;
+      } else {
+        questions.push({
+          questionTitle: updatedContent.question!,
+          answer: updatedContent.answer!,
+          wordLimit: updatedContent.word_limit!,
+          index: updatedContent.question_index!,
+        });
+      }
+    }
+    return {
+      isFetching: false,
+      currentControls: Array.from(response.components),
+      questions,
+      messages: [
+        ...state.messages,
+        {
+          content: [response.initial_message],
+          createdAt: new Date(),
+          sender: MessageSender.Bot,
+        },
+      ],
+    };
+  });
 };
 
 export default function useChatHelper() {
@@ -51,7 +100,6 @@ export default function useChatHelper() {
 
   const onNewToken = useCallback(
     (token: string) => {
-      console.log(token);
       setBotRes((r) => [...r, token]);
     },
     [setBotRes]
@@ -60,15 +108,8 @@ export default function useChatHelper() {
   const onStreamEnd = useCallback(() => {
     setBotRes([]);
     didInputChange.current = false;
-    fetchAfterChat({ session_id: sessionId! }).then((response) => {
-      addMessages({
-        content: [response.initial_message],
-        createdAt: new Date(),
-        sender: MessageSender.Bot,
-      });
-      setCurrentControls(Array.from(response.components));
-    });
-  }, [sessionId, setBotRes, fetchAfterChat, addMessages, setCurrentControls]);
+    handleFetchAfterChat(fetchAfterChat, sessionId!);
+  }, [sessionId, setBotRes, fetchAfterChat]);
 
   const fetchChatRoute = useChatRoute({ onNewToken, onStreamEnd });
 
@@ -84,6 +125,12 @@ export default function useChatHelper() {
       if (!sessionId) return;
       let value = parseInt((e.target as HTMLButtonElement).value);
       if (isNaN(value)) return;
+      addMessages({
+        sender: MessageSender.User,
+        content: ChatControlLabels[value as ChatControl],
+        createdAt: new Date(),
+      });
+      setCurrentControls([]);
       fetchChatRoute({
         session_id: sessionId,
         user_input: {
@@ -92,7 +139,7 @@ export default function useChatHelper() {
         },
       });
     },
-    [fetchChatRoute, sessionId]
+    [fetchChatRoute, addMessages, setCurrentControls, sessionId]
   );
   const handleChatInputKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -100,6 +147,13 @@ export default function useChatHelper() {
         e?.preventDefault();
         const target = e.target as HTMLInputElement;
         const value = target.value;
+        setCurrentControls([]);
+        setInputValue("");
+        addMessages({
+          sender: MessageSender.User,
+          content: value,
+          createdAt: new Date(),
+        });
         if (target.type === "number") {
           fetchChatRoute({
             session_id: sessionId,
@@ -119,7 +173,7 @@ export default function useChatHelper() {
         }
       }
     },
-    [fetchChatRoute, sessionId]
+    [fetchChatRoute, setCurrentControls, addMessages, setInputValue, sessionId]
   );
 
   const handleSubmit = (

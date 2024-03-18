@@ -3,11 +3,12 @@ import { Fade } from "react-bootstrap";
 import { MessageSender } from "../../enums/Messages";
 import { MessageProps } from "../../types/Messages";
 import styles from "./ChatMessage.module.css";
+import Markdown from "react-markdown";
 
-function ChatMessageContent({ content }: { content: string }) {
+function ChatMessageContent({ content }: { content: React.ReactNode, alternative?: boolean }) {
   return (
     <Fade appear in>
-      <span>{content}</span>
+      <p>{content}</p>
     </Fade>
   );
 }
@@ -15,23 +16,18 @@ function ChatMessageContent({ content }: { content: string }) {
 function ChatMessage({ message }: MessageProps) {
   const messageCls = clsx(
     "mb-0",
-    message.sender === MessageSender.User && "text-align-right",
     styles.messageText
   );
   return (
     <div className="d-flex align-items-center">
       <div className="ms-2">
-        <p className={messageCls}>
           {message.sender === MessageSender.User ? (
             <ChatMessageContent content={message.content} />
           ) : message.content.length ? (
-            message.content.map((content, index) => (
-              <ChatMessageContent key={index} content={content} />
-            ))
+            <Markdown children={message.content.join(" ")} />
           ) : (
             "Loading..."
           )}
-        </p>
       </div>
     </div>
   );

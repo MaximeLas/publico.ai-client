@@ -32,25 +32,25 @@ function ChatControlDisplay({
     <Form.Group ref={ref} className="d-flex flex-wrap gap-1 mx-2 mb-2">
       {controls.map((control, index) => {
         switch (control) {
-          case ChatControl.START:
-          case ChatControl.YES:
-          case ChatControl.NO:
-          case ChatControl.ADD_GUIDANCE:
-          case ChatControl.EDIT_IT:
-          case ChatControl.GOOD_AS_IS:
-          case ChatControl.OF_COURSE:
-            return (
-              <Button
-                key={index}
-                value={control}
-                onClick={handleButtonClick}
-                name="chat-button"
-                className="flex-grow-1"
-                style={{ minWidth: "150px" }}
-              >
-                {ChatControlLabels[control]}
-              </Button>
-            );
+          // case ChatControl.START:
+          // case ChatControl.YES:
+          // case ChatControl.NO:
+          // case ChatControl.ADD_GUIDANCE:
+          // case ChatControl.EDIT_IT:
+          // case ChatControl.GOOD_AS_IS:
+          // case ChatControl.OF_COURSE:
+          //   return (
+          //     <Button
+          //       key={index}
+          //       value={control}
+          //       onClick={handleButtonClick}
+          //       name="chat-button"
+          //       className="flex-grow-1"
+          //       style={{ minWidth: "150px" }}
+          //     >
+          //       {ChatControlLabels[control]}
+          //     </Button>
+          //   );
           case ChatControl.WORD_LIMIT:
             return (
               <ChatWordLimitControl
@@ -60,7 +60,7 @@ function ChatControlDisplay({
             );
           case ChatControl.FILES:
             return <ChatFileControl key={index} />;
-          case ChatControl.CHATBOT:
+          default:
             return (
               <ChatTextInput
                 key={index}
@@ -68,8 +68,6 @@ function ChatControlDisplay({
                 onChange={handleInputChange}
               />
             );
-          default:
-            return null;
         }
       })}
     </Form.Group>
