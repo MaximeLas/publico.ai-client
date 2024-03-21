@@ -1,8 +1,6 @@
-import clsx from "clsx";
 import { Fade } from "react-bootstrap";
 import { MessageSender } from "../../enums/Messages";
 import { MessageProps } from "../../types/Messages";
-import styles from "./ChatMessage.module.css";
 import Markdown from "react-markdown";
 
 function ChatMessageContent({ content }: { content: React.ReactNode, alternative?: boolean }) {
@@ -14,10 +12,7 @@ function ChatMessageContent({ content }: { content: React.ReactNode, alternative
 }
 
 function ChatMessage({ message }: MessageProps) {
-  const messageCls = clsx(
-    "mb-0",
-    styles.messageText
-  );
+
   return (
     <div className="d-flex align-items-center">
       <div className="ms-2">
