@@ -9,7 +9,22 @@ const createUserSlice: StateCreator<RootState, [], [], UserSliceState> = (
     set({ currentChatSession: session });
   },
   setInitChatSession(session) {
-    set(state => state.currentChatSession === null ? { currentChatSession: session } : {});
+    set((state) =>
+      state.currentChatSession === null ? { currentChatSession: session } : {}
+    );
+  },
+  setCurrentSessionTitle(sessionTitle) {
+    set((state) =>
+      state.currentChatSession
+        ? {
+            ...state,
+            currentChatSession: {
+              ...state.currentChatSession,
+              title: sessionTitle,
+            },
+          }
+        : state
+    );
   },
 });
 

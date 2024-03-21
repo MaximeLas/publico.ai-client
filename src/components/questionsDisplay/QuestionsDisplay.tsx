@@ -24,16 +24,22 @@ function QuestionsDisplay({
             eventKey={`Question ${i}`}
             onSelect={() => onQuestionSelect?.(questions[i])}
             key={i}
-            title={`Question ${i+1}`}
+            title={`Question ${i + 1}`}
           >
-            <h5>{question.questionTitle}</h5>
+            <h5>
+              <strong>{question.questionTitle}</strong>
+              {question.wordLimit && ` (${question.wordLimit} words)`}
+            </h5>
             {isEditing ? (
               <TextEditor
-                onChange={(value) => onQuestionEdit(i, value)}
+                onMarkdownChange={(value) => onQuestionEdit(i, value)}
                 content={question.answer}
               />
             ) : (
               <Markdown className="fs-6">{question.answer}</Markdown>
+            )}
+            {question.answer.length > 0 && (
+              <p>({question.answer.split(" ").length} words)</p>
             )}
           </Tab>
         ))}

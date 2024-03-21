@@ -1,6 +1,6 @@
 import { ChatControl } from "../enums/API";
 import { UserInput } from "../types/API";
-import { GuidingQuestion, Message } from "../types/Messages";
+import { ChatSession, GuidingQuestion, Message } from "../types/Messages";
 
 export interface ChatState {
   messages: Message[];
@@ -38,28 +38,29 @@ export interface QuestionsActions {
 export interface QuestionsSliceState extends QuestionsState, QuestionsActions {}
 
 export interface UserState {
-  currentChatSession: string | null;
+  currentChatSession: ChatSession | null;
 }
 
 export interface UserActions {
-  setCurrentChatSession: (session: string | null) => void;
-  setInitChatSession: (session: string | null) => void;
+  setCurrentChatSession: (session: ChatSession | null) => void;
+  setInitChatSession: (session: ChatSession | null) => void;
+  setCurrentSessionTitle: (sessionTitle: string) => void;
 }
 
 export interface UserSliceState extends UserState, UserActions {}
 
-export interface ApiState {
-  isFetching: boolean;
-}
+// export interface ApiState {
+//   isFetching: boolean;
+// }
 
-export interface ApiActions {
-  setIsFetching: (isFetching: boolean) => void;
-  fetchNewSession: () => Promise<void>;
-  fetchChat: (userInput: UserInput) => Promise<void>;
-  fetchAfterChat: () => Promise<void>;
-}
+// export interface ApiActions {
+//   setIsFetching: (isFetching: boolean) => void;
+//   fetchNewSession: () => Promise<void>;
+//   fetchChat: (userInput: UserInput) => Promise<void>;
+//   fetchAfterChat: () => Promise<void>;
+// }
 
-export interface ApiSliceState extends ApiState, ApiActions {}
+// export interface ApiSliceState extends ApiState, ApiActions {}
 
 export interface RootState
   extends ChatSliceState,

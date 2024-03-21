@@ -1,5 +1,10 @@
 import { MessageSender } from "../enums/Messages";
 
+export interface ChatSession {
+  id: string;
+  title: string;
+}
+
 export interface MessageBase {
   content: string | string[];
   createdAt: Date;

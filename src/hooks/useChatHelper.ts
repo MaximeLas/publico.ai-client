@@ -21,7 +21,10 @@ const handleFetchNewSession = async (
   store.setState({ isFetching: true });
   const response = await fetchSession();
   store.setState((state) => ({
-    currentChatSession: response.session_id,
+    currentChatSession: {
+      id: response.session_id,
+      title: "",
+    },
     currentControls: Array.from(response.components),
     isFetching: false,
     messages: [
@@ -50,14 +53,16 @@ const handleFetchAfterChat = async (
         const question = { ...questions[updatedContent.question_index] };
         if (updatedContent.question)
           question.questionTitle = updatedContent.question;
-        if (updatedContent.answer) question.answer = updatedContent.answer;
+        if (updatedContent.answer) {
+          question.answer = "*" + updatedContent.answer + "*";
+        }
         if (updatedContent.word_limit)
           question.wordLimit = updatedContent.word_limit;
         questions[updatedContent.question_index] = question;
       } else {
         questions.push({
           questionTitle: updatedContent.question!,
-          answer: updatedContent.answer!,
+          answer: updatedContent.answer ? `*${updatedContent.answer!}*` : "",
           wordLimit: updatedContent.word_limit!,
           index: updatedContent.question_index!,
         });
@@ -83,7 +88,7 @@ export default function useChatHelper() {
   const [botRes, setBotRes] = useState<string[]>([]);
   const didInputChange = useRef(false);
   const storeApi = useStoreApi();
-  const sessionId = useStore((state) => state.currentChatSession);
+  const currentSession = useStore((state) => state.currentChatSession);
   const setInputValue = useStore((state) => state.setUserInputValue);
   const addMessages = useStore((state) => state.addMessages);
   const setMessages = useStore((state) => state.setMessages);
@@ -91,10 +96,10 @@ export default function useChatHelper() {
   const fetchNewSession = useNewSessionRoute({});
 
   useEffect(() => {
-    if (!sessionId) {
+    if (!currentSession) {
       handleFetchNewSession(fetchNewSession);
     }
-  }, [sessionId, fetchNewSession]);
+  }, [currentSession, fetchNewSession]);
 
   const fetchAfterChat = useAfterChatRoute({});
 
@@ -108,8 +113,9 @@ export default function useChatHelper() {
   const onStreamEnd = useCallback(() => {
     setBotRes([]);
     didInputChange.current = false;
-    handleFetchAfterChat(fetchAfterChat, sessionId!);
-  }, [sessionId, setBotRes, fetchAfterChat]);
+    if (currentSession == null) return;
+    handleFetchAfterChat(fetchAfterChat, currentSession.id);
+  }, [currentSession, setBotRes, fetchAfterChat]);
 
   const fetchChatRoute = useChatRoute({ onNewToken, onStreamEnd });
 
@@ -122,7 +128,7 @@ export default function useChatHelper() {
 
   const handleButtonClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      if (!sessionId) return;
+      if (!currentSession) return;
       let value = parseInt((e.target as HTMLButtonElement).value);
       if (isNaN(value)) return;
       addMessages({
@@ -132,18 +138,18 @@ export default function useChatHelper() {
       });
       setCurrentControls([]);
       fetchChatRoute({
-        session_id: sessionId,
+        session_id: currentSession.id,
         user_input: {
           input_type: InputType.Button,
           input_value: value,
         },
       });
     },
-    [fetchChatRoute, addMessages, setCurrentControls, sessionId]
+    [fetchChatRoute, addMessages, setCurrentControls, currentSession]
   );
   const handleChatInputKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      if (e.key === "Enter" && !e.shiftKey && sessionId) {
+      if (currentSession && e.key === "Enter" && !e.shiftKey) {
         e?.preventDefault();
         const target = e.target as HTMLInputElement;
         const value = target.value;
@@ -156,7 +162,7 @@ export default function useChatHelper() {
         });
         if (target.type === "number") {
           fetchChatRoute({
-            session_id: sessionId,
+            session_id: currentSession.id,
             user_input: {
               input_type: InputType.NumberInput,
               input_value: parseInt(value),
@@ -164,7 +170,7 @@ export default function useChatHelper() {
           });
         } else if (target.type === "textarea" || target.type === "text") {
           fetchChatRoute({
-            session_id: sessionId,
+            session_id: currentSession.id,
             user_input: {
               input_type: InputType.Chatbot,
               input_value: value,
@@ -173,7 +179,13 @@ export default function useChatHelper() {
         }
       }
     },
-    [fetchChatRoute, setCurrentControls, addMessages, setInputValue, sessionId]
+    [
+      fetchChatRoute,
+      setCurrentControls,
+      addMessages,
+      setInputValue,
+      currentSession,
+    ]
   );
 
   const handleSubmit = (

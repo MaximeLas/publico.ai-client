@@ -40,6 +40,7 @@ function Chat({ className, ...rest }: ChatProps) {
   const currentButtonControls = currentControls.filter((control) =>
     buttonChatControls.includes(control)
   );
+  const inputValue = useStore((state) => state.userInput.input_value);
   const formRef = useRef<HTMLFormElement>(null);
   const rootClassName = clsx(
     "bg-light-subtle d-flex flex-column",
@@ -114,6 +115,7 @@ function Chat({ className, ...rest }: ChatProps) {
         )}
       </ListGroup>
       <ChatTextInput
+        value={currentControls.includes(ChatControl.WORD_LIMIT) ? "" : inputValue ?? ""}
         disabled={
           isFetching ||
           isEditMode ||

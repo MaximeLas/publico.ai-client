@@ -8,7 +8,7 @@ const createChatSlice: StateCreator<RootState, [], [], ChatSliceState> = (
   get
 ) => ({
   messages: [],
-  userInput: { input_type: InputType.Button, input_value: -1 },
+  userInput: { input_type: InputType.Button, input_value: null },
   currentControls: [],
   initialMessage: null,
   isFetching: false,
