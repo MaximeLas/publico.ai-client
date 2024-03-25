@@ -1,4 +1,5 @@
 import { createStore } from "zustand/vanilla";
+import createApiSlice from './slices/ApiSlice';
 import createChatSlice from "./slices/ChatSlice";
 import createQuestionsSlice from "./slices/GuidingQuestionsSlice";
 import createUserSlice from "./slices/UserSlice";
@@ -11,6 +12,7 @@ const store = createStore<RootState>()(
       ...createChatSlice(...args),
       ...createQuestionsSlice(...args),
       ...createUserSlice(...args),
+      ...createApiSlice(...args),
     }),
   //   { name: "rootStore" }
   // )

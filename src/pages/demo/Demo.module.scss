@@ -22,7 +22,6 @@
 
 @include media-breakpoint-down(md) {
   .content {
-    overflow: auto;
     display: flex;
     flex-direction: column;
   }

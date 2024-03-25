@@ -4,7 +4,7 @@ import ChatControlLabels from "../../constants/ChatControlLabels";
 import { ChatControl } from "../../enums/API";
 // import useSubmit from "../../hooks/useSubmit";
 import ChatFileControl from "../chatControls/chatFileControl/ChatFileControl";
-import ChatTextInput from "../chatControls/chatTextInput/ChatTextArea";
+import ChatMainInput from "../chatControls/chatMainInput/ChatMainInput";
 import ChatWordLimitControl from "../chatControls/chatWordLimitControl/ChatWordLimitControl";
 
 export interface ChatControlDisplayProps {
@@ -62,7 +62,7 @@ function ChatControlDisplay({
             return <ChatFileControl key={index} />;
           default:
             return (
-              <ChatTextInput
+              <ChatMainInput
                 key={index}
                 onKeyDown={handleInputKeyDown}
                 onChange={handleInputChange}

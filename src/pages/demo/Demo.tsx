@@ -1,28 +1,28 @@
 import { useRef, useEffect } from "react";
-import clsx from "clsx";
-import { Form } from "react-bootstrap";
 import Chat from "../../components/chat/Chat";
 import QuestionsDisplay from "../../components/questionsDisplay/QuestionsDisplay";
 import useStore from "../../hooks/useStore";
-import Switch from "../../sharedComponents/switch/Switch";
 import styles from "./Demo.module.scss";
 
 const Demo: React.FC = () => {
-  const isEditMode = useStore((state) => state.isEditMode);
   const sessionTitle = useStore((state) => state.currentChatSession?.title);
   const setSessionTitle = useStore((state) => state.setCurrentSessionTitle);
-  const setIsEditMode = useStore((state) => state.setIsEditMode);
   const titleRef = useRef<HTMLParagraphElement>(null);
-  
+
+  useEffect(() => {
+    if (titleRef.current) {
+      titleRef.current.textContent = "Untitled session";
+    }
+  }, []);
+
   useEffect(() => {
     if (sessionTitle && titleRef.current) {
       titleRef.current.textContent = sessionTitle;
     }
-  }, [sessionTitle])
-  
+  }, [sessionTitle]);
 
   return (
-    <div className="text-left mx-4 h-100 mh-100 d-flex flex-column">
+    <div className="text-left h-100 mh-100 d-flex flex-column overflow-y-auto px-4">
       <div className="d-flex flex-wrap justify-content-start mb-2 px-3 py-2">
         <p
           ref={titleRef}
@@ -34,9 +34,9 @@ const Demo: React.FC = () => {
           <p className="mb-0">
             <strong>Version</strong>
           </p>
-          <p className="mb-0">- Dec 30, 2023</p>
+          <p className="mb-0 ms-1">- Dec 30, 2023</p>
         </span>
-        <span className="d-flex flex-nowrap align-items-end my-1 ms-auto">
+        {/* <span className="d-flex flex-nowrap align-items-end my-1 ms-auto">
           <Form.Label className={clsx("my-0", !isEditMode && "text-secondary")}>
             View Mode
           </Form.Label>
@@ -44,18 +44,34 @@ const Demo: React.FC = () => {
             checked={isEditMode}
             className="mx-1"
             style={{ height: "60%" }}
-            onChange={(v) => setIsEditMode(v)}
+            onChange={onEditModeChange}
           />
           <Form.Label className={clsx("my-0", isEditMode && "text-secondary")}>
             Edit Mode
           </Form.Label>
-        </span>
+        </span> */}
       </div>
       <div className={styles.content}>
         <Chat />
-        <div className={styles.questionsWrapper}>
-          <QuestionsDisplay isEditing={isEditMode} />
-        </div>
+        <QuestionsDisplay className="flex-grow-1" />
+        {/* <span className="w-100 d-flex flex-nowrap justify-content-end align-items-center my-1 pe-1">
+            <Form.Label
+              className={clsx("my-0", !isEditMode && "text-secondary")}
+            >
+              View Mode
+            </Form.Label>
+            <Switch
+              checked={isEditMode}
+              className="mx-1"
+              style={{ height: "60%" }}
+              onChange={onEditModeChange}
+            />
+            <Form.Label
+              className={clsx("my-0", isEditMode && "text-secondary")}
+            >
+              Edit Mode
+            </Form.Label>
+          </span> */}
       </div>
     </div>
   );

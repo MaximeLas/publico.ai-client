@@ -11,8 +11,9 @@ export interface SwitchProps
 }
 
 function Switch({
-    className,
+  className,
   checked: propsChecked,
+  disabled,
   onChange: propsOnChange,
   barProps,
   thumbProps,
@@ -26,8 +27,13 @@ function Switch({
   const { className: thumbClassName, ...restThumbProps } = thumbProps || {};
   const [localChecked, setChecked] = useState(propsChecked ?? false);
   const checked = propsChecked ?? localChecked;
-  const rootClsx = clsx(styles.root, className);
-  const barClsx = clsx(styles.bar, "rounded rounded-pill", "border border-1 border-primary-subtle", barClassName);
+  const rootClsx = clsx(styles.root, disabled && styles.rootDisabled, className);
+  const barClsx = clsx(
+    styles.bar,
+    "rounded rounded-pill",
+    "border border-1 border-primary-subtle",
+    barClassName
+  );
   const thumbClsx = clsx(
     styles.thumb,
     checked && styles.thumbActive,
@@ -44,12 +50,7 @@ function Switch({
   };
 
   return (
-    <label
-      tabIndex={0}
-      {...rest}
-      className={rootClsx}
-      htmlFor="switch-input"
-    >
+    <label tabIndex={0} {...rest} className={rootClsx} htmlFor="switch-input">
       <input
         ref={inputRef}
         readOnly

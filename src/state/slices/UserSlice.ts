@@ -2,7 +2,9 @@ import { StateCreator } from "zustand";
 import { UserSliceState, RootState } from "../types";
 
 const createUserSlice: StateCreator<RootState, [], [], UserSliceState> = (
-  set
+  set,
+  get,
+  store
 ) => ({
   currentChatSession: null,
   setCurrentChatSession(session) {
@@ -25,7 +27,7 @@ const createUserSlice: StateCreator<RootState, [], [], UserSliceState> = (
           }
         : state
     );
-  },
+  }
 });
 
 export default createUserSlice;

@@ -10,20 +10,30 @@ const createQuestionsSlice: StateCreator<
   isEditMode: false,
   questions: [],
   currentQuestion: null,
+  selectedQuestionIndex: 0,
+  editedQuestions: [],
+  setEditedQuestions(editedQuestions) {
+    set({ editedQuestions });
+  },
+  setSelectedQuestionIndex(index) {
+    set({ selectedQuestionIndex: index });
+  },
   setIsEditMode: (isEditMode) => {
     set({ isEditMode });
   },
-  onQuestionEdit: (index, answer) => {
+  setQuestionAnswer: (index, answer) => {
     set((state) => {
       const newQuestions = [...state.questions];
       const newQuestion = { ...newQuestions[index] };
       newQuestion.answer = answer;
       newQuestions[index] = newQuestion;
-      return { questions: newQuestions };
+      return {
+        questions: newQuestions,
+        editedQuestions: state.editedQuestions.includes(index)
+          ? state.editedQuestions
+          : [...state.editedQuestions, index],
+      };
     });
-  },
-  onQuestionSelect: (index) => {
-    set({ currentQuestion: get().questions[index] });
   },
 });
 

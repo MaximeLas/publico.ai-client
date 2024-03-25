@@ -3,14 +3,14 @@ import { Button, Form, ListGroup, ListGroupItem } from "react-bootstrap";
 import ChatMessage from "../chatMessage/ChatMessage";
 import clsx from "clsx";
 import useStore from "../../hooks/useStore";
-import useChatHelper from "../../hooks/useChatHelper";
+import useChatHelper from "../../hooks/helpers/useChatHelper";
 import { ChatControl } from "../../enums/API";
 import ChatControlLabels from "../../constants/ChatControlLabels";
-import ChatTextInput from "../chatControls/chatTextInput/ChatTextArea";
+import ChatMainInput from "../chatControls/chatMainInput/ChatMainInput";
 import { MessageSender } from "../../enums/Messages";
 import ChatWordLimitControl from "../chatControls/chatWordLimitControl/ChatWordLimitControl";
 import styles from "./Chat.module.scss";
-import ChatFileControl from "../chatControls/chatFileControl/ChatFileControl";
+import UserDocumentsDisplay from "../userDocumentsDisplay/UserDocumentsDisplay";
 
 const buttonChatControls = [
   ChatControl.YES,
@@ -40,10 +40,10 @@ function Chat({ className, ...rest }: ChatProps) {
   const currentButtonControls = currentControls.filter((control) =>
     buttonChatControls.includes(control)
   );
-  const inputValue = useStore((state) => state.userInput.input_value);
+  const userDocuments = useStore((state) => state.filesInput);
   const formRef = useRef<HTMLFormElement>(null);
   const rootClassName = clsx(
-    "bg-light-subtle d-flex flex-column",
+    "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
     styles.root,
     className
   );
@@ -81,6 +81,11 @@ function Chat({ className, ...rest }: ChatProps) {
             <ChatMessage message={message} />
           </ListGroupItem>
         ))}
+        {!!userDocuments.length && (
+          <ListGroupItem as="li" key="user-documents">
+            <UserDocumentsDisplay />
+          </ListGroupItem>
+        )}
         {!!currentButtonControls.length && (
           <ListGroupItem as="li" key="buttons">
             <Form.Group className="d-flex gap-1">
@@ -91,7 +96,7 @@ function Chat({ className, ...rest }: ChatProps) {
                   onClick={handleButtonClick}
                   value={control}
                   variant="primary"
-                  className="btn-md w-25 rounded rounded-pill"
+                  className="fw-bold btn-md w-25 rounded rounded-pill"
                 >
                   {ChatControlLabels[control]}
                 </Button>
@@ -100,7 +105,7 @@ function Chat({ className, ...rest }: ChatProps) {
           </ListGroupItem>
         )}
         {currentControls.includes(ChatControl.WORD_LIMIT) && (
-          <ListGroupItem as="li" className="border border-0 py-3" key="buttons">
+          <ListGroupItem as="li" className="py-3" key="buttons">
             <ChatWordLimitControl
               disabled={isFetching || isEditMode}
               onKeyDown={handleChatInputKeyDown}
@@ -108,19 +113,8 @@ function Chat({ className, ...rest }: ChatProps) {
             />
           </ListGroupItem>
         )}
-        {currentControls.includes(ChatControl.FILES) && (
-          <ListGroupItem as="li" className="border border-0 py-3" key="buttons">
-            <ChatFileControl />
-          </ListGroupItem>
-        )}
       </ListGroup>
-      <ChatTextInput
-        value={currentControls.includes(ChatControl.WORD_LIMIT) ? "" : inputValue ?? ""}
-        disabled={
-          isFetching ||
-          isEditMode ||
-          !currentControls.includes(ChatControl.CHATBOT)
-        }
+      <ChatMainInput
         onKeyDown={handleChatInputKeyDown}
         onChange={handleInputChange}
       />

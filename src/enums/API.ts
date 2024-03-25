@@ -2,6 +2,7 @@ export enum ApiRoute {
   NewSession = "new_session",
   Chat = "chat",
   AfterChat = "after_chat",
+  EditAnswer = "edit",
 }
 
 export enum InputType {

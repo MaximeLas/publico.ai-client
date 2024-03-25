@@ -1,17 +1,22 @@
 .root {
-  --bar-width: 50px;
-  --bar-height: 10px;
+  --bar-width: 36px;
+  --bar-height: 20px;
   --thumb-size: 16px;
-  --thumb-offset: 4px;
+  --thumb-offset: 2px;
   --bar-bg-color: var(--bs-primary);
   --bar-active-bg-color: var(--bs-primary);
   --thumb-bg-color: var(--bs-gray-500);
   --thumb-active-bg-color: var(--bs-primary-dark);
-  --thumb-transition: 0.3s;
+  --thumb-transition: 0.2s ease-out;
   position: relative;
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+.rootDisabled {
+  pointer-events: none;
+  filter: grayscale(1);
 }
 
 .root:focus,
@@ -39,11 +44,10 @@
   width: var(--thumb-size);
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  left: var(--thumb-offset);
+  transform: translate(var(--thumb-offset), -50%);
   transition: var(--thumb-transition);
 }
 
 .thumbActive {
-  left: calc(100% - 16px - var(--thumb-offset));
+  transform: translate(calc(var(--bar-width) - var(--thumb-size) - var(--thumb-offset) * 2), -50%);
 }

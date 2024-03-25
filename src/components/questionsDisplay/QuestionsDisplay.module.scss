@@ -1,0 +1,9 @@
+
+.root {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+}

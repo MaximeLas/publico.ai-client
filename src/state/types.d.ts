@@ -6,8 +6,8 @@ export interface ChatState {
   messages: Message[];
   initialMessage: string | null;
   currentControls: ChatControl[];
-  userInput: UserInput;
-  isFetching: boolean;
+  userInput: UserInput | null;
+  filesInput: File[];
 }
 
 export interface ChatActions {
@@ -18,7 +18,9 @@ export interface ChatActions {
   setUserInputType: (inputType: UserInput["input_type"]) => void;
   setUserInputValue: (inputValue: UserInput["input_value"]) => void;
   setInitialMessage: (message: string | null) => void;
-  setIsFetching: (isFetching: boolean) => void;
+  addFiles: (...files: File[]) => void;
+  setFiles: (files: File[]) => void;
+  removeFile: (index: number) => void;
 }
 
 export interface ChatSliceState extends ChatState, ChatActions {}
@@ -26,13 +28,16 @@ export interface ChatSliceState extends ChatState, ChatActions {}
 export interface QuestionsState {
   isEditMode: boolean;
   questions: GuidingQuestion[];
+  selectedQuestionIndex: number;
   currentQuestion: GuidingQuestion | null;
+  editedQuestions: number[];
 }
 
 export interface QuestionsActions {
   setIsEditMode: (isEditMode: boolean) => void;
-  onQuestionEdit: (index: number, question: string) => void;
-  onQuestionSelect: (index: number) => void;
+  setSelectedQuestionIndex: (index: number) => void;
+  setQuestionAnswer: (index: number, answer: string) => void;
+  setEditedQuestions: (editedQuestions: number[]) => void;
 }
 
 export interface QuestionsSliceState extends QuestionsState, QuestionsActions {}
@@ -49,20 +54,23 @@ export interface UserActions {
 
 export interface UserSliceState extends UserState, UserActions {}
 
-// export interface ApiState {
-//   isFetching: boolean;
-// }
+export interface ApiState {
+  isFetching: boolean;
+}
 
-// export interface ApiActions {
-//   setIsFetching: (isFetching: boolean) => void;
-//   fetchNewSession: () => Promise<void>;
-//   fetchChat: (userInput: UserInput) => Promise<void>;
-//   fetchAfterChat: () => Promise<void>;
-// }
+export interface ApiActions {
+  setIsFetching: (isFetching: boolean) => void;
+  // fetchNewSession: () => Promise<void>;
+  // fetchChat: (userInput: UserInput) => Promise<void>;
+  // fetchAfterChat: () => Promise<void>;
+  fetchChat: () => Promise<void>;
+  fetchEditQuestions: () => Promise<void>;
+}
 
-// export interface ApiSliceState extends ApiState, ApiActions {}
+export interface ApiSliceState extends ApiState, ApiActions {}
 
 export interface RootState
   extends ChatSliceState,
     QuestionsSliceState,
-    UserSliceState {}
+    UserSliceState,
+    ApiSliceState {}

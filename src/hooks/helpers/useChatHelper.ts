@@ -1,18 +1,18 @@
 import { useCallback, useState, useRef, useEffect } from "react";
-import { ChatControl, InputType } from "../enums/API";
-import { MessageSender } from "../enums/Messages";
-import useAfterChatRoute from "./API/useAfterChatRoute";
-import useChatRoute from "./API/useChatRoute";
-import useNewSessionRoute from "./API/useNewSessionRoute";
-import useStore from "./useStore";
-import useStoreApi from "./useStoreApi";
+import { ChatControl, InputType } from "../../enums/API";
+import { MessageSender } from "../../enums/Messages";
+import useAfterChatRoute from "../API/useAfterChatRoute";
+import useChatRoute from "../API/useChatRoute";
+import useNewSessionRoute from "../API/useNewSessionRoute";
+import useStore from "../useStore";
+import useStoreApi from "../useStoreApi";
 import {
   AfterChatRequest,
   AfterChatResponse,
   NewSessionResponse,
-} from "../types/API";
-import store from "../state/store";
-import ChatControlLabels from "../constants/ChatControlLabels";
+} from "../../types/API";
+import store from "../../state/store";
+import ChatControlLabels from "../../constants/ChatControlLabels";
 
 const handleFetchNewSession = async (
   fetchSession: () => Promise<NewSessionResponse>
@@ -47,8 +47,10 @@ const handleFetchAfterChat = async (
   const response = await fetchAfterChat({ session_id: sessionId });
   store.setState((state) => {
     const questions = [...state.questions];
+    let selectedQuestionIndex = state.selectedQuestionIndex;
     const updatedContent = response.updated_content;
     if (updatedContent) {
+      selectedQuestionIndex = updatedContent.question_index;
       if (questions.length > updatedContent.question_index) {
         const question = { ...questions[updatedContent.question_index] };
         if (updatedContent.question)
@@ -72,6 +74,7 @@ const handleFetchAfterChat = async (
       isFetching: false,
       currentControls: Array.from(response.components),
       questions,
+      selectedQuestionIndex,
       messages: [
         ...state.messages,
         {
@@ -90,6 +93,7 @@ export default function useChatHelper() {
   const storeApi = useStoreApi();
   const currentSession = useStore((state) => state.currentChatSession);
   const setInputValue = useStore((state) => state.setUserInputValue);
+  const setUserInput = useStore((state) => state.setUserInput);
   const addMessages = useStore((state) => state.addMessages);
   const setMessages = useStore((state) => state.setMessages);
   const setCurrentControls = useStore((state) => state.setCurrentControls);
@@ -122,7 +126,10 @@ export default function useChatHelper() {
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setInputValue(event.target.value);
+    setUserInput({
+      input_type: InputType.Chatbot,
+      input_value: event.target.value,
+    });
     didInputChange.current = !!event.target.value.trim();
   };
 
@@ -137,6 +144,7 @@ export default function useChatHelper() {
         createdAt: new Date(),
       });
       setCurrentControls([]);
+      setInputValue("");
       fetchChatRoute({
         session_id: currentSession.id,
         user_input: {
@@ -145,7 +153,13 @@ export default function useChatHelper() {
         },
       });
     },
-    [fetchChatRoute, addMessages, setCurrentControls, currentSession]
+    [
+      fetchChatRoute,
+      setInputValue,
+      addMessages,
+      setCurrentControls,
+      currentSession,
+    ]
   );
   const handleChatInputKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {

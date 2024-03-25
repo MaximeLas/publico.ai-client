@@ -11,9 +11,22 @@ const createChatSlice: StateCreator<RootState, [], [], ChatSliceState> = (
   userInput: { input_type: InputType.Button, input_value: null },
   currentControls: [],
   initialMessage: null,
-  isFetching: false,
-  setIsFetching: (isFetching) => {
-    set({ isFetching });
+  filesInput: [],
+  addFiles: (...files) => {
+    set((state) => ({
+      filesInput: state.filesInput.concat(files),
+    }));
+  },
+  setFiles: (files) => {
+    set({ filesInput: files });
+  },
+  removeFile: (index) => {
+    set((state) => {
+      if (index < 0 || index >= state.filesInput.length) return state;
+      const newFiles = [...state.filesInput];
+      newFiles.splice(index, 1);
+      return { filesInput: newFiles };
+    });
   },
   setMessages: (messages) => {
     set({ messages });
