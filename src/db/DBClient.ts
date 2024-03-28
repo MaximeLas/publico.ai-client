@@ -1,7 +1,6 @@
 import IDBClient from "./IDBClient";
 import ChatSession from "./Models/Chat/ChatSession";
 import {
-  Firestore,
   collection,
   doc,
   getDocs,
@@ -19,7 +18,6 @@ import {
 import { firestore } from "../firebase";
 import { ImplicitQuestion } from "./Abstractions";
 import MessageData from "./Models/Chat/MessageData";
-import ChatSessionDTO from './DTOs/ChatSessionDTO';
 
 const CHAT_SESSIONS_COLLECTION = "chat_sessions";
 
@@ -36,17 +34,6 @@ function getSessionDocRef(sessionId: string) {
 type FieldValueMapped<T extends Record<any, any>> = {
   [K in keyof T]: T[K] | FieldValue;
 };
-
-function mergeUpdateSession(session: Partial<ChatSession>){
-  const merged: FieldValueMapped<Partial<ChatSession>> = { ...session };
-  if(session.messages){
-    merged.messages = arrayUnion(...session.messages);
-  }
-  if(session.implicitQuestions){
-    merged.implicitQuestions = arrayUnion(...session.implicitQuestions);
-  }
-  return merged;
-}
 
 const DBClient: IDBClient = {
   createNewSession({ id, ...session }: ChatSession): Promise<void> {
@@ -85,7 +72,7 @@ const DBClient: IDBClient = {
     return sessions;
   },
   async getLastUserChatSession(userId: string): Promise<ChatSession | null> {
-    if(!userId) return null;
+    if (!userId) return null;
     const collectionRef = collection(firestore, CHAT_SESSIONS_COLLECTION);
     const q = query(
       collectionRef,
@@ -104,7 +91,7 @@ const DBClient: IDBClient = {
     return session;
   },
   async updateSessionChatData(session: ChatSession): Promise<void> {
-    if(!session.id) throw new Error("Session ID is required");
+    if (!session.id) throw new Error("Session ID is required");
     const docRef = getSessionDocRef(session.id);
     await updateDoc(docRef, {
       messages: arrayUnion(...session.messages),
@@ -122,19 +109,22 @@ const DBClient: IDBClient = {
     sessionId: string,
     implicitQuestions: ImplicitQuestion[]
   ) {
-    if(!sessionId) throw new Error("Session ID is required");
+    if (!sessionId) throw new Error("Session ID is required");
     const docRef = getSessionDocRef(sessionId);
     await updateDoc(docRef, {
       implicitQuestions: arrayUnion(...implicitQuestions),
     });
   },
-  async updateSession(sessionId: string, session: Partial<ChatSession>): Promise<void> {
+  async updateSession(
+    sessionId: string,
+    session: Partial<ChatSession>
+  ): Promise<void> {
     const docRef = getSessionDocRef(sessionId);
     const merged: FieldValueMapped<Partial<ChatSession>> = { ...session };
-    if(session.messages){
+    if (session.messages) {
       merged.messages = arrayUnion(...session.messages);
     }
-    if(session.implicitQuestions){
+    if (session.implicitQuestions) {
       merged.implicitQuestions = arrayUnion(...session.implicitQuestions);
     }
     await updateDoc(docRef, merged);

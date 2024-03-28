@@ -43,13 +43,16 @@ export interface QuestionsActions {
 export interface QuestionsSliceState extends QuestionsState, QuestionsActions {}
 
 export interface UserState {
+  currentUser: string | null;
   currentChatSession: ChatSession | null;
 }
 
 export interface UserActions {
+  setCurrentUser: (userId: string | null) => void;
   setCurrentChatSession: (session: ChatSession | null) => void;
   setInitChatSession: (session: ChatSession | null) => void;
   setCurrentSessionTitle: (sessionTitle: string) => void;
+  clearChatSession: () => void;
 }
 
 export interface UserSliceState extends UserState, UserActions {}
@@ -60,9 +63,7 @@ export interface ApiState {
 
 export interface ApiActions {
   setIsFetching: (isFetching: boolean) => void;
-  // fetchNewSession: () => Promise<void>;
-  // fetchChat: (userInput: UserInput) => Promise<void>;
-  // fetchAfterChat: () => Promise<void>;
+  fetchNewSession: () => Promise<void>;
   fetchChat: () => Promise<void>;
   fetchEditQuestions: () => Promise<void>;
 }

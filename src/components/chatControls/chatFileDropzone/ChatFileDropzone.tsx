@@ -28,7 +28,7 @@ function ChatFileDropzone({
     isDragActive,
   } = useDropzone({
     accept: {
-      "text/*": [".txt", ".docx"],
+      "text/plain": [".txt", ".doc", ".docx"],
     },
     onDragEnter: (e) => {
       setDraggedFilesAmount(e.dataTransfer.items.length);
@@ -38,7 +38,7 @@ function ChatFileDropzone({
     },
     onDrop: (acceptedFiles) => {
       setUserInput({
-        input_type: InputType.Chatbot,
+        input_type: InputType.Button,
         input_value: ChatControl.FILES,
       });
       addFiles(...acceptedFiles);

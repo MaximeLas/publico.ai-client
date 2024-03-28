@@ -1,29 +1,28 @@
-import { Button, Form, FormControlProps } from "react-bootstrap";
-import TextArea from "../../../sharedComponents/textArea/TextArea";
-import {
-  BsSend as SendIcon,
-  // BsPaperclip as FileUploadIcon,
-} from "react-icons/bs";
-import useStore from "../../../hooks/useStore";
+import clsx from "clsx";
+import { Button } from "react-bootstrap";
+import { BsSend as SendIcon } from "react-icons/bs";
 import { ChatControl } from "../../../enums/API";
+import useStore from "../../../hooks/useStore";
+import useUserDocumentStorage from "../../../hooks/useUserDocumentStorage";
 import ChatFileDropzone from "../chatFileDropzone/ChatFileDropzone";
-import useUserDocumentStorage from "../../../storage/useUserDocumentStorage";
+import ChatTextInput from "../chatTextInput/ChatTextInput";
+import styles from "./ChatMainInput.module.css";
 
-export interface ChatTextInputProps extends Omit<FormControlProps, "as"> {}
+export interface ChatMainInputProps extends React.HTMLProps<HTMLDivElement> {}
 
-function ChatMainInput({ ...rest }: ChatTextInputProps) {
-  const userInput = useStore((state) => state.userInput);
-  const currentControls = useStore((state) => state.currentControls);
+function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
+  const clsn = clsx("py-2 px-3 position-relative", className);
   const isFetching = useStore((state) => state.isFetching);
   const isEditMode = useStore((state) => state.isEditMode);
   const isSendDisabled = isEditMode || isFetching;
-  const isFileDropzoneEnabled = currentControls.includes(ChatControl.FILES);
   const filesInput = useStore((state) => state.filesInput);
-  const isChatInputDisabled =
-    isFetching ||
-    isEditMode ||
-    !currentControls.includes(ChatControl.CHATBOT);
-  const setFiles = useStore((state) => state.setFiles);
+  const isChatInputInControls = useStore((state) =>
+    state.currentControls.includes(ChatControl.CHATBOT)
+  );
+  const isChatInputDisabled = isSendDisabled || !isChatInputInControls;
+  const isFileDropzoneEnabled = useStore((state) =>
+    state.currentControls.includes(ChatControl.CHATBOT)
+  );
   const fetchChat = useStore((state) => state.fetchChat);
   const { uploadUserDocument } = useUserDocumentStorage();
 
@@ -33,31 +32,22 @@ function ChatMainInput({ ...rest }: ChatTextInputProps) {
       await Promise.all(
         filesInput.map((file) => uploadUserDocument(file, file.name))
       );
-      setFiles([]);
     }
     await fetchChat();
   };
   return (
-    <div className="d-flex flex-nowrap align-items-center gap-1 py-2 px-3">
+    <div className={clsn} {...rest}>
       {isFileDropzoneEnabled ? (
         <ChatFileDropzone className="flex-grow-1" />
       ) : (
-        <Form.Control
-          {...rest}
-          value={
-            currentControls.includes(ChatControl.WORD_LIMIT)
-              ? ""
-              : userInput?.input_value ?? ""
-          }
+        <ChatTextInput
           placeholder={isChatInputDisabled ? "" : "Start typing here.."}
           disabled={isChatInputDisabled}
-          className="rounded rounded-4"
-          as={TextArea}
         />
       )}
       <Button
-        disabled={isChatInputDisabled}
-        className="rounded rounded-3"
+        disabled={isSendDisabled}
+        className={styles.sendButton}
         onClick={onSendClicked}
       >
         <SendIcon />

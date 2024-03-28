@@ -1,37 +1,28 @@
+import clsx from "clsx";
+import { useState } from "react";
 import {
   CardProps,
   Col,
-  Form,
   Nav,
   Overlay,
   Row,
   Tab,
   Tooltip,
 } from "react-bootstrap";
+import Markdown from "react-markdown";
 import useStore from "../../hooks/useStore";
 import { GuidingQuestion } from "../../types/Messages";
 import TextEditor from "../textEditor/TextEditor";
-import Markdown from "react-markdown";
-import Switch from "../../sharedComponents/switch/Switch";
-import clsx from "clsx";
-import { useState } from "react";
-import useOnEditModeChange from "../../hooks/helpers/useOnEditModeChange";
+import QuestionDisplayActions from "./QuestionDisplayActions";
 import styles from "./QuestionsDisplay.module.scss";
 
-export interface QuestionsDisplayProps extends CardProps {
-  onQuestionSelect?: (question: GuidingQuestion) => void;
-}
+export interface QuestionsDisplayProps extends CardProps {}
 
-function QuestionsDisplay({
-  onQuestionSelect,
-  className,
-  ...rest
-}: QuestionsDisplayProps) {
+function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
   const clsn = clsx(styles.root, className);
   const questions = useStore((state) => state.questions);
   const isEditMode = useStore((state) => state.isEditMode);
   const setQuestionAnswer = useStore((state) => state.setQuestionAnswer);
-  const onEditModeChange = useOnEditModeChange();
   const selectedQuestionIndex = useStore(
     (state) => state.selectedQuestionIndex
   );
@@ -40,10 +31,6 @@ function QuestionsDisplay({
   );
   const [questionTooltipTarget, setQuestionTooltipTarget] =
     useState<HTMLElement | null>(null);
-  const [questionTooltipTargetIndex, setQuestionTooltipTargetIndex] =
-    useState(-1);
-
-    const switchLabelClsnBase = clsx("my-0", !questions.length && "text-500");
   const q = questions.length
     ? questions
     : ([
@@ -54,21 +41,7 @@ function QuestionsDisplay({
       ] as GuidingQuestion[]);
   return (
     <div className={clsn} {...rest}>
-      <span className="d-flex flex-nowrap align-items-center justify-content-end my-1">
-        <Form.Label className={clsx(!isEditMode && "text-secondary", switchLabelClsnBase)}>
-          View Mode
-        </Form.Label>
-        <Switch
-          disabled={!questions.length}
-          checked={isEditMode}
-          className="mx-1"
-          style={{ height: "60%" }}
-          onChange={onEditModeChange}
-        />
-        <Form.Label className={clsx(isEditMode && "text-secondary", switchLabelClsnBase)}>
-          Edit Mode
-        </Form.Label>
-      </span>
+      <QuestionDisplayActions />
       <Tab.Container
         defaultActiveKey={0}
         onSelect={(index) =>
@@ -76,19 +49,16 @@ function QuestionsDisplay({
         }
         activeKey={selectedQuestionIndex}
       >
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-column flex-grow-1">
           <Row as={Nav} className="justify-content-start gx-0" variant="tabs">
             {q.map((_, i) => (
               <Col
                 className="px-0"
-                onPointerEnter={(e) => {
-                  setQuestionTooltipTarget(e.target as HTMLElement);
-                  setQuestionTooltipTargetIndex(i);
-                }}
-                onPointerLeave={() => {
-                  setQuestionTooltipTarget(null);
-                  setQuestionTooltipTargetIndex(-1);
-                }}
+                data-tooltip={q[i].questionTitle}
+                onPointerEnter={(e) =>
+                  setQuestionTooltipTarget(e.currentTarget)
+                }
+                onPointerLeave={() => setQuestionTooltipTarget(null)}
                 key={i}
                 as={Nav.Item}
                 xs={5}
@@ -112,7 +82,7 @@ function QuestionsDisplay({
                   <h5>
                     <strong>{questionTitle}</strong>
                     {wordLimit && (
-                      <span className="fs-6">{" "}({wordLimit} words)</span>
+                      <span className="fs-6"> ({wordLimit} words)</span>
                     )}
                   </h5>
                   {isEditMode ? (
@@ -134,13 +104,10 @@ function QuestionsDisplay({
           </Row>
         </div>
       </Tab.Container>
-      <Overlay
-        target={questionTooltipTarget}
-        show={questionTooltipTargetIndex !== -1 && !!questionTooltipTarget}
-      >
+      <Overlay target={questionTooltipTarget} show={!!questionTooltipTarget}>
         {(props) => (
-          <Tooltip {...props} style={{ position: "fixed", ...props.style }}>
-            {q[questionTooltipTargetIndex]?.questionTitle}
+          <Tooltip {...props} className="position-fixed">
+            {questionTooltipTarget?.dataset.tooltip}
           </Tooltip>
         )}
       </Overlay>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Badge, Button, Form, Overlay, Tooltip } from "react-bootstrap";
 import { BsX as DeleteIcon } from "react-icons/bs";
-import useStore from "../../hooks/useStore";
+import useStore from "../../../hooks/useStore";
 
 function UserDocumentsDisplay() {
   const [target, setTarget] = useState<HTMLElement | null>(null);
@@ -10,7 +10,7 @@ function UserDocumentsDisplay() {
   const removeFile = useStore((state) => state.removeFile);
   return (
     <>
-      <Form.Group className="d-flex gap-1">
+      <Form.Group className="d-flex gap-1 flex-wrap">
         {userFiles.map((file, index) => (
           <Badge
             key={index}
@@ -24,7 +24,7 @@ function UserDocumentsDisplay() {
               setTarget(null);
             }}
             // variant="primary"
-            className="rounded rounded-pill d-flex justify-content-between align-items-center ps-4 w-25"
+            className="rounded rounded-pill d-flex justify-content-between align-items-center ps-4 max-w-50"
           >
             <span className="fs-6 text-dark text-truncate d-inline-block">
               {file.name}

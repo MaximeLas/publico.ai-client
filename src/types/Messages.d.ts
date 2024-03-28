@@ -35,6 +35,4 @@ export interface QuestionRegenerateResponse extends Partial<GuidingQuestion> {
   index: number;
 }
 
-export interface MessageProps {
-  message: Message;
-}
+

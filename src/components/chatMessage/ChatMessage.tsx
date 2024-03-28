@@ -1,29 +1,19 @@
-import { Fade } from "react-bootstrap";
 import { MessageSender } from "../../enums/Messages";
-import { MessageProps } from "../../types/Messages";
-import Markdown from "react-markdown";
+import { Message } from "../../types/Messages";
+import UserChatMessage from "./userChatMessage/UserChatMessage";
+import BotChatMessage from "./botChatMessage/BotChatMessage";
 
-function ChatMessageContent({ content }: { content: React.ReactNode, alternative?: boolean }) {
-  return (
-    <Fade appear in>
-      <p>{content}</p>
-    </Fade>
-  );
+export interface ChatMessageProps {
+  message: Message;
 }
-
-function ChatMessage({ message }: MessageProps) {
-
+function ChatMessage({ message }: ChatMessageProps) {
   return (
-    <div className="d-flex align-items-center">
-      <div className="ms-2">
-          {message.sender === MessageSender.User ? (
-            <ChatMessageContent content={message.content} />
-          ) : message.content.length ? (
-            <Markdown children={message.content.join(" ")} />
-          ) : (
-            "Loading..."
-          )}
-      </div>
+    <div>
+        {message.sender === MessageSender.User ? (
+          <UserChatMessage message={message} />
+        ) : (
+          <BotChatMessage message={message} />
+        )}
     </div>
   );
 }

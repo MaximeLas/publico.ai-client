@@ -2,11 +2,21 @@ import { StateCreator } from "zustand";
 import { UserSliceState, RootState } from "../types";
 
 const createUserSlice: StateCreator<RootState, [], [], UserSliceState> = (
-  set,
-  get,
-  store
+  set
 ) => ({
+  currentUser: null,
   currentChatSession: null,
+  clearChatSession() {
+    set({
+      currentChatSession: null,
+      messages: [],
+      questions: [],
+      currentControls: [],
+    });
+  },
+  setCurrentUser(userId) {
+    set({ currentUser: userId });
+  },
   setCurrentChatSession(session) {
     set({ currentChatSession: session });
   },
@@ -27,7 +37,7 @@ const createUserSlice: StateCreator<RootState, [], [], UserSliceState> = (
           }
         : state
     );
-  }
+  },
 });
 
 export default createUserSlice;
