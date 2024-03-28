@@ -3,6 +3,7 @@ import { MessageSender } from "../enums/Messages";
 export interface ChatSession {
   id: string;
   title: string;
+  createdAt: Date;
 }
 
 export interface MessageBase {
