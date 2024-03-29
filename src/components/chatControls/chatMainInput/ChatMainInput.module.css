@@ -1,0 +1,15 @@
+
+.sendButton {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-right: 40px;
+    transform: translateY(-50%);
+    border-radius: 10px;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.sendButton:hover {
+    opacity: 1;
+}

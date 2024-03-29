@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import logo from "../../assets/logo/logo.png";
 import "./Header.css";
 import { Link, NavLink } from "react-router-dom";
@@ -241,8 +242,19 @@ const DesktopNavbarPub: React.FC = () => {
 };
 
 const Header: React.FC = () => {
-  const shouldDisplayResponsiveNavbar = window.innerWidth < 980;
   const isPublico = true
+  const [shouldDisplayResponsiveNavbar, setShouldDisplayResponsiveNavbar] =
+    useState(false);
+  const observer = useState(
+    new ResizeObserver((entries) => {
+      setShouldDisplayResponsiveNavbar(entries[0].contentRect.width < 980);
+    })
+  )[0];
+
+  useEffect(() => {
+    observer.observe(document.body);
+    return () => observer.disconnect();
+  }, [observer]);
 
   return isPublico ? (
     shouldDisplayResponsiveNavbar ? (

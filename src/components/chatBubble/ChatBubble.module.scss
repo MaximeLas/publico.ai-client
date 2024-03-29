@@ -1,0 +1,27 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "../../theme/palette.scss";
+
+
+.bubble {
+    background-color: $primary;
+    border-radius: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding: {
+        top: 10px;
+        right: 40px;
+        bottom: $btn-padding-y + 0.2;
+        left: $btn-padding-x + 1;
+    }
+    min-height: 50px;
+    min-width: 90px;
+    transition: background-color 0.1s;
+}
+
+.bubble:hover {
+    background-color: $primary-light;
+}

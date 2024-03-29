@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import './theme/bootstrap.scss'
 import PublicoRoutes from "./router/PublicoRoutes";
 import reportWebVitals from "./reportWebVitals";
 import "./";

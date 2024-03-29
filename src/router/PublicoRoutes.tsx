@@ -15,7 +15,8 @@ import NotFound from "../pages/not-found/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import TryIt from "../pages/try-it/TryIt";
 import Placeholder from "../pages/home/Placeholder";
-
+import { StoreContextProvider } from "../context/Store";
+import { DBContextProvider } from "../context/DB";
 
 const PublicoRoutes: React.FC = () => {
   return (
@@ -36,7 +37,16 @@ const PublicoRoutes: React.FC = () => {
           path="dashboard"
           element={<PrivateRoute component={Dashboard} />}
         />
-        <Route path="demo" element={<PrivateRoute component={Demo} />} />
+        <Route
+          path="demo"
+          element={
+            <DBContextProvider>
+              <StoreContextProvider>
+                <PrivateRoute component={Demo} />
+              </StoreContextProvider>
+            </DBContextProvider>
+          }
+        />
         <Route path="logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
       </Route>

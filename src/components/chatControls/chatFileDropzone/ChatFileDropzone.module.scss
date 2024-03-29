@@ -1,0 +1,25 @@
+.root {
+  transition-property: background-color;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.root:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.root:active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.root::placeholder {
+  white-space: pre;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.drag-accept {
+}

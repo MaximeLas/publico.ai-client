@@ -1,0 +1,53 @@
+.root {
+  --bar-width: 36px;
+  --bar-height: 20px;
+  --thumb-size: 16px;
+  --thumb-offset: 2px;
+  --bar-bg-color: var(--bs-primary);
+  --bar-active-bg-color: var(--bs-primary);
+  --thumb-bg-color: var(--bs-gray-500);
+  --thumb-active-bg-color: var(--bs-primary-dark);
+  --thumb-transition: 0.2s ease-out;
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.rootDisabled {
+  pointer-events: none;
+  filter: grayscale(1);
+}
+
+.root:focus,
+.root:active,
+.root:hover {
+  .bar {
+    background-color: var(--bar-active-bg-color);
+  }
+  .thumb {
+    background-color: var(--thumb-active-bg-color);
+  }
+}
+
+.bar {
+  width: var(--bar-width);
+  height: var(--bar-height);
+  display: block;
+  background-color: var(--bar-bg-color);
+}
+
+.thumb {
+  background-color: var(--thumb-bg-color);
+  display: block;
+  height: var(--thumb-size);
+  width: var(--thumb-size);
+  position: absolute;
+  top: 50%;
+  transform: translate(var(--thumb-offset), -50%);
+  transition: var(--thumb-transition);
+}
+
+.thumbActive {
+  transform: translate(calc(var(--bar-width) - var(--thumb-size) - var(--thumb-offset) * 2), -50%);
+}

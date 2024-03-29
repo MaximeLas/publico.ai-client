@@ -1,0 +1,11 @@
+.textArea {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  border-radius: var(--bs-border-radius-lg);
+  min-height: unset !important;
+}
+
+.resizeNone {
+  resize: none;
+}
