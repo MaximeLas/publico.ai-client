@@ -5,7 +5,7 @@ import { BsArrowRepeat as RestartIcon, BsDownload as DownloadIcon } from "react-
 import useDebounce from "../../hooks/helpers/useDebounce";
 import useDownloadQuestions from "../../hooks/helpers/useDownloadQuestions";
 import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
-import useOnEditModeChange from "../../hooks/helpers/useOnEditModeChange";
+import useOnEditModeChange from "../../hooks/FormHandlers/useOnEditModeChange";
 import useStore from "../../hooks/useStore";
 import Switch from "../../sharedComponents/switch/Switch";
 
