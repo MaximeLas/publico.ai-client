@@ -1,0 +1,43 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+
+$scrollbar-width: 10px;
+$scrollbar-width-firefox: thin;
+$scrollbar-color: $gray-600;
+$scrollbar-color-active: $gray-500;
+$scrollbar-bg: $gray-200;
+
+body * {
+  scrollbar-width: $scrollbar-width;
+}
+
+@-moz-document url-prefix() {
+  body * {
+    scrollbar-width: $scrollbar-width-firefox !important;
+  }
+}
+
+@supports (-moz-appearance:none) {
+  body * {
+    scrollbar-width: $scrollbar-width-firefox !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: $scrollbar-width;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: $scrollbar-bg;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: $scrollbar-color;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: $scrollbar-color-active;
+}

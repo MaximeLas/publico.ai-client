@@ -19,7 +19,8 @@
 .my-navlink, .my-hamburger, .my-navlink-mobile {
   float: right;
   margin-left: 5px;
-  font-family: 'Navbar-Buttons';
+  font-family: var(--font-family-glacial);
+  font-weight: bolder;
   font-size: larger;
   color: black;
   text-decoration: none;

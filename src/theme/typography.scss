@@ -1,0 +1,26 @@
+@import "./utilities.scss";
+
+$font-roxborough: "Roxborough CF Bold", serif;
+$font-glacial: "Glacial Indifference", sans-serif;
+$font-lora: "Lora", serif;
+
+:root {
+  --font-family-glacial: #{$font-glacial};
+  --font-family-roxborough: #{$font-roxborough};
+  --font-family-lora: #{$font-lora};
+}
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "font-family": (
+      property: font-family,
+      class: ff,
+      values: (
+        glacial: #{$font-glacial},
+        roxborough: #{$font-roxborough},
+        lora: #{$font-lora},
+      ),
+    ),
+  )
+);
