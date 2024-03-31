@@ -5,12 +5,10 @@
 
 .bubble {
     background-color: $primary;
-    border-radius: 20px;
+    border-radius: 20px 20px 5px 20px;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    padding-right: 30px;
-    padding-top: 10px;
     padding: {
         top: 10px;
         right: 40px;

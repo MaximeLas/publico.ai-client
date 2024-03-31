@@ -3,7 +3,6 @@ import { HTMLProps, useEffect, useRef } from "react";
 import { Button, Form, ListGroup, ListGroupItem } from "react-bootstrap";
 import ChatControlValues from "../../constants/ChatControlValues";
 import { ChatControl, InputType } from "../../enums/API";
-import { MessageSender } from "../../enums/Messages";
 import useTempSyncStoreAuth from "../../hooks/helpers/useTempSyncStoreAuth";
 import useStore from "../../hooks/useStore";
 import ChatMainInput from "../chatControls/chatMainInput/ChatMainInput";
@@ -108,14 +107,7 @@ function Chat({ className, ...rest }: ChatProps) {
         variant="flush"
       >
         {messages.map((message, index) => (
-          <ListGroupItem
-            as="li"
-            key={index}
-            className={clsx(
-              "border-0",
-              message.sender === MessageSender.Bot && "p-0"
-            )}
-          >
+          <ListGroupItem as="li" key={index} className="border-0 p-0">
             <ChatMessage message={message} />
           </ListGroupItem>
         ))}

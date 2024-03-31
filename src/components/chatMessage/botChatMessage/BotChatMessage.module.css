@@ -1,7 +1,7 @@
 
 .root {
     background-color: var(--bs-body-bg);
-    padding: var(--bs-list-group-item-padding-x) var(--bs-list-group-item-padding-y);
+    padding: 20px;
     transition: background-color 0.1s;
 }
 
