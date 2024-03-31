@@ -14,21 +14,29 @@ function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
   const clsn = clsx("py-2 px-3 position-relative", className);
   const isFetching = useStore((state) => state.isFetching);
   const isEditMode = useStore((state) => state.isEditMode);
-  const isSendDisabled = isEditMode || isFetching;
-  const filesInput = useStore((state) => state.filesInput);
+  const isDisabled = isFetching || isEditMode;
   const isChatInputInControls = useStore((state) =>
     state.currentControls.includes(ChatControl.CHATBOT)
   );
-  const isChatInputDisabled = isSendDisabled || !isChatInputInControls;
-  const isFileDropzoneEnabled = useStore((state) =>
-    state.currentControls.includes(ChatControl.CHATBOT)
+  const isFileDropzoneInControls = useStore((state) =>
+    state.currentControls.includes(ChatControl.FILES)
   );
+  const isWordLimitInControls = useStore((state) =>
+    state.currentControls.includes(ChatControl.WORD_LIMIT)
+  );
+  const isSendDisabled =
+    isDisabled ||
+    (!isChatInputInControls &&
+      !isFileDropzoneInControls &&
+      !isWordLimitInControls);
+  const isChatInputDisabled = isDisabled || !isChatInputInControls;
+  const filesInput = useStore((state) => state.filesInput);
   const fetchChat = useStore((state) => state.fetchChat);
   const { uploadUserDocument } = useUserDocumentStorage();
 
   const onSendClicked = async () => {
     if (isSendDisabled) return;
-    if (isFileDropzoneEnabled) {
+    if (isFileDropzoneInControls) {
       await Promise.all(
         filesInput.map((file) => uploadUserDocument(file, file.name))
       );
@@ -37,7 +45,7 @@ function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
   };
   return (
     <div className={clsn} {...rest}>
-      {isFileDropzoneEnabled ? (
+      {isFileDropzoneInControls ? (
         <ChatFileDropzone className="flex-grow-1" />
       ) : (
         <ChatTextInput
