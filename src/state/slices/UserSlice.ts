@@ -4,7 +4,6 @@ import { UserSliceState, RootState } from "../types";
 const createUserSlice: StateCreator<RootState, [], [], UserSliceState> = (
   set
 ) => ({
-  currentUser: null,
   currentChatSession: null,
   clearChatSession() {
     set({
@@ -13,9 +12,6 @@ const createUserSlice: StateCreator<RootState, [], [], UserSliceState> = (
       questions: [],
       currentControls: [],
     });
-  },
-  setCurrentUser(userId) {
-    set({ currentUser: userId });
   },
   setCurrentChatSession(session) {
     set({ currentChatSession: session });

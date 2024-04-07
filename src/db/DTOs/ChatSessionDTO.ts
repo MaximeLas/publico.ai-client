@@ -8,16 +8,16 @@ const ChatSessionDTO: IStateDTO<RootState, ChatSessionModel> = {
   fromState(state) {
     const {
       currentChatSession,
-      currentUser: userId,
+      user,
       filesInput,
       questions,
       messages,
       currentControls,
     } = state;
-    if (!userId || !currentChatSession) return null;
+    if (!user || !currentChatSession) return null;
     return {
       id: currentChatSession.id,
-      userId,
+      userId: user.id,
       title: currentChatSession.title,
       messages: messages.map(MessageDataDTO.toModel),
       implicitQuestions: questions,

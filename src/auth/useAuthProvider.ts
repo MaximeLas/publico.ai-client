@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
 import { PUBLICO_AI_TOKEN } from "../utilities/constants";
-import { LoginInfo, SignupInfo } from "./auth";
+import { LoginInfo } from "./auth";
 import { auth } from "../firebase";
 import { signOut, sendSignInLinkToEmail} from "firebase/auth";
+import useStore from '../hooks/state/useStore';
 
 export type UseAuthProvider = {
   login: (data: LoginInfo) => Promise<any>;
@@ -12,8 +12,7 @@ export type UseAuthProvider = {
 }
 
 const useAuthProvider = (): UseAuthProvider => {
-  const [user, setUser] = useState<null | string>(null)
-
+  const user = useStore((state) => state.user?.id ?? null);
   const login = async (data: LoginInfo) => {
     sendSignInLinkToEmail(auth, data.email, 
     { 
@@ -32,7 +31,6 @@ const useAuthProvider = (): UseAuthProvider => {
       signOut(auth)
         .then(() => {
           // Sign-out successful.
-          setUser(null);
           localStorage.removeItem(PUBLICO_AI_TOKEN);
           resolve();
         })
@@ -44,7 +42,6 @@ const useAuthProvider = (): UseAuthProvider => {
   };
 
   const setCurrentUser = async (user: string) => {
-    setUser(user);
     console.log(user);
     localStorage.setItem(PUBLICO_AI_TOKEN, user);
   }

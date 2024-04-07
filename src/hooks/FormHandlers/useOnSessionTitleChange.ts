@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import useDebounce from "../helpers/useDebounce";
 import useDB from "../useDB";
-import useStore from "../useStore";
-import useStoreApi from "../useStoreApi";
+import useStore from "../state/useStore";
+import useStoreApi from "../state/useStoreApi";
 
 export default function useOnSessionTitleChange() {
   const setSessionTitle = useStore((state) => state.setCurrentSessionTitle);

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import useStore from "../useStore";
+import useStore from "../state/useStore";
 
 export default function useOnEditModeChange() {
   const setIsEditMode = useStore((state) => state.setIsEditMode);

@@ -1,4 +1,4 @@
-import useStore from '../../hooks/useStore';
+import useStore from '../../hooks/state/useStore';
 import ChatSessionTitle from "../chatControls/chatSessionTitle/ChatSessionTitle";
 
 function ChatTitleBar() {

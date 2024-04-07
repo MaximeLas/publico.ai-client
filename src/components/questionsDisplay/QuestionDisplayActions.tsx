@@ -6,13 +6,13 @@ import useDebounce from "../../hooks/helpers/useDebounce";
 import useDownloadQuestions from "../../hooks/helpers/useDownloadQuestions";
 import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
 import useOnEditModeChange from "../../hooks/FormHandlers/useOnEditModeChange";
-import useStore from "../../hooks/useStore";
+import useStore from "../../hooks/state/useStore";
 import Switch from "../../sharedComponents/switch/Switch";
 
 function QuestionDisplayActions() {
   const questionsLength = useStore((state) => state.questions.length);
   const isEditMode = useStore((state) => state.isEditMode);
-  const currentUser = useStore((state) => state.currentUser);
+  const currentUser = useStore((state) => state.user);
   const [tooltipTarget, setTooltipTarget] = useState<HTMLElement | null>(null);
   const onEditModeChange = useOnEditModeChange();
   const fetchAndSaveSession = useFetchAndSaveSession();
@@ -22,7 +22,7 @@ function QuestionDisplayActions() {
   const restartSession = useCallback(() => {
     if (!currentUser) return;
     clearChatSession();
-    fetchAndSaveSession(currentUser);
+    fetchAndSaveSession(currentUser.id);
   }, [currentUser, clearChatSession, fetchAndSaveSession]);
 
   const onRestartSessionClick = useDebounce(restartSession);

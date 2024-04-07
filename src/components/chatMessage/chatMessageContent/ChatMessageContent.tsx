@@ -8,7 +8,9 @@ function ChatMessageContent({
 }) {
   return (
     <Fade appear in>
-      <p className="m-0">{content}</p>
+      <p className="m-0">
+        {content}
+      </p>
     </Fade>
   );
 }

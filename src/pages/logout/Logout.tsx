@@ -1,15 +1,17 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useAuth from '../../auth/useAuth';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/state/useAuth";
 
 const Logout: React.FC = () => {
-  const auth = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    auth?.logout();
-    navigate('/');
-  }, [auth, navigate]);
+    (async function () {
+      await logout();
+      navigate("/");
+    })();
+  }, [logout, navigate]);
 
   return null;
 };

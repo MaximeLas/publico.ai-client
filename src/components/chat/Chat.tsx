@@ -3,14 +3,13 @@ import { HTMLProps, useEffect, useRef } from "react";
 import { Button, Form, ListGroup, ListGroupItem } from "react-bootstrap";
 import ChatControlValues from "../../constants/ChatControlValues";
 import { ChatControl, InputType } from "../../enums/API";
-import useTempSyncStoreAuth from "../../hooks/helpers/useTempSyncStoreAuth";
-import useStore from "../../hooks/useStore";
+import useStore from "../../hooks/state/useStore";
 import ChatMainInput from "../chatControls/chatMainInput/ChatMainInput";
 import ChatWordLimitControl from "../chatControls/chatWordLimitControl/ChatWordLimitControl";
 import ChatMessage from "../chatMessage/ChatMessage";
 import UserDocumentsDisplay from "../chatControls/userDocumentsDisplay/UserDocumentsDisplay";
 import styles from "./Chat.module.scss";
-import useStoreApi from "../../hooks/useStoreApi";
+import useStoreApi from "../../hooks/state/useStoreApi";
 import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO";
 import useDB from "../../hooks/useDB";
 import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
@@ -51,21 +50,20 @@ function Chat({ className, ...rest }: ChatProps) {
   const isEditMode = useStore((state) => state.isEditMode);
   const setUserInput = useStore((state) => state.setUserInput);
   const fetchChat = useStore((state) => state.fetchChat);
-  const currentUser = useStore((state) => state.currentUser);
+  const currentUser = useStore((state) => state.user);
   const { setState, getState } = useStoreApi();
   const { getLastUserChatSession, updateSession } = useDB();
   const fetchAndSaveSession = useFetchAndSaveSession();
   const debounceUpdateSession = useDebounce(updateSession, 1000);
-  useTempSyncStoreAuth();
 
   useEffect(() => {
     if (!currentUser) return;
-    getLastUserChatSession(currentUser).then((lastSession) => {
+    getLastUserChatSession(currentUser.id).then((lastSession) => {
       if (lastSession) {
         const s = ChatSessionDTO.toState(lastSession);
         setState(s);
       } else {
-        fetchAndSaveSession(currentUser);
+        fetchAndSaveSession(currentUser.id);
       }
     });
   }, [currentUser, setState, fetchAndSaveSession, getLastUserChatSession]);

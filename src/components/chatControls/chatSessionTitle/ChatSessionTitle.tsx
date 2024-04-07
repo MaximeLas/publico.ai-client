@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useEffect, useRef } from "react";
 import useOnSessionTitleChange from '../../../hooks/FormHandlers/useOnSessionTitleChange';
-import useStore from "../../../hooks/useStore";
+import useStore from "../../../hooks/state/useStore";
 import styles from "./ChatSessionTitle.module.css";
 
 function ChatSessionTitle() {

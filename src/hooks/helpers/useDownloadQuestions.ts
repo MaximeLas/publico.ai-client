@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import download from "../../utilities/download";
-import useStore from "../useStore";
+import useStore from "../state/useStore";
 import { Editor } from "@tiptap/core";
 import { Markdown } from "tiptap-markdown";
 import StarterKit from "@tiptap/starter-kit";

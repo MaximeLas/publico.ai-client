@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Badge, Button, Form, Overlay, Tooltip } from "react-bootstrap";
 import { BsX as DeleteIcon } from "react-icons/bs";
-import useStore from "../../../hooks/useStore";
+import useStore from "../../../hooks/state/useStore";
 
 function UserDocumentsDisplay() {
   const [target, setTarget] = useState<HTMLElement | null>(null);

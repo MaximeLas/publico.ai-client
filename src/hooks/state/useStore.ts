@@ -1,5 +1,5 @@
 import { useStore as useVanillaStore } from 'zustand';
-import { RootState } from '../state/types';
+import { RootState } from '../../state/types';
 import useStoreApi from './useStoreApi';
 
 function useStore(): RootState

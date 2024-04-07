@@ -8,7 +8,7 @@ export interface UserChatMessageProps {
 
 function UserChatMessage({ message }: UserChatMessageProps) {
   return (
-    <div className="d-flex justify-content-end mx-4 my-3">
+    <div className="d-flex justify-content-end ms-4 me-3 my-3">
       <ChatBubble>
         <ChatMessageContent content={message.content} />
       </ChatBubble>

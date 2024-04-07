@@ -4,7 +4,7 @@ import TextArea from "../../../sharedComponents/textArea/TextArea";
 import { useDropzone } from "react-dropzone";
 import clsx from "clsx";
 import styles from "./ChatFileDropzone.module.scss";
-import useStore from "../../../hooks/useStore";
+import useStore from "../../../hooks/state/useStore";
 import { ChatControl, InputType } from "../../../enums/API";
 
 export interface ChatFileDropzoneProps extends React.HTMLProps<HTMLDivElement> {

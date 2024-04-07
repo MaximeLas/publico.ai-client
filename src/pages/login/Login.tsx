@@ -1,70 +1,38 @@
-import { Button, Card, Form } from "react-bootstrap";
-import "./Login.css";
+import { isSignInWithEmailLink } from "firebase/auth";
 import { useFormik } from "formik";
+import { useState } from "react";
+import { Button, Fade, Form } from "react-bootstrap";
+import Logo from "../../assets/logo/logo.png";
+import ProgressIllustration from "../../assets/login/progress_illustration.svg";
+import SignUpIllustration from "../../assets/login/sign_up_illustration.svg";
+import FullPageLoader from "../../components/fullPageLoader/FullPageLoader";
+import GoogleSignInButton from "../../components/googleSigninButton/GoogleSignInButton";
+import { auth } from "../../firebase";
+import useOnLoginSubmit from "../../hooks/FormHandlers/useOnLoginSubmit";
+import useLoginRedirect from "../../hooks/helpers/useLoginRedirect";
+import useStore from "../../hooks/state/useStore";
+import { LoginInfo } from "../../types/Auth";
+import styles from "./Login.module.scss";
 import { loginSchema } from "./schema";
-import MySpinner from "../../components/spinner/MySpinner";
-import useAuth from "../../auth/useAuth";
-import { useNavigate } from "react-router-dom";
-import { LoginInfo } from "../../auth/auth";
-import { getAuth, isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
-import { useEffect } from "react";
 
-const Login: React.FC = () => {
-  const auth = useAuth();
-  const firebaseAuth = getAuth();
-  const navigate = useNavigate();
+function Login() {
+  const isAuthSubmitting = useStore((state) => state.isAuthSubmitting);
+  const [sentLoginLink, setSentLoginLink] = useState(false);
+  const isLoading = useLoginRedirect();
+  const [isEmailVerifyPage] = useState(
+    isSignInWithEmailLink(auth, window.location.href) &&
+      !localStorage.getItem("emailForSignIn")
+  );
+  const onLoginSubmit = useOnLoginSubmit(isEmailVerifyPage);
 
-  useEffect(()=>{
-    if(auth?.user){
-      // user is already signed in
-      navigate('/dashboard');
+  const onSubmit = async (info: LoginInfo) => {
+    if (!info.email) return;
+    await onLoginSubmit(info);
+    if (isEmailVerifyPage) {
+      setSentLoginLink(true);
     }
-    else {
-      if (isSignInWithEmailLink(firebaseAuth, window.location.href)) {
-        console.log("Reached here");
-        // Additional state parameters can also be passed via URL.
-        // This can be used to continue the user's intended action before triggering
-        // the sign-in operation.
-        // Get the email if available. This should be available if the user completes
-        // the flow on the same device where they started it.
-        let email = localStorage.getItem('emailForSignIn');
-        console.log(email);
-        if (!email) {
-          // User opened the link on a different device. To prevent session fixation
-          // attacks, ask the user to provide the associated email again. For example:
-          email = window.prompt('Please provide your email for confirmation');
-        }
-        // The client SDK will parse the code from the link for you.
-        if (email) {
-          signInWithEmailLink(firebaseAuth, email, window.location.href)
-            .then((result) => {
-              // Clear email from storage.
-              localStorage.removeItem('emailForSignIn');
-              // You can access the new user via result.user
-              // Additional user info profile not available via:
-              // result.additionalUserInfo.profile == null
-              // You can check if the user is new or existing:
-              // result.additionalUserInfo.isNewUser
-              auth?.setCurrentUser(result.user.uid);
-              navigate("/dashboard");
-            })
-            .catch((error) => {
-              // Some error occurred, you can inspect the code: error.code
-              // Common errors could be invalid email and invalid or expired OTPs.
-            });
-        }
-      }
-    }
-  });
-  const onSubmit = async (values: LoginInfo, actions: any) => {
-    console.log("submitted form: ", values);
-    console.log(auth);
-
-    await auth?.login(values);
-    actions.resetForm();
   };
 
-  // Good formik tutorial - https://www.youtube.com/watch?v=7Ophfq0lEAY
   const {
     values,
     errors,
@@ -72,62 +40,89 @@ const Login: React.FC = () => {
     handleBlur,
     handleChange,
     handleSubmit,
-    isSubmitting,
-  } = useFormik({
+    isSubmitting: isFormSubmitting,
+  } = useFormik<LoginInfo>({
     initialValues: {
       email: "",
-      password: "",
     },
     onSubmit,
     validationSchema: loginSchema,
   });
 
-  return (
-    <div className="my-login-container">
-      <h1 className="center-align">Welcome back!</h1>
-      <br></br>
-      <p className="center-align">
-        You're one step closer to writing your next grant.
-      </p>
+  if (isLoading) {
+    return <FullPageLoader />;
+  }
 
-      <Card>
-        <Card.Header>
-          <Card.Title>Log In</Card.Title>
-        </Card.Header>
-        <Card.Body>
-          <Form>
-            <Form.Group className="mb-3 form-group">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                name="email"
-                type="email"
-                placeholder="Enter email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                required
-                isInvalid={touched.email && !!errors.email}
-              />
-              <Form.Control.Feedback type="invalid">
-                {touched.email && errors.email}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Form>
-        </Card.Body>
-        <Card.Footer>
-          <div className="align-card-btn-center">
-            <Button
-              variant="dark"
-              disabled={isSubmitting}
-              onClick={() => handleSubmit()}
-            >
-              {isSubmitting ? <MySpinner /> : "Log In"}
-            </Button>
-          </div>
-        </Card.Footer>
-      </Card>
-    </div>
+  const isSubmitting = isFormSubmitting || isAuthSubmitting;
+
+  const [formLabel, heroAlt, heroImage] = isEmailVerifyPage
+    ? [
+        "Please provide your email for confirmation",
+        "Progress illustration",
+        ProgressIllustration,
+      ]
+    : ["Email", "Sign-up illustration", SignUpIllustration];
+
+  return (
+    <Fade appear in>
+      <div className={styles.root}>
+        <div className={styles.formContainer}>
+          <h1 className="text-center px-1">Welcome back!</h1>
+          <p className="text-center px-1">
+            You're one step closer to writing your next grant.
+          </p>
+          {sentLoginLink ? (
+            <Fade appear in>
+              <div className="text-center d-flex justify-content-center align-items-center">
+                <p>
+                  A Sign-In link has been sent to the address: {values.email} .{" "}
+                  <br />
+                  Please check your email to continue.
+                </p>
+              </div>
+            </Fade>
+          ) : (
+            <Fade appear in>
+              <Form onSubmit={handleSubmit} className={styles.form}>
+                <Form.Group>
+                  <Form.Label>{formLabel}</Form.Label>
+                  <Form.Control
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    isInvalid={!!touched.email && !!errors.email}
+                    isValid={!!touched.email && !errors.email}
+                    name="email"
+                    type="email"
+                    placeholder="Enter email"
+                  />
+                  {errors.email && touched.email && (
+                    <Form.Text className="text-danger">
+                      {errors.email}
+                    </Form.Text>
+                  )}
+                  <Button
+                    className="mt-3 w-100"
+                    disabled={isSubmitting}
+                    variant="primary"
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                  <div className="mt-2">
+                    <GoogleSignInButton disabled={isSubmitting} fullWidth />
+                  </div>
+                </Form.Group>
+              </Form>
+            </Fade>
+          )}
+        </div>
+        <div className={styles.hero}>
+          <img height="100%" width="100%" src={heroImage} alt={heroAlt} />
+        </div>
+      </div>
+    </Fade>
   );
-};
+}
 
 export default Login;

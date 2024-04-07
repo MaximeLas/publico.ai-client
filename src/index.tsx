@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import './theme/bootstrap.scss'
 import PublicoRoutes from "./router/PublicoRoutes";
 import reportWebVitals from "./reportWebVitals";
-import "./";
+import "./index.css";
 import { inject } from "@vercel/analytics";
 import { BrowserRouter } from "react-router-dom";
 

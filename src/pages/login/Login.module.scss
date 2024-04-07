@@ -1,0 +1,92 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+
+.root {
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+  width: 75%;
+  min-height: 400px;
+  margin-top: -50px;
+  border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+  overflow: hidden;
+}
+
+.hero {
+  padding: 5rem;
+  background-color: var(--bs-secondary-bg-subtle);
+  width: 100%;
+  height: 100%;
+  transition: background-color 0.3s;
+}
+
+.hero:hover {
+  background-color: var(--bs-secondary-bg);
+}
+
+.root > * {
+  flex: 1;
+  max-width: 50%;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.form > * {
+  width: 60%;
+}
+
+
+@include media-breakpoint-down(lg) {
+  .root {
+    width: 85%;
+    height: 70%;
+  }
+  .hero {
+    padding: 3rem;
+  }
+  .form > * {
+    width: 75%;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .root {
+    width: 95%;
+    height: 80%;
+  }
+  .hero {
+    display: none;
+  }
+  .formContainer {
+  }
+  .root > * {
+    max-width: unset;
+  }
+  .form > * {
+    width: 50%;
+  }
+}
+
+
+@include media-breakpoint-down(sm) {
+  
+  .form > * {
+    width: 70%;
+  }
+}
+
+.logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1rem;
+  width: 240px;
+}

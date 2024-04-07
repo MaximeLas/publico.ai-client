@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Button } from "react-bootstrap";
 import { BsSend as SendIcon } from "react-icons/bs";
 import { ChatControl } from "../../../enums/API";
-import useStore from "../../../hooks/useStore";
+import useStore from "../../../hooks/state/useStore";
 import useUserDocumentStorage from "../../../hooks/useUserDocumentStorage";
 import ChatFileDropzone from "../chatFileDropzone/ChatFileDropzone";
 import ChatTextInput from "../chatTextInput/ChatTextInput";

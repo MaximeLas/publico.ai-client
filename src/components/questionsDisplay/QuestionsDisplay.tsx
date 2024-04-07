@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import Markdown from "react-markdown";
-import useStore from "../../hooks/useStore";
+import useStore from "../../hooks/state/useStore";
 import { GuidingQuestion } from "../../types/Messages";
 import TextEditor from "../textEditor/TextEditor";
 import QuestionDisplayActions from "./QuestionDisplayActions";

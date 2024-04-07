@@ -1,5 +1,6 @@
 import { ChatControl } from "../enums/API";
 import { UserInput } from "../types/API";
+import { User } from "../types/Auth";
 import { ChatSession, GuidingQuestion, Message } from "../types/Messages";
 
 export interface ChatState {
@@ -43,12 +44,10 @@ export interface QuestionsActions {
 export interface QuestionsSliceState extends QuestionsState, QuestionsActions {}
 
 export interface UserState {
-  currentUser: string | null;
   currentChatSession: ChatSession | null;
 }
 
 export interface UserActions {
-  setCurrentUser: (userId: string | null) => void;
   setCurrentChatSession: (session: ChatSession | null) => void;
   setInitChatSession: (session: ChatSession | null) => void;
   setCurrentSessionTitle: (sessionTitle: string) => void;
@@ -70,8 +69,25 @@ export interface ApiActions {
 
 export interface ApiSliceState extends ApiState, ApiActions {}
 
+export interface AuthState {
+  user: User | null;
+  isAuthInitialized: boolean;
+  isAuthSubmitting: boolean;
+}
+
+export interface AuthActions {
+  setUser: (user: User | null) => void;
+  sendEmailLoginLink: (email: string) => Promise<void>;
+  signInWithEmailLink: (email: string, url: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
+  logout: () => Promise<void>;
+}
+
+export interface AuthSliceState extends AuthState, AuthActions {}
+
 export interface RootState
-  extends ChatSliceState,
+  extends AuthSliceState,
+    ChatSliceState,
     QuestionsSliceState,
     UserSliceState,
     ApiSliceState {}

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Form, FormControlProps } from "react-bootstrap";
 import { InputType } from "../../../enums/API";
-import useStore from "../../../hooks/useStore";
+import useStore from "../../../hooks/state/useStore";
 
 function ChatWordLimitControl({
   className,

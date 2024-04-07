@@ -17,7 +17,7 @@ const Placeholder: React.FC = () => {
 
   return (
     <div className="first-slide ff-roxborough"> {/* Reuse the first-slide class for consistent padding and text color */}
-      <h1 className="center-align">
+      <h1 className="text-center">
       <TypeAnimation
         className={
           "type-animation-text" +
