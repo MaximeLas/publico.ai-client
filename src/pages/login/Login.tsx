@@ -67,8 +67,8 @@ function Login() {
     <Fade appear in>
       <div className={styles.root}>
         <div className={styles.formContainer}>
-          <h1 className="text-center px-1">Welcome back!</h1>
-          <p className="text-center px-1">
+          <h1 className="text-center px-2">Welcome back!</h1>
+          <p className="text-center px-2">
             You're one step closer to writing your next grant.
           </p>
           {sentLoginLink ? (

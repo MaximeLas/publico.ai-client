@@ -2,16 +2,27 @@ import { Link, Outlet } from "react-router-dom";
 import { StoreContextProvider } from "../../context/Store";
 import Logo from "../../components/logo/Logo";
 import styles from "./MinimalLayout.module.scss";
+import Footer from "../../components/footer/Footer";
+import clsx from "clsx";
 
 function MinimalLayout() {
+  const className = clsx(
+    styles.root,
+    "border border-5 border-primary"
+  );
   return (
     <StoreContextProvider>
-      <div className="vh-100 vw-100 bg-light d-flex flex-column border border-5 border-primary">
-        <Link to="/" className="p-3">
-          <Logo />
-        </Link>
+      <div className={className}>
+        <div className="pt-3 ps-3 w-100">
+          <Link to="/">
+            <Logo />
+          </Link>
+        </div>
         <div className={styles.content}>
           <Outlet />
+        </div>
+        <div className="flex-shrink-0">
+          <Footer />
         </div>
       </div>
     </StoreContextProvider>
