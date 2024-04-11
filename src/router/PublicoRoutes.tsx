@@ -5,6 +5,7 @@ import Demo from "../pages/demo/Demo";
 import Bloomsbury from "../pages/demo/Bloomsbury";
 import Campbell from "../pages/demo/Campbell";
 import Dev from "../pages/demo/Dev";
+import SeedsOfHope from "../pages/demo/SeedsOfHope";
 import FullPage from "../components/full-page/FullPage";
 import Home from "../pages/home/Home";
 import HowItWorks from "../pages/how-it-works/HowItWorks";
@@ -32,6 +33,7 @@ const PublicoRoutes: React.FC = () => {
         <Route path="bloomsbury" element={<Bloomsbury />} />
         <Route path="campbell" element={<Campbell />} />
         <Route path="dev" element={<Dev />} />
+        <Route path="seeds-of-hope" element={<SeedsOfHope />} />
         <Route
           path="dashboard"
           element={<PrivateRoute component={Dashboard} />}
