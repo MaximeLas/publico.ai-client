@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import logo from "../../assets/logo/logo.png";
 import "./Header.css";
 import { Link, NavLink } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useState } from "react";
-import useCurrentUser from '../../hooks/state/useCurrentUser';
+import useCurrentUser from "../../hooks/state/useCurrentUser";
+import debounce from '../../utilities/debounce';
 
 // const ResponsiveNavbar: React.FC = () => {
 //   const [expanded, setExpanded] = useState(false);
@@ -244,16 +245,14 @@ const DesktopNavbarPub: React.FC = () => {
 const Header: React.FC = () => {
   const [shouldDisplayResponsiveNavbar, setShouldDisplayResponsiveNavbar] =
     useState(false);
-  const observer = useState(
-    new ResizeObserver((entries) => {
-      setShouldDisplayResponsiveNavbar(entries[0].contentRect.width < 980);
-    })
-  )[0];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const observer = new ResizeObserver(debounce((entries) => {
+      setShouldDisplayResponsiveNavbar(entries[0].contentRect.width < 980);
+    }, 100));
     observer.observe(document.body);
     return () => observer.disconnect();
-  }, [observer]);
+  }, []);
 
   return shouldDisplayResponsiveNavbar ? (
     <ResponsiveNavbarPub />
