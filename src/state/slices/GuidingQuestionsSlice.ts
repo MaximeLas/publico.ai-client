@@ -9,11 +9,14 @@ const createQuestionsSlice: StateCreator<
 > = (set, get) => ({
   isEditMode: false,
   questions: [],
-  currentQuestion: null,
+  editorState: null,
   selectedQuestionIndex: 0,
-  editedQuestions: [],
-  setEditedQuestions(editedQuestions) {
-    set({ editedQuestions });
+  didEditorChange: false,
+  setDidEditorChange: (didEditorChange) => {
+    set({ didEditorChange });
+  },
+  setEditorState(editorState) {
+    set({ editorState, didEditorChange: true });
   },
   setSelectedQuestionIndex(index) {
     set({ selectedQuestionIndex: index });
@@ -21,17 +24,27 @@ const createQuestionsSlice: StateCreator<
   setIsEditMode: (isEditMode) => {
     set({ isEditMode });
   },
-  setQuestionAnswer: (index, answer) => {
+  setEditorStateAnswer: (answer) => {
+    set((state) =>
+      !state.editorState
+        ? state
+        : { editorState: { ...state.editorState, answer }, didEditorChange: true }
+    );
+  },
+  applyEditorState: () => {
     set((state) => {
-      const newQuestions = [...state.questions];
-      const newQuestion = { ...newQuestions[index] };
-      newQuestion.answer = answer;
-      newQuestions[index] = newQuestion;
+      const editorState = state.editorState;
+      if (!editorState) return state;
+      const questions = [...state.questions];
+      const selectedQuestionIndex = questions.findIndex(
+        (q) => q.index === editorState.index
+      );
+      if (selectedQuestionIndex === -1) return state;
+      questions[selectedQuestionIndex] = editorState;
       return {
-        questions: newQuestions,
-        editedQuestions: state.editedQuestions.includes(index)
-          ? state.editedQuestions
-          : [...state.editedQuestions, index],
+        questions,
+        didEditorChange: false,
+        editorState: null,
       };
     });
   },

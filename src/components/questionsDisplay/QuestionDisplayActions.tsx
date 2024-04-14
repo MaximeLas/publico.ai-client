@@ -11,8 +11,8 @@ import Switch from "../../sharedComponents/switch/Switch";
 
 function QuestionDisplayActions() {
   const questionsLength = useStore((state) => state.questions.length);
+  const firstQuestionAnswer = useStore((state) => state.questions?.[0]?.answer);
   const isEditMode = useStore((state) => state.isEditMode);
-  const currentUser = useStore((state) => state.user);
   const [tooltipTarget, setTooltipTarget] = useState<HTMLElement | null>(null);
   const onEditModeChange = useOnEditModeChange();
   const fetchAndSaveSession = useFetchAndSaveSession();
@@ -20,10 +20,9 @@ function QuestionDisplayActions() {
   const onDownloadQuestionClick = useDownloadQuestions();
 
   const restartSession = useCallback(() => {
-    if (!currentUser) return;
     clearChatSession();
-    fetchAndSaveSession(currentUser.id);
-  }, [currentUser, clearChatSession, fetchAndSaveSession]);
+    fetchAndSaveSession();
+  }, [clearChatSession, fetchAndSaveSession]);
 
   const onRestartSessionClick = useDebounce(restartSession);
 
@@ -73,7 +72,7 @@ function QuestionDisplayActions() {
           View Mode
         </Form.Label>
         <Switch
-          disabled={!questionsLength}
+          disabled={!questionsLength || !firstQuestionAnswer}
           checked={isEditMode}
           className="mx-1"
           style={{ height: "60%" }}

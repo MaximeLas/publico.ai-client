@@ -8,6 +8,7 @@ const createUserSlice: StateCreator<RootState, [], [], UserSliceState> = (
   clearChatSession() {
     set({
       currentChatSession: null,
+      editorState: null,
       messages: [],
       questions: [],
       currentControls: [],

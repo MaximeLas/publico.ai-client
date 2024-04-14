@@ -9,6 +9,7 @@ export default interface ChatSession {
   createdAt: Timestamp;
   messages: MessageData[];
   implicitQuestions: ImplicitQuestion[];
+  editorState: ImplicitQuestion | null;
   uploadedFiles: string[];
   currentControls: ChatControl[];
 }

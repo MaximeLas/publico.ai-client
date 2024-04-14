@@ -61,9 +61,14 @@ function Chat({ className, ...rest }: ChatProps) {
     getLastUserChatSession(currentUser.id).then((lastSession) => {
       if (lastSession) {
         const s = ChatSessionDTO.toState(lastSession);
+        if (s.editorState && s.questions) {
+          s.questions = s.questions.map((q, i) =>
+            q.index === s.editorState?.index ? s.editorState : q
+          );
+        }
         setState(s);
       } else {
-        fetchAndSaveSession(currentUser.id);
+        fetchAndSaveSession();
       }
     });
   }, [currentUser, setState, fetchAndSaveSession, getLastUserChatSession]);

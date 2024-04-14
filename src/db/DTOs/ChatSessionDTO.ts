@@ -13,6 +13,7 @@ const ChatSessionDTO: IStateDTO<RootState, ChatSessionModel> = {
       questions,
       messages,
       currentControls,
+      editorState
     } = state;
     if (!user || !currentChatSession) return null;
     return {
@@ -24,6 +25,7 @@ const ChatSessionDTO: IStateDTO<RootState, ChatSessionModel> = {
       createdAt: Timestamp.fromDate(currentChatSession.createdAt),
       uploadedFiles: filesInput.map((file) => file.name),
       currentControls,
+      editorState
     };
   },
   toState(model) {
@@ -34,6 +36,7 @@ const ChatSessionDTO: IStateDTO<RootState, ChatSessionModel> = {
       messages,
       implicitQuestions,
       currentControls,
+      editorState,
     } = model;
     return {
       currentChatSession: {
@@ -42,15 +45,31 @@ const ChatSessionDTO: IStateDTO<RootState, ChatSessionModel> = {
         createdAt: createdAt.toDate(),
       },
       questions: implicitQuestions,
+      editorState,
       messages: messages.map(MessageDataDTO.fromModel),
       currentControls: currentControls,
     };
   },
   fromPartialState(state) {
-    const { questions, messages, ...rest } = state;
-    const result: Partial<ChatSessionModel> = { ...rest };
-    if (messages) result.messages = messages.map(MessageDataDTO.toModel);
-    if (questions) result.implicitQuestions = questions;
+    const {
+      questions,
+      messages,
+      currentChatSession,
+      filesInput,
+      currentControls,
+      editorState
+    } = state;
+    const result: Partial<ChatSessionModel> = {};
+    if (currentChatSession) {
+      result.id = currentChatSession.id;
+      result.title = currentChatSession.title;
+      result.createdAt = Timestamp.fromDate(currentChatSession.createdAt);
+    }
+    if (filesInput?.length) result.uploadedFiles = filesInput.map((file) => file.name);
+    if (currentControls?.length) result.currentControls = currentControls;
+    if (messages?.length) result.messages = messages.map(MessageDataDTO.toModel);
+    if (questions?.length) result.implicitQuestions = questions;
+    if (editorState) result.editorState = editorState;
     return result;
   },
 };

@@ -28,17 +28,19 @@ export interface ChatSliceState extends ChatState, ChatActions {}
 
 export interface QuestionsState {
   isEditMode: boolean;
+  didEditorChange: boolean;
   questions: GuidingQuestion[];
   selectedQuestionIndex: number;
-  currentQuestion: GuidingQuestion | null;
-  editedQuestions: number[];
+  editorState: GuidingQuestion | null;
 }
 
 export interface QuestionsActions {
   setIsEditMode: (isEditMode: boolean) => void;
+  setDidEditorChange: (didEditorChange: boolean) => void;
+  setEditorState: (editorState: GuidingQuestion | null) => void;
   setSelectedQuestionIndex: (index: number) => void;
-  setQuestionAnswer: (index: number, answer: string) => void;
-  setEditedQuestions: (editedQuestions: number[]) => void;
+  setEditorStateAnswer: (answer: string) => void;
+  applyEditorState: () => void;
 }
 
 export interface QuestionsSliceState extends QuestionsState, QuestionsActions {}

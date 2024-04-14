@@ -9,8 +9,7 @@ export default function useFetchAndSaveSession() {
   const { getState } = useStoreApi();
   const { createNewSession } = useDB();
   return useCallback(
-    async function fetchAndSaveSession(userId: string) {
-  
+    async function fetchAndSaveSession() {
       await fetchNewSession();
       const sessionModel = ChatSessionDTO.fromState(getState());
       if (sessionModel) {

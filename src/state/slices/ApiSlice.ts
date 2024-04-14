@@ -33,6 +33,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     }
     const resJson = await (response.json() as Promise<NewSessionResponse>);
     set((state) => ({
+      ...state,
       currentChatSession: {
         id: resJson.session_id,
         title: "Untitled Session",
@@ -56,6 +57,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
 
     // Add user message
     set((state) => ({
+      ...state,
       currentControls: [],
       userInput: null,
       isFetching: true,
@@ -139,16 +141,14 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
 
     set((state) => {
       const questions = [...state.questions];
-      let selectedQuestionIndex = state.selectedQuestionIndex;
-
+      let editorState = state.editorState;
       // Handle updated content
       const updatedContent = afterChatJson.updated_content;
       if (updatedContent) {
         // Update selected question index
-        selectedQuestionIndex = updatedContent.question_index;
-
-        if (questions.length > updatedContent.question_index) {
-          const question = { ...questions[updatedContent.question_index] };
+        const questionToUpdateIndex = questions.findIndex(q => q.index === updatedContent.question_index);
+        if (questionToUpdateIndex !== -1) {
+          const question = { ...questions[questionToUpdateIndex] };
           if (updatedContent.question)
             question.questionTitle = updatedContent.question;
           if (updatedContent.answer) {
@@ -157,6 +157,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
           if (updatedContent.word_limit)
             question.wordLimit = updatedContent.word_limit;
           questions[updatedContent.question_index] = question;
+          editorState = question;
         } else {
           questions.push({
             questionTitle: updatedContent.question!,
@@ -172,10 +173,11 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
         }
       }
       return {
+        ...state,
         isFetching: false,
         currentControls: Array.from(afterChatJson.components),
         questions,
-        selectedQuestionIndex,
+        editorState,
         messages: [
           ...state.messages,
           {
@@ -188,33 +190,28 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     });
   },
   async fetchEditQuestions() {
-    const { isFetching, currentChatSession, questions, editedQuestions } =
-      get();
-    if (isFetching || !editedQuestions.length) return;
+    const { isFetching, currentChatSession, editorState } = get();
+    if (isFetching || !editorState) return;
     const sessionId = currentChatSession?.id;
     if (!sessionId) return;
     set({ isFetching: true });
     const url = new URL(API_HOSTNAME);
     url.pathname = ApiRoute.EditAnswer;
-    for (const questionIndex of editedQuestions) {
-      const editedQuestion = questions.find((q) => q.index === questionIndex);
-      if (!editedQuestion) continue;
-      const body: EditAnswerRequest = {
-        session_id: sessionId,
-        question_index: questionIndex,
-        answer: editedQuestion.answer,
-      };
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!response.ok) {
-        set({ isFetching: false, editedQuestions: [] });
-        throw response.statusText;
-      }
+    const body: EditAnswerRequest = {
+      session_id: sessionId,
+      question_index: editorState.index,
+      answer: editorState.answer,
+    };
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!response.ok) {
+      set({ isFetching: false });
+      throw response.statusText;
     }
-    set({ isFetching: false, editedQuestions: [] });
+    set({ isFetching: false });
   },
 });
 

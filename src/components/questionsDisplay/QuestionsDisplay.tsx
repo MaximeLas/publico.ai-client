@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CardProps,
   Col,
@@ -15,6 +15,11 @@ import { GuidingQuestion } from "../../types/Messages";
 import TextEditor from "../textEditor/TextEditor";
 import QuestionDisplayActions from "./QuestionDisplayActions";
 import styles from "./QuestionsDisplay.module.scss";
+import useOnQuestionAnswerChanged from "../../hooks/FormHandlers/useOnQuestionAnswerChanged";
+import useDebounceUpdateSession from "../../hooks/helpers/useDebounceUpdateSession";
+import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO";
+import QuestionTabHeader from "./QuestionTabHeader";
+import QuestionTabPane from "./QuestionTabPane";
 
 export interface QuestionsDisplayProps extends CardProps {}
 
@@ -22,84 +27,83 @@ function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
   const clsn = clsx(styles.root, className);
   const questions = useStore((state) => state.questions);
   const isEditMode = useStore((state) => state.isEditMode);
-  const setQuestionAnswer = useStore((state) => state.setQuestionAnswer);
+  const editorState = useStore((state) => state.editorState);
+  const setEditorState = useStore((state) => state.setEditorState);
+  const [questionTooltipTarget, setQuestionTooltipTarget] =
+    useState<HTMLElement | null>(null);
+  const sessionId = useStore((state) => state.currentChatSession?.id);
+  const updateSession = useDebounceUpdateSession(1000);
   const selectedQuestionIndex = useStore(
     (state) => state.selectedQuestionIndex
   );
   const setSelectedQuestionIndex = useStore(
     (state) => state.setSelectedQuestionIndex
   );
-  const [questionTooltipTarget, setQuestionTooltipTarget] =
-    useState<HTMLElement | null>(null);
-  const q = questions.length
-    ? questions
-    : ([
-        {
-          questionTitle: "No questions yet",
-          answer: "Start typing in the chat to create some",
-        },
-      ] as GuidingQuestion[]);
+
+  useEffect(() => {
+    if (!sessionId) return;
+    if (questions.length) {
+      updateSession(sessionId, ChatSessionDTO.fromPartialState({ questions }));
+    }
+  }, [sessionId, questions, updateSession]);
+
   return (
     <div className={clsn} {...rest}>
       <QuestionDisplayActions />
       <Tab.Container
         defaultActiveKey={0}
         onSelect={(index) =>
-          setSelectedQuestionIndex(index ? parseInt(index) : -1)
+          setSelectedQuestionIndex(index == null ? 0 : parseInt(index))
         }
         activeKey={selectedQuestionIndex}
       >
         <div className="d-flex flex-column flex-grow-1">
           <Row as={Nav} className="justify-content-start gx-0" variant="tabs">
-            {q.map((_, i) => (
-              <Col
-                className="px-0"
-                data-tooltip={q[i].questionTitle}
-                onPointerEnter={(e) =>
-                  setQuestionTooltipTarget(e.currentTarget)
-                }
-                onPointerLeave={() => setQuestionTooltipTarget(null)}
-                key={i}
-                as={Nav.Item}
-                xs={5}
-                md={4}
-                lg={3}
-              >
-                <Nav.Link
-                  disabled={isEditMode && i !== selectedQuestionIndex}
-                  className="text-center"
-                  eventKey={i}
-                >
-                  Question {i + 1}
-                </Nav.Link>
-              </Col>
-            ))}
+            {!questions.length ? (
+              <QuestionTabHeader
+                key="NoQuestionsHeader"
+                eventKey={0}
+                text={"Question 1"}
+              />
+            ) : (
+              questions.map(({ questionTitle, index }, i) => (
+                <QuestionTabHeader
+                  data-tooltip={questionTitle}
+                  onPointerEnter={(e) =>
+                    setQuestionTooltipTarget(e.currentTarget)
+                  }
+                  eventKey={index}
+                  key={i}
+                  onPointerLeave={() => setQuestionTooltipTarget(null)}
+                  disabled={isEditMode && i !== editorState?.index}
+                  text={`Question ${i + 1}`}
+                />
+              ))
+            )}
           </Row>
           <Row className="flex-grow-1 gx-0">
             <Tab.Content className="border border-top-0 bg-light-subtle">
-              {q.map(({ answer, questionTitle, wordLimit }, i) => (
-                <Tab.Pane eventKey={i} className="border-0 p-4" key={i}>
-                  <h5>
-                    <strong>{questionTitle}</strong>
-                    {wordLimit && (
-                      <span className="fs-6"> ({wordLimit} words)</span>
-                    )}
-                  </h5>
-                  {isEditMode ? (
-                    <TextEditor
-                      onMarkdownChange={(value) => setQuestionAnswer(i, value)}
-                      content={answer}
+              {!questions.length ? (
+                <QuestionTabPane
+                  key="NoQuestionsPane"
+                  eventKey={0}
+                  answer="Start typing in the chat to create some"
+                  wordLimit={0}
+                  questionTitle="No questions yet"
+                />
+              ) : (
+                questions.map(
+                  ({ answer, questionTitle, wordLimit, index }, i) => (
+                    <QuestionTabPane
+                      key={i}
+                      eventKey={index}
+                      answer={answer}
+                      wordLimit={wordLimit}
+                      questionTitle={questionTitle}
                     />
-                  ) : (
-                    <Markdown className="fs-6">{answer}</Markdown>
-                  )}
-                  {!!wordLimit && !!answer.length && (
-                    <p className="fs-6 fst-italic">
-                      ({answer.split(" ").length} words)
-                    </p>
-                  )}
-                </Tab.Pane>
-              ))}
+                  )
+                )
+              )}
             </Tab.Content>
           </Row>
         </div>
