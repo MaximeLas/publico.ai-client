@@ -9,6 +9,7 @@ export enum InputType {
   Chatbot = 1,
   Button,
   NumberInput,
+  Files
 }
 
 export enum ChatControl {

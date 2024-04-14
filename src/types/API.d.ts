@@ -2,7 +2,7 @@ import { ChatControl, InputType } from "../enums/API";
 
 export interface UserInputBase {
   input_type: InputType;
-  input_value: string | ChatControl | number | null;
+  input_value: string | ChatControl | number | string[] | null;
 }
 
 export interface UserInputButton extends UserInputBase {
@@ -20,7 +20,12 @@ export interface UserInputNumber extends UserInputBase {
   input_value: number | null;
 }
 
-export type UserInput = UserInputButton | UserInputText | UserInputNumber;
+export interface UserInputFiles extends UserInputBase {
+  input_type: InputType.Files;
+  input_value: string[];
+}
+
+export type UserInput = UserInputButton | UserInputText | UserInputNumber | UserInputFiles;
 
 export interface ChatRequest {
   session_id: string;

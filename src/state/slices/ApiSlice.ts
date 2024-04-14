@@ -72,11 +72,11 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
           sender: MessageSender.User,
           content:
             userInput.input_type === InputType.Button
-              ? userInput.input_value === ChatControl.FILES
+              ? ChatControlValues[userInput.input_value!].label
+              : userInput.input_type === InputType.Files
                 ? "Successfully uploaded: " +
                   state.filesInput.map((file) => file.name).join(", ")
-                : ChatControlValues[userInput.input_value!].label
-              : userInput.input_value?.toString() ?? "",
+                : userInput.input_value?.toString() ?? "",
           createdAt: new Date(),
         },
       ],

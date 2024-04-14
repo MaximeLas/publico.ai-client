@@ -38,8 +38,8 @@ function ChatFileDropzone({
     },
     onDrop: (acceptedFiles) => {
       setUserInput({
-        input_type: InputType.Button,
-        input_value: ChatControl.FILES,
+        input_type: InputType.Files,
+        input_value: acceptedFiles.map((file) => file.name),
       });
       addFiles(...acceptedFiles);
     },
