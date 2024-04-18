@@ -28,7 +28,6 @@ function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
   const questions = useStore((state) => state.questions);
   const isEditMode = useStore((state) => state.isEditMode);
   const editorState = useStore((state) => state.editorState);
-  const setEditorState = useStore((state) => state.setEditorState);
   const [questionTooltipTarget, setQuestionTooltipTarget] =
     useState<HTMLElement | null>(null);
   const sessionId = useStore((state) => state.currentChatSession?.id);

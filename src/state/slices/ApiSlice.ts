@@ -153,6 +153,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     set((state) => {
       const questions = [...state.questions];
       let editorState = state.editorState;
+      let selectedQuestionIndex = state.selectedQuestionIndex;
       // Handle updated content
       const updatedContent = afterChatJson.updated_content;
       if (updatedContent) {
@@ -171,24 +172,22 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
             question.wordLimit = updatedContent.word_limit;
           questions[updatedContent.question_index] = question;
           editorState = question;
+          selectedQuestionIndex = question.index;
         } else {
           questions.push({
             questionTitle: updatedContent.question!,
-            answer: updatedContent.answer
-              ? updatedContent
-                  .answer!.split("\n")
-                  .map((t) => `*${t}*`)
-                  .join("")
-              : "",
+            answer: updatedContent.answer ?? "",
             wordLimit: updatedContent.word_limit!,
             index: updatedContent.question_index!,
           });
+          selectedQuestionIndex = updatedContent.question_index!;
         }
       }
       return {
         ...state,
         isFetching: false,
         currentControls: Array.from(afterChatJson.components),
+        selectedQuestionIndex,
         questions,
         editorState,
         messages: [
