@@ -7,11 +7,16 @@ const createUserSlice: StateCreator<RootState, [], [], UserSliceState> = (
   currentChatSession: null,
   clearChatSession() {
     set({
+      initialMessage: "",
+      userInput: null,
+      isFetching: false,
+      isEditMode: false,
       currentChatSession: null,
       editorState: null,
       messages: [],
       questions: [],
       currentControls: [],
+      filesInput: [],
     });
   },
   setCurrentChatSession(session) {
