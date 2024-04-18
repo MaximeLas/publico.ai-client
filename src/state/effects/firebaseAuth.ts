@@ -5,13 +5,10 @@ import { RootState } from "../types";
 
 export default function firebaseAuthEffects(store: StoreApi<RootState>) {
   return onAuthStateChanged(auth, (user) => {
-    store.setState(
-      user?.email
-        ? {
-            user: { name: user.displayName, email: user.email, id: user.uid },
-            isAuthInitialized: true,
+    store.setState( {
+            user,
+            isAuthInitialized: !!user,
           }
-        : { user: null, isAuthInitialized: true }
     );
   });
 }

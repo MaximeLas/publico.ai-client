@@ -18,7 +18,7 @@ const ChatSessionDTO: IStateDTO<RootState, ChatSessionModel> = {
     if (!user || !currentChatSession) return null;
     return {
       id: currentChatSession.id,
-      userId: user.id,
+      userId: user.uid,
       title: currentChatSession.title,
       messages: messages.map(MessageDataDTO.toModel),
       implicitQuestions: questions,

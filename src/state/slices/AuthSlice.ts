@@ -17,13 +17,7 @@ returnUrl.pathname = "login";
 const createAuthSlice: StateCreator<RootState, [], [], AuthSliceState> = (
   set
 ) => ({
-  user: auth.currentUser?.email
-    ? {
-        id: auth.currentUser.uid,
-        name: auth.currentUser.displayName,
-        email: auth.currentUser.email,
-      }
-    : null,
+  user: auth?.currentUser ?? null,
   isAuthInitialized: false,
   isAuthSubmitting: false,
   setUser(user) {

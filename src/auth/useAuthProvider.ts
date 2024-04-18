@@ -12,7 +12,7 @@ export type UseAuthProvider = {
 }
 
 const useAuthProvider = (): UseAuthProvider => {
-  const user = useStore((state) => state.user?.id ?? null);
+  const user = useStore((state) => state.user?.uid ?? null);
   const login = async (data: LoginInfo) => {
     sendSignInLinkToEmail(auth, data.email, 
     { 

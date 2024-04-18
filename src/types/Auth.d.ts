@@ -1,3 +1,4 @@
+import { User as FUser } from 'firebase/auth';
 
 export interface SignupInfo {
   email: string;
@@ -9,8 +10,5 @@ export interface LoginInfo {
   email: string;
 }
 
-export interface User {
-  id: string;
-  email: string;
-  name?: string | null;
+export interface User extends FUser {
 }

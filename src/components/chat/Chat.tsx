@@ -58,7 +58,7 @@ function Chat({ className, ...rest }: ChatProps) {
 
   useEffect(() => {
     if (!currentUser) return;
-    getLastUserChatSession(currentUser.id).then((lastSession) => {
+    getLastUserChatSession(currentUser.uid).then((lastSession) => {
       if (lastSession) {
         const s = ChatSessionDTO.toState(lastSession);
         if (s.editorState && s.questions) {
