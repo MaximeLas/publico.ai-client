@@ -10,6 +10,8 @@ import {
   NewSessionResponse,
 } from "../../types/API";
 import { ApiSliceState, RootState } from "../types";
+import { BotMessage } from "../../types/Messages";
+import { fetchAuthorized } from "../../utilities/api";
 
 const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
   set,
@@ -20,14 +22,18 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     set({ isFetching });
   },
   async fetchNewSession() {
-    const { isFetching, currentChatSession } = get();
-    if (isFetching || currentChatSession) return;
+    const { isFetching, currentChatSession, user } = get();
+    if (!user || isFetching || currentChatSession) return;
     set({ isFetching: true });
     const url = new URL(API_HOSTNAME);
     url.pathname = ApiRoute.NewSession;
-    const response = await fetch(url, {
-      method: "POST",
-    });
+    const response = await fetchAuthorized(
+      url,
+      {
+        method: "POST",
+      },
+      user
+    );
     if (!response.ok) {
       throw response.statusText;
     }
@@ -47,13 +53,14 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
           content: [resJson.initial_message],
           createdAt: new Date(),
           sender: MessageSender.Bot,
-        },
+        } as BotMessage,
       ],
     }));
   },
   async fetchChat() {
-    const { isFetching, currentChatSession, userInput } = get();
-    if (isFetching || !currentChatSession || !userInput?.input_value) return;
+    const { isFetching, currentChatSession, userInput, user } = get();
+    if (!user || isFetching || !currentChatSession || !userInput?.input_value)
+      return;
 
     // Add user message
     set((state) => ({
@@ -74,9 +81,9 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
             userInput.input_type === InputType.Button
               ? ChatControlValues[userInput.input_value!].label
               : userInput.input_type === InputType.Files
-                ? "Successfully uploaded: " +
-                  state.filesInput.map((file) => file.name).join(", ")
-                : userInput.input_value?.toString() ?? "",
+              ? "Successfully uploaded: " +
+                state.filesInput.map((file) => file.name).join(", ")
+              : userInput.input_value?.toString() ?? "",
           createdAt: new Date(),
         },
       ],
@@ -90,11 +97,15 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     url.pathname = ApiRoute.Chat;
 
     // Fetch chat route stream
-    const response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await fetchAuthorized(
+      url,
+      {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: { "Content-Type": "application/json" },
+      },
+      user
+    );
     if (!response.ok) throw response.statusText;
     if (!response.body) {
       throw new Error("Response body is empty");
@@ -129,11 +140,11 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
 
     // Fetch after chat route
     url.pathname = ApiRoute.AfterChat;
-    const afterChatResponse = await fetch(url, {
+    const afterChatResponse = await fetchAuthorized(url, {
       method: "POST",
       body: JSON.stringify({ session_id: currentChatSession.id }),
       headers: { "Content-Type": "application/json" },
-    });
+    }, user);
     if (!afterChatResponse.ok) {
       throw afterChatResponse.statusText;
     }
@@ -146,7 +157,9 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
       const updatedContent = afterChatJson.updated_content;
       if (updatedContent) {
         // Update selected question index
-        const questionToUpdateIndex = questions.findIndex(q => q.index === updatedContent.question_index);
+        const questionToUpdateIndex = questions.findIndex(
+          (q) => q.index === updatedContent.question_index
+        );
         if (questionToUpdateIndex !== -1) {
           const question = { ...questions[questionToUpdateIndex] };
           if (updatedContent.question)
@@ -190,8 +203,8 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     });
   },
   async fetchEditQuestions() {
-    const { isFetching, currentChatSession, editorState } = get();
-    if (isFetching || !editorState) return;
+    const { isFetching, currentChatSession, editorState, user } = get();
+    if (!user || isFetching || !editorState) return;
     const sessionId = currentChatSession?.id;
     if (!sessionId) return;
     set({ isFetching: true });
@@ -202,11 +215,11 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
       question_index: editorState.index,
       answer: editorState.answer,
     };
-    const response = await fetch(url, {
+    const response = await fetchAuthorized(url, {
       method: "POST",
       body: JSON.stringify(body),
       headers: { "Content-Type": "application/json" },
-    });
+    }, user);
     if (!response.ok) {
       set({ isFetching: false });
       throw response.statusText;
