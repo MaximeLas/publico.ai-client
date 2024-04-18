@@ -4,7 +4,7 @@ import {
   UploadMetadata,
   uploadBytesResumable,
 } from "firebase/storage";
-import useAuth from "../auth/useAuth";
+import useAuth from "./state/useAuth";
 import { storage } from "../firebase";
 
 export default function useUserDocumentStorage() {
