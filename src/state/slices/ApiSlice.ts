@@ -69,8 +69,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
       userInput: null,
       isFetching: true,
       filesInput:
-        userInput.input_type === InputType.Button &&
-        userInput.input_value === ChatControl.FILES
+        userInput.input_type === InputType.Files
           ? []
           : state.filesInput,
       messages: [
