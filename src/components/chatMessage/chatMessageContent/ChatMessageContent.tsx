@@ -1,4 +1,5 @@
 import { Fade } from "react-bootstrap";
+import styles from "./ChatMessageContent.module.css";
 
 function ChatMessageContent({
   content,
@@ -8,7 +9,7 @@ function ChatMessageContent({
 }) {
   return (
     <Fade appear in>
-      <p className="m-0">
+      <p className={styles.text}>
         {content}
       </p>
     </Fade>
