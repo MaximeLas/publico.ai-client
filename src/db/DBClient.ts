@@ -20,7 +20,7 @@ import { firestore } from "../firebase";
 import { Question } from "./Abstractions";
 import MessageData from "./Models/Chat/MessageData";
 
-const CHAT_SESSIONS_COLLECTION = "chat_sessions";
+const CHAT_SESSIONS_COLLECTION = "client_chat_sessions";
 
 function getSessionDocRef(sessionId: string) {
   return doc(
