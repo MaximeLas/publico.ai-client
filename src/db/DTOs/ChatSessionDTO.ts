@@ -21,7 +21,7 @@ const ChatSessionDTO: IStateDTO<RootState, ChatSessionModel> = {
       userId: user.uid,
       title: currentChatSession.title,
       messages: messages.map(MessageDataDTO.toModel),
-      implicitQuestions: questions,
+      questions: questions,
       createdAt: Timestamp.fromDate(currentChatSession.createdAt),
       uploadedFiles: filesInput.map((file) => file.name),
       currentControls,
@@ -34,7 +34,7 @@ const ChatSessionDTO: IStateDTO<RootState, ChatSessionModel> = {
       title,
       createdAt,
       messages,
-      implicitQuestions,
+      questions,
       currentControls,
       editorState,
     } = model;
@@ -44,7 +44,7 @@ const ChatSessionDTO: IStateDTO<RootState, ChatSessionModel> = {
         title,
         createdAt: createdAt.toDate(),
       },
-      questions: implicitQuestions,
+      questions,
       editorState,
       messages: messages.map(MessageDataDTO.fromModel),
       currentControls: currentControls,
@@ -68,7 +68,7 @@ const ChatSessionDTO: IStateDTO<RootState, ChatSessionModel> = {
     if (filesInput?.length) result.uploadedFiles = filesInput.map((file) => file.name);
     if (currentControls?.length) result.currentControls = currentControls;
     if (messages?.length) result.messages = messages.map(MessageDataDTO.toModel);
-    if (questions?.length) result.implicitQuestions = questions;
+    if (questions?.length) result.questions = questions;
     if (editorState) result.editorState = editorState;
     return result;
   },

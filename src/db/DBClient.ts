@@ -17,7 +17,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { firestore } from "../firebase";
-import { ImplicitQuestion } from "./Abstractions";
+import { Question } from "./Abstractions";
 import MessageData from "./Models/Chat/MessageData";
 
 const CHAT_SESSIONS_COLLECTION = "chat_sessions";
@@ -97,7 +97,7 @@ const DBClient: IDBClient = {
     await updateDoc(docRef, {
       messages: arrayUnion(...session.messages),
       currentControls: session.currentControls,
-      implicitQuestions: arrayUnion(...session.implicitQuestions),
+      questions: arrayUnion(...session.questions),
     });
   },
   async updateSessionMessages(sessionId: string, messages: MessageData[]) {
@@ -106,14 +106,14 @@ const DBClient: IDBClient = {
       messages: arrayUnion(...messages),
     });
   },
-  async updateSessionImplicitQuestions(
+  async updateSessionQuestions(
     sessionId: string,
-    implicitQuestions: ImplicitQuestion[]
+    questions: Question[]
   ) {
     if (!sessionId) throw new Error("Session ID is required");
     const docRef = getSessionDocRef(sessionId);
     await updateDoc(docRef, {
-      implicitQuestions: arrayUnion(...implicitQuestions),
+      questions: arrayUnion(...questions),
     });
   },
   async updateSession(
@@ -125,19 +125,19 @@ const DBClient: IDBClient = {
     if (session.messages) {
       merged.messages = arrayUnion(...session.messages);
     }
-    if (session.implicitQuestions) {
-      const questions = (await getDoc(docRef)).data()?.implicitQuestions;
+    if (session.questions) {
+      const questions = (await getDoc(docRef)).data()?.questions;
       if(questions){
-        merged.implicitQuestions = [];
-        for(const question of session.implicitQuestions){
-          const existingIndex = questions.findIndex((q: ImplicitQuestion) => q.index === question.index);
+        merged.questions = [];
+        for(const question of session.questions){
+          const existingIndex = questions.findIndex((q: Question) => q.index === question.index);
           if(existingIndex !== -1){
             questions[existingIndex] = question;
           } else {
             questions.push(question);
           }
         }
-        merged.implicitQuestions = questions;
+        merged.questions = questions;
       }
     }
     await updateDoc(docRef, merged);

@@ -24,14 +24,14 @@ export interface UserMessage extends MessageBase {
 
 export type Message = BotMessage | UserMessage;
 
-export interface GuidingQuestion {
+export interface Question {
   questionTitle: string;
   answer: string;
   wordLimit: number;
   index: number;
 }
 
-export interface QuestionRegenerateResponse extends Partial<GuidingQuestion> {
+export interface QuestionRegenerateResponse extends Partial<Question> {
   index: number;
 }
 

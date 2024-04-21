@@ -1,7 +1,7 @@
 import { ChatControl } from "../enums/API";
 import { UserInput } from "../types/API";
 import { User } from "../types/Auth";
-import { ChatSession, GuidingQuestion, Message } from "../types/Messages";
+import { ChatSession, Question, Message } from "../types/Messages";
 
 export interface ChatState {
   messages: Message[];
@@ -29,15 +29,15 @@ export interface ChatSliceState extends ChatState, ChatActions {}
 export interface QuestionsState {
   isEditMode: boolean;
   didEditorChange: boolean;
-  questions: GuidingQuestion[];
+  questions: Question[];
   selectedQuestionIndex: number;
-  editorState: GuidingQuestion | null;
+  editorState: Question | null;
 }
 
 export interface QuestionsActions {
   setIsEditMode: (isEditMode: boolean) => void;
   setDidEditorChange: (didEditorChange: boolean) => void;
-  setEditorState: (editorState: GuidingQuestion | null) => void;
+  setEditorState: (editorState: Question | null) => void;
   setSelectedQuestionIndex: (index: number) => void;
   setEditorStateAnswer: (answer: string) => void;
   applyEditorState: () => void;

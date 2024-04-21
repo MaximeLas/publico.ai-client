@@ -14,5 +14,5 @@ export default interface IDBClient {
   updateSession(sessionId: string, session: Partial<ChatSession>): Promise<void>;
   updateSessionChatData(session: ChatSession): Promise<void>;
   updateSessionMessages(sessionId: string, messages: ChatSession["messages"]): Promise<void>;
-  updateSessionImplicitQuestions(sessionId: string, implicitQuestions: ChatSession["implicitQuestions"]): Promise<void>;
+  updateSessionQuestions(sessionId: string, questions: ChatSession["questions"]): Promise<void>;
 }

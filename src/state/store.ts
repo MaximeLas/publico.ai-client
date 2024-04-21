@@ -2,7 +2,7 @@ import { createStore } from "zustand/vanilla";
 import createApiSlice from './slices/ApiSlice';
 import createAuthSlice from './slices/AuthSlice';
 import createChatSlice from "./slices/ChatSlice";
-import createQuestionsSlice from "./slices/GuidingQuestionsSlice";
+import createQuestionsSlice from "./slices/QuestionsSlice";
 import createUserSlice from "./slices/UserSlice";
 import { RootState } from "./types";
 // import { persist } from "zustand/middleware";

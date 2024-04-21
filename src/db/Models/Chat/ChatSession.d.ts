@@ -1,5 +1,5 @@
 import { ChatControl } from '../../../enums/API';
-import { Timestamp, ImplicitQuestion } from "../../Abstractions";
+import { Timestamp, Question } from "../../Abstractions";
 import MessageData from "./MessageData";
 
 export default interface ChatSession {
@@ -8,8 +8,8 @@ export default interface ChatSession {
   title: string;
   createdAt: Timestamp;
   messages: MessageData[];
-  implicitQuestions: ImplicitQuestion[];
-  editorState: ImplicitQuestion | null;
+  questions: Question[];
+  editorState: Question | null;
   uploadedFiles: string[];
   currentControls: ChatControl[];
 }
