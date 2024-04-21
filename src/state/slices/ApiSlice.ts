@@ -1,7 +1,7 @@
 import { StateCreator } from "zustand";
 import { API_HOSTNAME } from "../../constants/API";
 import ChatControlValues from "../../constants/ChatControlValues";
-import { ApiRoute, ChatControl, InputType } from "../../enums/API";
+import { ApiRoute, InputType } from "../../enums/API";
 import { MessageSender } from "../../enums/Messages";
 import {
   AfterChatResponse,

@@ -1,27 +1,21 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  CardProps,
-  Col,
   Nav,
   Overlay,
   Row,
   Tab,
   Tooltip,
 } from "react-bootstrap";
-import Markdown from "react-markdown";
 import useStore from "../../hooks/state/useStore";
-import { GuidingQuestion } from "../../types/Messages";
-import TextEditor from "../textEditor/TextEditor";
 import QuestionDisplayActions from "./QuestionDisplayActions";
 import styles from "./QuestionsDisplay.module.scss";
-import useOnQuestionAnswerChanged from "../../hooks/FormHandlers/useOnQuestionAnswerChanged";
 import useDebounceUpdateSession from "../../hooks/helpers/useDebounceUpdateSession";
 import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO";
 import QuestionTabHeader from "./QuestionTabHeader";
 import QuestionTabPane from "./QuestionTabPane";
 
-export interface QuestionsDisplayProps extends CardProps {}
+export interface QuestionsDisplayProps extends React.HTMLProps<HTMLDivElement> {}
 
 function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
   const clsn = clsx(styles.root, className);
