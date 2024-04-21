@@ -149,7 +149,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     }
     const afterChatJson = (await afterChatResponse.json()) as AfterChatResponse;
 
-    set((state) => {
+    set((state): RootState => {
       const questions = [...state.questions];
       let editorState = state.editorState;
       let selectedQuestionIndex = state.selectedQuestionIndex;
