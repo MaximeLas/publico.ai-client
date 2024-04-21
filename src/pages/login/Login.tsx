@@ -2,7 +2,6 @@ import { isSignInWithEmailLink } from "firebase/auth";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { Button, Fade, Form } from "react-bootstrap";
-import Logo from "../../assets/logo/logo.png";
 import ProgressIllustration from "../../assets/login/progress_illustration.svg";
 import SignUpIllustration from "../../assets/login/sign_up_illustration.svg";
 import FullPageLoader from "../../components/fullPageLoader/FullPageLoader";
@@ -17,6 +16,7 @@ import { loginSchema } from "./schema";
 
 function Login() {
   const isAuthSubmitting = useStore((state) => state.isAuthSubmitting);
+  const isAuthInitialized = useStore((state) => state.isAuthInitialized);
   const [sentLoginLink, setSentLoginLink] = useState(false);
   const isLoading = useLoginRedirect();
   const [isEmailVerifyPage] = useState(
@@ -28,7 +28,7 @@ function Login() {
   const onSubmit = async (info: LoginInfo) => {
     if (!info.email) return;
     await onLoginSubmit(info);
-    if (isEmailVerifyPage) {
+    if (!isEmailVerifyPage) {
       setSentLoginLink(true);
     }
   };
@@ -49,7 +49,7 @@ function Login() {
     validationSchema: loginSchema,
   });
 
-  if (isLoading) {
+  if (isLoading || !isAuthInitialized) {
     return <FullPageLoader />;
   }
 
