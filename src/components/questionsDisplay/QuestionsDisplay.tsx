@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Nav,
   Overlay,
@@ -10,8 +10,6 @@ import {
 import useStore from "../../hooks/state/useStore";
 import QuestionDisplayActions from "./QuestionDisplayActions";
 import styles from "./QuestionsDisplay.module.scss";
-import useDebounceUpdateSession from "../../hooks/helpers/useDebounceUpdateSession";
-import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO";
 import QuestionTabHeader from "./QuestionTabHeader";
 import QuestionTabPane from "./QuestionTabPane";
 
@@ -24,21 +22,12 @@ function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
   const editorState = useStore((state) => state.editorState);
   const [questionTooltipTarget, setQuestionTooltipTarget] =
     useState<HTMLElement | null>(null);
-  const sessionId = useStore((state) => state.currentChatSession?.id);
-  const updateSession = useDebounceUpdateSession(1000);
   const selectedQuestionIndex = useStore(
     (state) => state.selectedQuestionIndex
   );
   const setSelectedQuestionIndex = useStore(
     (state) => state.setSelectedQuestionIndex
   );
-
-  useEffect(() => {
-    if (!sessionId) return;
-    if (questions.length) {
-      updateSession(sessionId, ChatSessionDTO.fromPartialState({ questions }));
-    }
-  }, [sessionId, questions, updateSession]);
 
   return (
     <div className={clsn} {...rest}>

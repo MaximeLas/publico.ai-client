@@ -13,7 +13,6 @@ import useStoreApi from "../../hooks/state/useStoreApi";
 import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO";
 import useDB from "../../hooks/useDB";
 import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
-import useDebounce from "../../hooks/helpers/useDebounce";
 
 const buttonChatControls = [
   ChatControl.YES,
@@ -51,10 +50,9 @@ function Chat({ className, ...rest }: ChatProps) {
   const setUserInput = useStore((state) => state.setUserInput);
   const fetchChat = useStore((state) => state.fetchChat);
   const currentUser = useStore((state) => state.user);
-  const { setState, getState } = useStoreApi();
-  const { getLastUserChatSession, updateSession } = useDB();
+  const { setState } = useStoreApi();
+  const { getLastUserChatSession } = useDB();
   const fetchAndSaveSession = useFetchAndSaveSession();
-  const debounceUpdateSession = useDebounce(updateSession, 1000);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -76,24 +74,6 @@ function Chat({ className, ...rest }: ChatProps) {
   useEffect(() => {
     listRef.current?.scrollTo(0, listRef.current?.scrollHeight || 0);
   }, [messages]);
-
-  useEffect(() => {
-    const { currentChatSession, messages } = getState();
-    if (!currentChatSession?.id || !currentControls.length) return;
-    debounceUpdateSession(
-      currentChatSession.id,
-      ChatSessionDTO.fromPartialState({ currentControls, messages })
-    );
-  }, [currentControls, debounceUpdateSession, getState]);
-
-  useEffect(() => {
-    const { currentChatSession, currentControls } = getState();
-    if (!currentChatSession?.id || !messages.length) return;
-    debounceUpdateSession(
-      currentChatSession.id,
-      ChatSessionDTO.fromPartialState({ messages, currentControls })
-    );
-  }, [messages, debounceUpdateSession, getState]);
 
   return (
     <Form
