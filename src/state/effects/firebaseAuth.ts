@@ -7,7 +7,7 @@ export default function firebaseAuthEffects(store: StoreApi<RootState>) {
   return onAuthStateChanged(auth, (user) => {
     store.setState( {
             user,
-            isAuthInitialized: !!user,
+            isAuthInitialized: true,
           }
     );
   });
