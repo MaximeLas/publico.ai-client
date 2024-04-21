@@ -11,7 +11,6 @@ import Login from "../pages/login/Login";
 import Logout from "../pages/logout/Logout";
 import NotFound from "../pages/not-found/NotFound";
 import PrivateRoute from "./PrivateRoute";
-import TryIt from "../pages/try-it/TryIt";
 import Placeholder from "../pages/home/Placeholder";
 import MainLayout from "../layout/main/MainLayout";
 import MinimalLayout from "../layout/minimal/MinimalLayout";
@@ -23,12 +22,9 @@ const PublicoRoutes: React.FC = () => {
         <Route path="login" element={<Login />} />
       </Route>
       <Route path="/*" element={<MainLayout />}>
-        {/* Important: Every non-Header non-Footer class must get 4rem padding-bottom added.
-          For details, go to Footer.css .my-footer */}
         <Route index element={<Placeholder />} />
         <Route path="schedule-demo" element={<ScheduleDemo />} />
         <Route path="how-it-works" element={<HowItWorks />} />
-        <Route path="try-it" element={<TryIt />} />
         <Route path="contact" element={<Contact />} />
         <Route path="bloomsbury" element={<Bloomsbury />} />
         <Route path="rachel" element={<Rachel />} />

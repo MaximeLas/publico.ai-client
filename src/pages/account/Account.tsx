@@ -1,12 +1,12 @@
-import useAuth from "../../auth/useAuth";
+import useStore from '../../hooks/state/useStore';
 
 const Account: React.FC = () => {
-  const auth = useAuth();
+  const user = useStore((state) => state.user);
 
   return (
     <div>
       <p>My Account</p>
-      Current user: {auth?.user}
+      Current user: {user?.displayName}
     </div>
   );
 };

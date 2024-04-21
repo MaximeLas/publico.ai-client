@@ -6,7 +6,7 @@ const createQuestionsSlice: StateCreator<
   [],
   [],
   QuestionsSliceState
-> = (set, get) => ({
+> = (set) => ({
   isEditMode: false,
   questions: [],
   editorState: null,
