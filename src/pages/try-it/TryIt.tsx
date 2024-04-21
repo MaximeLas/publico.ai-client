@@ -1,14 +1,12 @@
 import { Button, Card, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import MySpinner from "../../components/spinner/MySpinner";
 import { useFormik } from "formik";
 import "./TryIt.css";
-import { ORG_SIZES, ORG_TYPES, signUpSchema } from "./schema";
+import { signUpSchema } from "./schema";
 import useAuth from "../../auth/useAuth";
 import { SignupInfo } from "../../auth/auth";
 
 const TryIt: React.FC = () => {
-  const navigate = useNavigate();
   const auth = useAuth();
 
   const onSubmit = async (values: SignupInfo, actions: any) => {

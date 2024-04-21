@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import useDebounce from "../helpers/useDebounce";
 import useStore from "../state/useStore";
 import useDB from "../useDB";
