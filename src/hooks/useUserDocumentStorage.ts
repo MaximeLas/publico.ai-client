@@ -9,10 +9,11 @@ import { storage } from "../firebase";
 
 export default function useUserDocumentStorage() {
   const { user } = useAuth() || {};
-  const assertNoUser = () => {
-    if (!user) {
+  const getUserId = () => {
+    if (!user?.uid) {
       throw new Error("User not logged in");
     }
+    return user.uid;
   };
 
   const uploadUserDocument = async (
@@ -20,9 +21,10 @@ export default function useUserDocumentStorage() {
     filename: string,
     metadata?: UploadMetadata
   ) => {
-    assertNoUser();
+    getUserId();
     // TODO: add some extra validation to file name and file type
-    const storageRef = ref(storage, `chat_documents/${user}/${filename}`);
+    const uid = getUserId();
+    const storageRef = ref(storage, `chat_documents/${uid}/${filename}`);
     await uploadBytes(storageRef, file, metadata);
   };
 
@@ -31,9 +33,10 @@ export default function useUserDocumentStorage() {
     filename: string,
     metadata?: UploadMetadata
   ) => {
-    assertNoUser();
+    getUserId();
     // TODO: add some extra validation to file name and file type
-    const storageRef = ref(storage, `chat_documents/${user}/${filename}`);
+    const uid = getUserId();
+    const storageRef = ref(storage, `chat_documents/${uid}/${filename}`);
     return uploadBytesResumable(storageRef, file, metadata);
   };
 
