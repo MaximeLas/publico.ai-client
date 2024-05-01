@@ -1,8 +1,8 @@
-import React from "react";
 import useStore from "../../hooks/state/useStore";
 import TextEditor from "../textEditor/TextEditor";
 import Markdown from "react-markdown";
 import { Tab } from "react-bootstrap";
+import styles from "./QuestionsDisplay.module.scss";
 import useOnQuestionAnswerChanged from "../../hooks/FormHandlers/useOnQuestionAnswerChanged";
 
 export interface QuestionTabPaneProps {
@@ -28,10 +28,12 @@ const QuestionTabPane = ({
         {!!wordLimit && <span className="fs-6"> ({wordLimit} words)</span>}
       </h5>
       {isEditMode && editorState ? (
+        <div className={styles.questionEdit}>
         <TextEditor
           onMarkdownChange={(value) => setQuestionAnswer(value)}
           content={editorState.answer}
         />
+        </div>
       ) : (
         <Markdown className="fs-6">{answer}</Markdown>
       )}

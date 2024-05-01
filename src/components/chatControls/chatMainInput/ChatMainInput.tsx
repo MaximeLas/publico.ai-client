@@ -51,6 +51,12 @@ function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
         <ChatTextInput
           placeholder={isChatInputDisabled ? "" : "Start typing here.."}
           disabled={isChatInputDisabled}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              onSendClicked();
+            }
+          }}
         />
       )}
       <Button

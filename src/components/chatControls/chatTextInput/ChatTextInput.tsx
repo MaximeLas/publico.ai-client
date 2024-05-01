@@ -3,11 +3,12 @@ import { Form, FormControlProps } from "react-bootstrap";
 import { ChatControl, InputType } from "../../../enums/API";
 import useStore from "../../../hooks/state/useStore";
 import TextArea from "../../../sharedComponents/textArea/TextArea";
+import styles from "./ChatTextInput.module.css";
 
 export interface ChatTextInputProps extends Omit<FormControlProps, "as"> {}
 
 function ChatTextInput({ className, ...rest }: ChatTextInputProps) {
-  const clsn = clsx("rounded rounded-4", className);
+  const clsn = clsx("rounded rounded-4", styles.textAreaRightPadding, className);
   const userInput = useStore((state) => state.userInput);
   const setUserInput = useStore((state) => state.setUserInput);
   const currentControls = useStore((state) => state.currentControls);

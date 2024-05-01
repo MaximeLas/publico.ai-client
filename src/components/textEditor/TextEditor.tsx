@@ -1,4 +1,4 @@
-import { EditorProvider, EditorProviderProps } from "@tiptap/react";
+import { useEditor, EditorContent, EditorOptions } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "tiptap-markdown";
 // import BubbleMenu from "./BubbleMenu";
@@ -7,40 +7,25 @@ import { Markdown } from "tiptap-markdown";
 const extensions = [StarterKit, Markdown];
 
 export interface TextEditorProps
-  extends Omit<EditorProviderProps, "editorProps" | "extensions" | "children"> {
+  extends Omit<Partial<EditorOptions>, "editorProps" | "extensions"> {
   onMarkdownChange?: (content: string) => void;
 }
 
 function TextEditor({
   onMarkdownChange,
   onUpdate,
-  slotBefore,
   ...rest
 }: TextEditorProps) {
+  const editor = useEditor({
+    onUpdate: (e) => {
+      onUpdate?.(e);
+      onMarkdownChange?.(e.editor.storage.markdown.getMarkdown());
+    },
+    extensions,
+    ...rest
+  });
   return (
-    <EditorProvider
-      {...rest}
-      // slotBefore={
-      //   <>
-      //     <EditorControlBar />
-      //     {slotBefore}
-      //   </>
-      // }
-      onUpdate={(e) => {
-        onUpdate?.(e);
-        onMarkdownChange?.(e.editor.storage.markdown.getMarkdown());
-      }}
-      extensions={extensions}
-    >
-      {/* <div>
-          <FloatingMenu>
-            <Button>A</Button>
-          </FloatingMenu>
-        </div> */}
-      {/* <div>
-        <BubbleMenu />
-      </div> */}
-    </EditorProvider>
+    <EditorContent editor={editor} />
   );
 }
 

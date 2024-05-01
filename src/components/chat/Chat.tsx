@@ -47,6 +47,7 @@ function Chat({ className, ...rest }: ChatProps) {
   const listRef = useRef<HTMLUListElement>(null);
   const isFetching = useStore((state) => state.isFetching);
   const isEditMode = useStore((state) => state.isEditMode);
+  const isDisabled = isEditMode || isFetching;
   const setUserInput = useStore((state) => state.setUserInput);
   const fetchChat = useStore((state) => state.fetchChat);
   const currentUser = useStore((state) => state.user);
@@ -107,7 +108,7 @@ function Chat({ className, ...rest }: ChatProps) {
                 return (
                   <Button
                     key={index}
-                    disabled={isFetching || isEditMode}
+                    disabled={isDisabled}
                     onClick={() => {
                       setUserInput({
                         input_type: InputType.Button,
@@ -128,7 +129,7 @@ function Chat({ className, ...rest }: ChatProps) {
         )}
         {currentControls.includes(ChatControl.WORD_LIMIT) && (
           <ListGroupItem as="li" className="py-3" key="buttons">
-            <ChatWordLimitControl className={styles.wordLimitControl} />
+            <ChatWordLimitControl className={styles.wordLimitControl} disabled={isDisabled}/>
           </ListGroupItem>
         )}
       </ListGroup>
