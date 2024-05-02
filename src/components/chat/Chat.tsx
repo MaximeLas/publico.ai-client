@@ -105,7 +105,6 @@ function Chat({ className, ...rest }: ChatProps) {
             <Form.Group className="d-flex gap-1 justify-content-center flex-wrap">
               {currentButtonControls.map((control, index) => {
                 const { label, variant } = ChatControlValues[control];
-                console.log(control);
                 return (
                   <Button
                     key={index}

@@ -81,7 +81,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
               ? ChatControlValues[userInput.input_value!].label
               : userInput.input_type === InputType.Files
               ? "Files to upload: \n" +
-                state.filesInput.map((file) => file.name).join(",\n")
+                state.filesInput.map((file) => file.name).join("\n")
               : userInput.input_value?.toString() ?? "",
           createdAt: new Date(),
         },
