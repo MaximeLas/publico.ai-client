@@ -37,6 +37,8 @@ function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
   const onSendClicked = async () => {
     if (isSendDisabled) return;
     if (isFileDropzoneInControls) {
+      if (filesInput.length === 0) return;
+      console.log(filesInput);
       await Promise.all(
         filesInput.map((file) => uploadUserDocument(file, file.name))
       );

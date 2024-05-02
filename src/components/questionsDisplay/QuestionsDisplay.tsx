@@ -87,9 +87,7 @@ function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
                       eventKey={index}
                       answer={answer}
                       wordLimit={wordLimit}
-                      questionTitle={ questionTitle.charAt(questionTitle.length-1) == '?' ? 
-                      questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1) 
-                      : questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1) + '?'}
+                      questionTitle={questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1)}
                     />
                   )
                 )

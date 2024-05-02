@@ -15,7 +15,10 @@ const Dashboard: React.FC = () => {
       Icon: TfiWrite,
       action: () => navigate("/demo"),
     },
-    { text: "My previous grants", Icon: HiOutlineDocumentSearch },
+    { text: "My previous grants",
+      Icon: HiOutlineDocumentSearch,
+      action: () => navigate("/my-previous-grants")
+    },
     { text: "My Documents", Icon: IoDocumentsOutline },
     { text: "My Account", Icon: MdAccountBox },
   ];
