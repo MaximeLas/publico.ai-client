@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Nav,
   Overlay,
@@ -16,6 +16,11 @@ import QuestionTabPane from "./QuestionTabPane";
 export interface QuestionsDisplayProps extends React.HTMLProps<HTMLDivElement> {}
 
 function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
+  const [editDisplay, setEditDisplay] = useState(clsx(
+    "d-flex flex-column flex-grow-1",
+    styles.editDisplay,
+    className
+  ));
   const clsn = clsx(styles.root, className);
   const questions = useStore((state) => state.questions);
   const isEditMode = useStore((state) => state.isEditMode);
@@ -29,6 +34,20 @@ function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
     (state) => state.setSelectedQuestionIndex
   );
 
+  useEffect(() => {
+    setEditDisplay(isEditMode ? 
+      clsx(
+        "d-flex flex-column flex-grow-1",
+        styles.editDisplay,
+        className
+      ) : 
+      clsx(
+        "d-flex flex-column flex-grow-1",
+        className
+      )
+    );
+  }, [isEditMode]);
+
   return (
     <div className={clsn} {...rest}>
       <QuestionDisplayActions />
@@ -39,7 +58,7 @@ function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
         }
         activeKey={selectedQuestionIndex}
       >
-        <div className="d-flex flex-column flex-grow-1">
+        <div className={editDisplay}>
           <Row as={Nav} className="justify-content-start gx-0" variant="tabs">
             {!questions.length ? (
               <QuestionTabHeader

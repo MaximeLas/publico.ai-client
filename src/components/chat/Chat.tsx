@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { HTMLProps, useEffect, useRef } from "react";
+import { HTMLProps, useEffect, useRef, useState } from "react";
 import { Button, Form, ListGroup, ListGroupItem } from "react-bootstrap";
 import ChatControlValues from "../../constants/ChatControlValues";
 import { ChatControl, InputType } from "../../enums/API";
@@ -31,6 +31,11 @@ export interface ChatProps
   > {}
 
 function Chat({ className, ...rest }: ChatProps) {
+  const [rootClassName, setRootClassName] = useState(clsx(
+    "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
+    styles.root,
+    className
+  ));
   const messages = useStore((state) => state.messages);
   const currentControls = useStore((state) => state.currentControls);
   const currentButtonControls = currentControls.filter((control) =>
@@ -38,11 +43,6 @@ function Chat({ className, ...rest }: ChatProps) {
   );
   const userDocuments = useStore((state) => state.filesInput);
   const formRef = useRef<HTMLFormElement>(null);
-  const rootClassName = clsx(
-    "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
-    styles.root,
-    className
-  );
   const listGroupClassName = clsx("overflow-auto", styles.listGroup);
   const listRef = useRef<HTMLUListElement>(null);
   const isFetching = useStore((state) => state.isFetching);
@@ -75,6 +75,22 @@ function Chat({ className, ...rest }: ChatProps) {
   useEffect(() => {
     listRef.current?.scrollTo(0, listRef.current?.scrollHeight || 0);
   }, [messages]);
+
+  useEffect(() => {
+    setRootClassName(isEditMode ? 
+      clsx(
+        "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
+        styles.root,
+        className
+      ) : 
+      clsx(
+        "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
+        styles.rootEditMode,
+        className
+      )
+    );
+  }, [isEditMode]);
+
 
   return (
     <Form

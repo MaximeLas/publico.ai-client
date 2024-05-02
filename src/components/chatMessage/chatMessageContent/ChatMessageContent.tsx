@@ -10,7 +10,17 @@ function ChatMessageContent({
   return (
     <Fade appear in>
       <p className={styles.text}>
-        {content}
+        {content?.toString().startsWith('Successfully uploaded:') ? 
+        <ul className={styles.listItems}>
+          Successfully uploaded:
+          {content
+            .toString().replace("Successfully uploaded:", "")
+            .split(",")
+            .map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+        </ul>
+        : content}
       </p>
     </Fade>
   );
