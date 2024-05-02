@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Nav,
   Overlay,
@@ -16,15 +16,16 @@ import QuestionTabPane from "./QuestionTabPane";
 export interface QuestionsDisplayProps extends React.HTMLProps<HTMLDivElement> {}
 
 function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
-  const [editDisplay, setEditDisplay] = useState(clsx(
-    "d-flex flex-column flex-grow-1",
-    styles.editDisplay,
-    className
-  ));
+
   const clsn = clsx(styles.root, className);
   const questions = useStore((state) => state.questions);
   const isEditMode = useStore((state) => state.isEditMode);
   const editorState = useStore((state) => state.editorState);
+  const editDisplay =  clsx(
+    "d-flex flex-column flex-grow-1",
+    isEditMode ? styles.editDisplay : '',
+    className
+  )
   const [questionTooltipTarget, setQuestionTooltipTarget] =
     useState<HTMLElement | null>(null);
   const selectedQuestionIndex = useStore(
@@ -33,20 +34,6 @@ function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
   const setSelectedQuestionIndex = useStore(
     (state) => state.setSelectedQuestionIndex
   );
-
-  useEffect(() => {
-    setEditDisplay(isEditMode ? 
-      clsx(
-        "d-flex flex-column flex-grow-1",
-        styles.editDisplay,
-        className
-      ) : 
-      clsx(
-        "d-flex flex-column flex-grow-1",
-        className
-      )
-    );
-  }, [isEditMode]);
 
   return (
     <div className={clsn} {...rest}>
@@ -100,7 +87,9 @@ function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
                       eventKey={index}
                       answer={answer}
                       wordLimit={wordLimit}
-                      questionTitle={questionTitle}
+                      questionTitle={ questionTitle.charAt(questionTitle.length-1) == '?' ? 
+                      questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1) 
+                      : questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1) + '?'}
                     />
                   )
                 )
