@@ -27,16 +27,16 @@ const QuestionTabPane = ({
         <strong>{questionTitle}</strong>
         {!!wordLimit && <span className="fs-6"> ({wordLimit} words)</span>}
       </h5>
-      {isEditMode && editorState ? (
         <div className={styles.questionEdit}>
         <TextEditor
           onMarkdownChange={(value) => setQuestionAnswer(value)}
-          content={editorState.answer}
+          content={answer}
+          hidden={(!isEditMode || !editorState)}
         />
         </div>
-      ) : (
-        <Markdown className="fs-6">{answer}</Markdown>
-      )}
+        {(!isEditMode || !editorState) && 
+          <Markdown className="fs-6">{answer}</Markdown>
+        }
       {!!wordLimit && !!answer.length && (
         <p className="fs-6 fst-italic">({answer.split(" ").length} words)</p>
       )}

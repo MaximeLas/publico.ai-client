@@ -9,11 +9,13 @@ const extensions = [StarterKit, Markdown];
 export interface TextEditorProps
   extends Omit<Partial<EditorOptions>, "editorProps" | "extensions"> {
   onMarkdownChange?: (content: string) => void;
+  hidden?: boolean;
 }
 
 function TextEditor({
   onMarkdownChange,
   onUpdate,
+  hidden,
   ...rest
 }: TextEditorProps) {
   const editor = useEditor({
@@ -25,7 +27,7 @@ function TextEditor({
     ...rest
   });
   return (
-    <EditorContent editor={editor} />
+    <EditorContent editor={editor} hidden={hidden}/>
   );
 }
 

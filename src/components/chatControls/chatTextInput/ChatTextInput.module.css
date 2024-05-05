@@ -5,6 +5,6 @@
     box-shadow: none !important;
     border-radius: var(--bs-border-radius-lg);
     min-height: unset !important;
-    padding-right: 70px;
+    padding-right: 70px !important;
   }
   
