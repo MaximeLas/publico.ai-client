@@ -14,6 +14,7 @@ import PrivateRoute from "./PrivateRoute";
 import Placeholder from "../pages/home/Placeholder";
 import MainLayout from "../layout/main/MainLayout";
 import MinimalLayout from "../layout/minimal/MinimalLayout";
+import PreviousGrants from "../pages/previous-grants/PreviousGrants";
 
 const PublicoRoutes: React.FC = () => {
   return (
@@ -34,6 +35,7 @@ const PublicoRoutes: React.FC = () => {
           element={<PrivateRoute component={Dashboard} />}
         />
         <Route path="demo" element={<PrivateRoute component={Demo} />} />
+        <Route path="my-previous-grants" element={<PrivateRoute component={PreviousGrants} />} />
         <Route path="logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
       </Route>

@@ -13,6 +13,7 @@ import useStoreApi from "../../hooks/state/useStoreApi";
 import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO";
 import useDB from "../../hooks/useDB";
 import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
+import { Message } from "../../types/Messages";
 
 const buttonChatControls = [
   ChatControl.YES,
@@ -38,21 +39,32 @@ function Chat({ className, ...rest }: ChatProps) {
   );
   const userDocuments = useStore((state) => state.filesInput);
   const formRef = useRef<HTMLFormElement>(null);
-  const rootClassName = clsx(
-    "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
-    styles.root,
-    className
-  );
   const listGroupClassName = clsx("overflow-auto", styles.listGroup);
   const listRef = useRef<HTMLUListElement>(null);
   const isFetching = useStore((state) => state.isFetching);
   const isEditMode = useStore((state) => state.isEditMode);
+  const isDisabled = isEditMode || isFetching;
   const setUserInput = useStore((state) => state.setUserInput);
   const fetchChat = useStore((state) => state.fetchChat);
   const currentUser = useStore((state) => state.user);
   const { setState } = useStoreApi();
   const { getLastUserChatSession } = useDB();
   const fetchAndSaveSession = useFetchAndSaveSession();
+  const rootClassName = clsx(
+    "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
+    isEditMode ? styles.rootEditMode : styles.rootViewMode,
+    className
+  );
+
+  const findMessaageToEdit = (messages : Message []) => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].content.toString().startsWith("Here's what I found in your documents to answer this question:")) {
+        return messages[i].content.toLocaleString().slice(messages[i].content.toLocaleString().indexOf(';')+3);
+      }
+    }
+    return "";
+  }
+
 
   useEffect(() => {
     if (!currentUser) return;
@@ -107,13 +119,19 @@ function Chat({ className, ...rest }: ChatProps) {
                 return (
                   <Button
                     key={index}
-                    disabled={isFetching || isEditMode}
-                    onClick={() => {
-                      setUserInput({
-                        input_type: InputType.Button,
-                        input_value: control,
-                      });
-                      fetchChat();
+                    disabled={isDisabled}
+                    onClick={ async () => {
+                        setUserInput({
+                          input_type: InputType.Button,
+                          input_value: control,
+                        });
+                        await fetchChat();
+                        if (control === ChatControl.EDIT_IT) {
+                          setUserInput({
+                            input_type: InputType.Chatbot,
+                            input_value: findMessaageToEdit(messages),
+                          });
+                        }
                     }}
                     value={control}
                     variant={variant}
@@ -128,7 +146,7 @@ function Chat({ className, ...rest }: ChatProps) {
         )}
         {currentControls.includes(ChatControl.WORD_LIMIT) && (
           <ListGroupItem as="li" className="py-3" key="buttons">
-            <ChatWordLimitControl className={styles.wordLimitControl} />
+            <ChatWordLimitControl className={styles.wordLimitControl} disabled={isDisabled}/>
           </ListGroupItem>
         )}
       </ListGroup>

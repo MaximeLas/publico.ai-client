@@ -1,8 +1,13 @@
+import GrantsCards from "../../components/grantsCards/GrantsCards";
+
+
 const PreviousGrants = () => {
+
   return (
-    <div>
-      <p>My previous grants</p>
-    </div>
+    <>
+      <h1 className="text-center mb-4">Your Previous Grants</h1>
+      <GrantsCards />    
+    </>
   );
 };
 

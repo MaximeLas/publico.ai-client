@@ -9,6 +9,7 @@ function ChatWordLimitControl({
 }: Omit<FormControlProps, "value">) {
   const userInput = useStore((state) => state.userInput);
   const setUserInput = useStore((state) => state.setUserInput);
+  const fetchChat = useStore((state) => state.fetchChat);
   const controlClsn = clsx("shadow-none", className);
 
   return (
@@ -19,6 +20,8 @@ function ChatWordLimitControl({
       <Form.Control
         id="word-limit"
         type="number"
+        step={5}
+        min={0}
         value={userInput?.input_value ?? 0}
         {...props}
         onChange={(e) => {
@@ -27,6 +30,12 @@ function ChatWordLimitControl({
             input_type: InputType.NumberInput,
             input_value: Number.isNaN(value) ? null : value,
           });
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            fetchChat();
+          }
         }}
         className={controlClsn}
       />

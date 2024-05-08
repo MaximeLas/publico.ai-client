@@ -37,6 +37,7 @@ function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
   const onSendClicked = async () => {
     if (isSendDisabled) return;
     if (isFileDropzoneInControls) {
+      if (filesInput.length === 0) return;
       await Promise.all(
         filesInput.map((file) => uploadUserDocument(file, file.name))
       );
@@ -51,6 +52,12 @@ function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
         <ChatTextInput
           placeholder={isChatInputDisabled ? "" : "Start typing here.."}
           disabled={isChatInputDisabled}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              onSendClicked();
+            }
+          }}
         />
       )}
       <Button

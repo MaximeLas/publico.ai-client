@@ -16,10 +16,16 @@ import QuestionTabPane from "./QuestionTabPane";
 export interface QuestionsDisplayProps extends React.HTMLProps<HTMLDivElement> {}
 
 function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
+
   const clsn = clsx(styles.root, className);
   const questions = useStore((state) => state.questions);
   const isEditMode = useStore((state) => state.isEditMode);
   const editorState = useStore((state) => state.editorState);
+  const editDisplay =  clsx(
+    "d-flex flex-column flex-grow-1",
+    isEditMode ? styles.editDisplay : '',
+    className
+  )
   const [questionTooltipTarget, setQuestionTooltipTarget] =
     useState<HTMLElement | null>(null);
   const selectedQuestionIndex = useStore(
@@ -39,7 +45,7 @@ function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
         }
         activeKey={selectedQuestionIndex}
       >
-        <div className="d-flex flex-column flex-grow-1">
+        <div className={editDisplay}>
           <Row as={Nav} className="justify-content-start gx-0" variant="tabs">
             {!questions.length ? (
               <QuestionTabHeader
@@ -81,7 +87,7 @@ function QuestionsDisplay({ className, ...rest }: QuestionsDisplayProps) {
                       eventKey={index}
                       answer={answer}
                       wordLimit={wordLimit}
-                      questionTitle={questionTitle}
+                      questionTitle={questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1)}
                     />
                   )
                 )

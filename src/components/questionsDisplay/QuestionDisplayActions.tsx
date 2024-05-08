@@ -46,6 +46,21 @@ function QuestionDisplayActions() {
           </Tooltip>
         )}
       </Overlay>
+      <span className="d-flex flex-nowrap flex-grow-1 align-items-center my-1">
+        <Form.Label className={switchLabelClsnBase(isEditMode)}>
+          View Mode
+        </Form.Label>
+        <Switch
+          disabled={!questionsLength || !firstQuestionAnswer}
+          checked={isEditMode}
+          className="mx-1"
+          style={{ height: "60%" }}
+          onChange={onEditModeChange}
+        />
+        <Form.Label className={switchLabelClsnBase(!isEditMode)}>
+          Edit Mode
+        </Form.Label>
+      </span>
       <Button
         className="rounded rounded-3"
         data-tooltip="Download questions"
@@ -67,21 +82,7 @@ function QuestionDisplayActions() {
       >
         <RestartIcon size={16} />
       </Button>
-      <span className="d-flex flex-nowrap flex-grow-1 align-items-center justify-content-end my-1">
-        <Form.Label className={switchLabelClsnBase(isEditMode)}>
-          View Mode
-        </Form.Label>
-        <Switch
-          disabled={!questionsLength || !firstQuestionAnswer}
-          checked={isEditMode}
-          className="mx-1"
-          style={{ height: "60%" }}
-          onChange={onEditModeChange}
-        />
-        <Form.Label className={switchLabelClsnBase(!isEditMode)}>
-          Edit Mode
-        </Form.Label>
-      </span>
+
     </div>
   );
 }
