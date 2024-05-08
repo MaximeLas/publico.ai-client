@@ -20,7 +20,7 @@ const Dashboard: React.FC = () => {
       action: () => navigate("/my-previous-grants")
     },
     { text: "My Documents", Icon: IoDocumentsOutline },
-    { text: "My Account", Icon: MdAccountBox },*/
+    { text: "My Account", Icon: MdAccountBox }*/
   ];
 
   return (
