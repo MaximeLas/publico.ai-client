@@ -15,6 +15,7 @@ import {
   CollectionReference,
   FieldValue,
   getDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { firestore } from "../firebase";
 import { Question } from "./Abstractions";
@@ -142,6 +143,10 @@ const DBClient: IDBClient = {
     }
     await updateDoc(docRef, merged);
   },
+  async deleteSession(sessionId: string): Promise<void> {
+    const docRef = getSessionDocRef(sessionId);
+    await deleteDoc(docRef);
+  }
 };
 
 export default DBClient;

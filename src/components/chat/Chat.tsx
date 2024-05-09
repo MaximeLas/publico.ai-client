@@ -56,6 +56,10 @@ function Chat({ className, ...rest }: ChatProps) {
     className
   );
 
+  const currentChatSession = useStore(
+    (state) => state.currentChatSession
+  );
+
   const findMessaageToEdit = (messages : Message []) => {
     for (let i = messages.length - 1; i >= 0; i--) {
       if (messages[i].content.toString().startsWith("Here's what I found in your documents to answer this question:")) {
@@ -65,9 +69,8 @@ function Chat({ className, ...rest }: ChatProps) {
     return "";
   }
 
-
   useEffect(() => {
-    if (!currentUser) return;
+    if (!currentUser || currentChatSession) return;
     getLastUserChatSession(currentUser.uid).then((lastSession) => {
       if (lastSession) {
         const s = ChatSessionDTO.toState(lastSession);

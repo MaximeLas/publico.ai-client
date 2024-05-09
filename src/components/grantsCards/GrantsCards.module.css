@@ -1,5 +1,4 @@
 
-
 .search {
     display: flex;
     justify-content: center;
@@ -10,3 +9,23 @@
     background-color: #e6f7ff;
     cursor: pointer;
   }
+
+.scrollableContainer {
+  height: calc(110vh - 300px);
+  overflow-y: auto;
+  padding-bottom: 10px;
+}
+
+.deleteButton {
+  background-color: #98fb98;
+  color: #228b22;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    background-color: #8fbc8f;
+    color: #fff;
+  }
+}
