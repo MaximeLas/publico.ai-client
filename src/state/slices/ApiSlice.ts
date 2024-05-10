@@ -57,7 +57,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
       ],
     }));
   },
-  async fetchChat() {
+  async fetchChat(isEndOfSession = false) {
     const { isFetching, currentChatSession, userInput, user } = get();
     if (!user || isFetching || !currentChatSession || !userInput?.input_value)
       return;
@@ -88,6 +88,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
       ],
     }));
 
+    if (isEndOfSession) return;
     const body: ChatRequest = {
       session_id: currentChatSession.id,
       user_input: userInput,

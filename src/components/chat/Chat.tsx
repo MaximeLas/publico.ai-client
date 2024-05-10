@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { HTMLProps, useEffect, useRef } from "react";
+import { HTMLProps, useEffect, useRef, useState } from "react";
 import { Button, Form, ListGroup, ListGroupItem } from "react-bootstrap";
 import ChatControlValues from "../../constants/ChatControlValues";
 import { ChatControl, InputType } from "../../enums/API";
@@ -14,6 +14,9 @@ import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO";
 import useDB from "../../hooks/useDB";
 import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
 import { Message } from "../../types/Messages";
+import EndSessionPopUp from "../endSessionPopUp/EndSessionPopUp";
+import fetchNewSession from "../../state/slices/ApiSlice";
+// import storeContext from "../../context/Store";
 
 const buttonChatControls = [
   ChatControl.YES,
@@ -47,7 +50,8 @@ function Chat({ className, ...rest }: ChatProps) {
   const setUserInput = useStore((state) => state.setUserInput);
   const fetchChat = useStore((state) => state.fetchChat);
   const currentUser = useStore((state) => state.user);
-  const { setState } = useStoreApi();
+  const { setState, getState } = useStoreApi();
+  const store = useStoreApi();
   const { getLastUserChatSession } = useDB();
   const fetchAndSaveSession = useFetchAndSaveSession();
   const rootClassName = clsx(
@@ -55,6 +59,12 @@ function Chat({ className, ...rest }: ChatProps) {
     isEditMode ? styles.rootEditMode : styles.rootViewMode,
     className
   );
+
+  const currentChatSession = useStore(
+    (state) => state.currentChatSession
+  );
+  const clearChatSession = useStore((state) => state.clearChatSession);
+  const [isEndOfSession, setIsEndOfSession] = useState(false);
 
   const findMessaageToEdit = (messages : Message []) => {
     for (let i = messages.length - 1; i >= 0; i--) {
@@ -65,27 +75,52 @@ function Chat({ className, ...rest }: ChatProps) {
     return "";
   }
 
+  const findIfEndOfSession = (messages : Message []) => {
+      if (messages[messages.length - 1].content.toString().startsWith("Do you want to generate an answer for another question?")) {
+        setIsEndOfSession(true);
+        return true;
+      } else {
+        setIsEndOfSession(false);
+        return false;
+      }
+  }
 
   useEffect(() => {
-    if (!currentUser) return;
-    getLastUserChatSession(currentUser.uid).then((lastSession) => {
-      if (lastSession) {
-        const s = ChatSessionDTO.toState(lastSession);
-        if (s.editorState && s.questions) {
-          s.questions = s.questions.map((q, i) =>
-            q.index === s.editorState?.index ? s.editorState : q
-          );
-        }
-        setState(s);
-      } else {
-        fetchAndSaveSession();
-      }
-    });
-  }, [currentUser, setState, fetchAndSaveSession, getLastUserChatSession]);
+    setIsEndOfSession(false);
+    if (!currentUser || currentChatSession) return;
+    // clearChatSession();
+    // fetchNewSession(setState, getState, store);
+    fetchAndSaveSession();
+  }, []);
+
+
+  // useEffect(() => {
+  //   if (!currentUser || currentChatSession) return;
+  //   clearChatSession();
+  //   fetchNewSession(setState, getState, store);
+  //   fetchAndSaveSession();
+    // getLastUserChatSession(currentUser.uid).then((lastSession) => {
+    //   if (lastSession) {
+    //     const s = ChatSessionDTO.toState(lastSession);
+    //     if (s.editorState && s.questions) {
+    //       s.questions = s.questions.map((q, i) =>
+    //         q.index === s.editorState?.index ? s.editorState : q
+    //       );
+    //     }
+    //     setState(s);
+    //   } else {
+    //     fetchAndSaveSession();
+    //   }
+    // });
+  // }, [currentUser, setState, fetchAndSaveSession, getLastUserChatSession]);
 
   useEffect(() => {
     listRef.current?.scrollTo(0, listRef.current?.scrollHeight || 0);
   }, [messages]);
+
+  const handleClosePopUp = () => {
+    setIsEndOfSession(false);
+  };
 
   return (
     <Form
@@ -121,17 +156,18 @@ function Chat({ className, ...rest }: ChatProps) {
                     key={index}
                     disabled={isDisabled}
                     onClick={ async () => {
+                      setUserInput({
+                        input_type: InputType.Button,
+                        input_value: control,
+                      });
+                      if (control === ChatControl.NO && findIfEndOfSession(messages)) await fetchChat(true);
+                      else await fetchChat(false);
+                      if (control === ChatControl.EDIT_IT) {
                         setUserInput({
-                          input_type: InputType.Button,
-                          input_value: control,
+                          input_type: InputType.Chatbot,
+                          input_value: findMessaageToEdit(messages),
                         });
-                        await fetchChat();
-                        if (control === ChatControl.EDIT_IT) {
-                          setUserInput({
-                            input_type: InputType.Chatbot,
-                            input_value: findMessaageToEdit(messages),
-                          });
-                        }
+                      }
                     }}
                     value={control}
                     variant={variant}
@@ -151,8 +187,9 @@ function Chat({ className, ...rest }: ChatProps) {
         )}
       </ListGroup>
       <ChatMainInput />
+      {isEndOfSession && <EndSessionPopUp onClose={handleClosePopUp}/>}
     </Form>
   );
-}
+} 
 
 export default Chat;

@@ -65,7 +65,7 @@ export interface ApiState {
 export interface ApiActions {
   setIsFetching: (isFetching: boolean) => void;
   fetchNewSession: () => Promise<void>;
-  fetchChat: () => Promise<void>;
+  fetchChat: (isEndOfSession : bool) => Promise<void>;
   fetchEditQuestions: () => Promise<void>;
 }
 

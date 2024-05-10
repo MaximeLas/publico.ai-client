@@ -42,7 +42,7 @@ function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
         filesInput.map((file) => uploadUserDocument(file, file.name))
       );
     }
-    await fetchChat();
+    await fetchChat(false);
   };
   return (
     <div className={clsn} {...rest}>

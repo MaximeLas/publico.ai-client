@@ -5,15 +5,20 @@ import { HiOutlineDocumentSearch } from "react-icons/hi";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { MdAccountBox } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import useStore from "../../hooks/state/useStore";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
+  const clearChatSession = useStore((state) => state.clearChatSession);
 
   const BUTTONS = [
     {
       text: "Start a new grant",
       Icon: TfiWrite,
-      action: () => navigate("/demo"),
+      action: () => {
+        clearChatSession();
+        navigate("/demo");
+      } ,
     },
     /*{ text: "My previous grants",
       Icon: HiOutlineDocumentSearch,
