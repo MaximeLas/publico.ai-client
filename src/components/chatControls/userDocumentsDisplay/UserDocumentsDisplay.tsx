@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Badge, Button, Form, Overlay, Tooltip } from "react-bootstrap";
 import { BsX as DeleteIcon } from "react-icons/bs";
 import useStore from "../../../hooks/state/useStore";
@@ -8,6 +8,14 @@ function UserDocumentsDisplay() {
   const [targetDocument, setTargetDocument] = useState<File | null>(null);
   const userFiles = useStore((state) => state.filesInput);
   const removeFile = useStore((state) => state.removeFile);
+
+  useEffect(() => {
+    console.log("userFiles", userFiles);
+    console.log("targetDocument", targetDocument);
+
+  }, [targetDocument, userFiles]);
+
+
   return (
     <>
       <Form.Group className="d-flex gap-1 flex-wrap">

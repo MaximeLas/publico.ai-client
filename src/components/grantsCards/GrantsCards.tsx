@@ -6,7 +6,7 @@ import styles from "./GrantsCards.module.css";
 import clsx from "clsx";
 import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO";
 import useStoreApi from "../../hooks/state/useStoreApi";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   Col,
@@ -16,8 +16,8 @@ import {
   InputGroup,
   FormControl,
   Button,
+  Form,
 } from "react-bootstrap";
-import { set } from "react-hook-form";
 
 const GrantsCards = () => {
   const db = useDB();
@@ -27,6 +27,8 @@ const GrantsCards = () => {
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [activePage, setActivePage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState("desc");
   const clsn = clsx("h-100", styles.card);
   const sessionsPerPage = 15;
 
@@ -62,7 +64,14 @@ const GrantsCards = () => {
   useEffect(() => {
     if (!user) return;
     db.getUserChatSessions(user.uid).then((res) => {
-      setSessions(res.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis()));
+      setSessions(
+        res.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis())
+        // res.sort(
+        //   (a, b) =>
+        //     b["messages"][b["messages"].length - 1].createdAt.toMillis() -
+        //     a["messages"][a["messages"].length - 1].createdAt.toMillis()
+        // )
+      );
     });
   }, [user]);
 
@@ -71,6 +80,33 @@ const GrantsCards = () => {
       goToFirstPage();
     }
   }, [searchTerm, filteredSessions.length, activePage]);
+
+  useEffect(() => {
+    let sortedSessions = [...sessions];
+
+    if (sortBy === "createdAt") {
+      sortedSessions.sort((a, b) =>
+        sortOrder === "asc"
+          ? a.createdAt.toMillis() - b.createdAt.toMillis()
+          : b.createdAt.toMillis() - a.createdAt.toMillis()
+      );
+    } else if (sortBy === "lastEdited") {
+      sortedSessions.sort((a, b) => {
+        const lastEditedA = a["messages"][a["messages"].length - 1].createdAt.toMillis();
+        const lastEditedB = b["messages"][b["messages"].length - 1].createdAt.toMillis();
+        return sortOrder === "asc" ? lastEditedA - lastEditedB : lastEditedB - lastEditedA;
+      }
+      );
+    } else if (sortBy === "alphabetical") {
+      sortedSessions.sort((a, b) =>
+        sortOrder === "asc"
+          ? a.title.localeCompare(b.title)
+          : b.title.localeCompare(a.title)
+      );
+    }
+
+    setSessions(sortedSessions);
+  }, [sortBy, sortOrder]);
 
   return (
     <div className={styles.scrollableContainer}>
@@ -93,39 +129,74 @@ const GrantsCards = () => {
             </InputGroup>
           </Col>
         </Row>
+        <Form className="d-flex align-items-center mb-3">
+          <Form.Label className={styles.sortTitle}>Sort the results by:</Form.Label>
+          <Form.Select
+            className={styles.sortSelect}
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="createdAt">Created At</option>
+            <option value="lastEdited">Last Edited</option>
+            <option value="alphabetical">Alphabetical</option>
+          </Form.Select>
+          <Form.Select
+            className={styles.sortSelect}
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="desc">Descending</option>
+            <option value="asc">Ascending</option>
+          </Form.Select>
+        </Form>
+
         <Row xs={1} lg={3} className="g-4">
           {currentSessions.map((session, index) => (
             <Col key={index}>
-              <Card
-                className={clsn}
-                style={{ backgroundColor: "#F3F9F1" }}
-                onClick={ () => {
-                  const dto = ChatSessionDTO.toState(session);
-                  setState(dto);
-                  navigate("/demo");
-                }}
-              >
-                <Card.Body className="d-flex justify-content-between">
+              <Card className={clsn} style={{ backgroundColor: "#F3F9F1" }}>
+                <Card.Body className="d-flex justify-content-between align-items-center">
                   <div>
                     <Card.Title
                       style={{ color: "#116466", fontSize: "1.25rem" }}
                     >
-                      {session.title}
+                      Title: <strong>{session.title}</strong>
                     </Card.Title>
+                    {"messages" in session && (
+                      <Card.Text style={{ color: "#116466" }}>
+                        Last Message:{" "}
+                        {session["messages"][
+                          session["messages"].length - 1
+                        ].createdAt
+                          .toDate()
+                          .toLocaleString()}
+                      </Card.Text>
+                    )}
                     <Card.Text style={{ color: "#116466" }}>
                       Created At: {session.createdAt.toDate().toLocaleString()}
                     </Card.Text>
                   </div>
-                  <Button
-                    variant="danger"
-                    className={styles.deleteButton}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteSession(session);
-                    }}
-                  >
-                    Delete Session
-                  </Button>
+                  <div>
+                    <Button
+                      onClick={() => {
+                        const dto = ChatSessionDTO.toState(session);
+                        setState(dto);
+                        navigate("/demo");
+                      }}
+                      className={styles.openButton}
+                    >
+                      Open Session
+                    </Button>
+                    <Button
+                      variant="danger"
+                      className={styles.deleteButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteSession(session);
+                      }}
+                    >
+                      Delete Session
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>
