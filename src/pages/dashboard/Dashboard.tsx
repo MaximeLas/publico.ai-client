@@ -20,11 +20,11 @@ const Dashboard: React.FC = () => {
         navigate("/demo");
       } ,
     },
-    /*{ text: "My previous grants",
+    { text: "My previous grants",
       Icon: HiOutlineDocumentSearch,
       action: () => navigate("/my-previous-grants")
-    },
-    { text: "My Documents", Icon: IoDocumentsOutline },
+    }
+    /*{ text: "My Documents", Icon: IoDocumentsOutline },
     { text: "My Account", Icon: MdAccountBox }*/
   ];
 
