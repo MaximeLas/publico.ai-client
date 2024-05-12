@@ -27,7 +27,7 @@ const GrantsCards = () => {
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [activePage, setActivePage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortBy, setSortBy] = useState("Created Time");
   const [sortOrder, setSortOrder] = useState("desc");
   const clsn = clsx("h-100", styles.card);
   const sessionsPerPage = 15;
@@ -64,14 +64,7 @@ const GrantsCards = () => {
   useEffect(() => {
     if (!user) return;
     db.getUserChatSessions(user.uid).then((res) => {
-      setSessions(
-        res.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis())
-        // res.sort(
-        //   (a, b) =>
-        //     b["messages"][b["messages"].length - 1].createdAt.toMillis() -
-        //     a["messages"][a["messages"].length - 1].createdAt.toMillis()
-        // )
-      );
+      setSessions(res.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis()));
     });
   }, [user]);
 
@@ -84,13 +77,13 @@ const GrantsCards = () => {
   useEffect(() => {
     let sortedSessions = [...sessions];
 
-    if (sortBy === "createdAt") {
+    if (sortBy === "Created Time") {
       sortedSessions.sort((a, b) =>
         sortOrder === "asc"
           ? a.createdAt.toMillis() - b.createdAt.toMillis()
           : b.createdAt.toMillis() - a.createdAt.toMillis()
       );
-    } else if (sortBy === "lastEdited") {
+    } else if (sortBy === "Edited Time") {
       sortedSessions.sort((a, b) => {
         const lastEditedA = a["messages"][a["messages"].length - 1].createdAt.toMillis();
         const lastEditedB = b["messages"][b["messages"].length - 1].createdAt.toMillis();
@@ -106,6 +99,7 @@ const GrantsCards = () => {
     }
 
     setSessions(sortedSessions);
+    goToFirstPage();
   }, [sortBy, sortOrder]);
 
   return (
@@ -121,9 +115,9 @@ const GrantsCards = () => {
                 className={styles.search}
               />
               <Button
-                variant="outline-secondary"
+                variant="light"
                 onClick={() => setSearchTerm("")}
-              >
+              >        
                 Clear
               </Button>
             </InputGroup>
@@ -136,8 +130,8 @@ const GrantsCards = () => {
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
-            <option value="createdAt">Created At</option>
-            <option value="lastEdited">Last Edited</option>
+            <option value="createdAt">Created Time</option>
+            <option value="lastEdited">Edited Time</option>
             <option value="alphabetical">Alphabetical</option>
           </Form.Select>
           <Form.Select
@@ -163,7 +157,7 @@ const GrantsCards = () => {
                     </Card.Title>
                     {"messages" in session && (
                       <Card.Text style={{ color: "#116466" }}>
-                        Last Message:{" "}
+                        Last Edit:{" "}
                         {session["messages"][
                           session["messages"].length - 1
                         ].createdAt
@@ -172,7 +166,7 @@ const GrantsCards = () => {
                       </Card.Text>
                     )}
                     <Card.Text style={{ color: "#116466" }}>
-                      Created At: {session.createdAt.toDate().toLocaleString()}
+                      Created Time: {session.createdAt.toDate().toLocaleString()}
                     </Card.Text>
                   </div>
                   <div>
