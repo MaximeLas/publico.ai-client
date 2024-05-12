@@ -24,7 +24,6 @@ const EndSessionPopUp: React.FC<PopupProps> = ({ onClose }) => {
           <button className={styles.dashboardButton} onClick={ () => {
             onClose();
             clearChatSession();
-            fetchAndSaveSession();
             navigate("/dashboard");
           }}>
             Go to the Dashboard
