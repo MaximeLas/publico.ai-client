@@ -79,7 +79,12 @@ function Chat({ className, ...rest }: ChatProps) {
       if (messages[messages.length - 1].content.toString().startsWith("Do you want to generate an answer for another question?")) {
         setIsEndOfSession(true);
         return true;
-      } else {
+      } 
+     else if (messages[messages.length - 1].content.toLocaleString().startsWith('No')) {
+        setIsEndOfSession(true);
+        return true;
+     }
+      else {
         setIsEndOfSession(false);
         return false;
       }
@@ -88,8 +93,6 @@ function Chat({ className, ...rest }: ChatProps) {
   useEffect(() => {
     setIsEndOfSession(false);
     if (!currentUser || currentChatSession) return;
-    // clearChatSession();
-    // fetchNewSession(setState, getState, store);
     fetchAndSaveSession();
   }, []);
 
@@ -161,6 +164,7 @@ function Chat({ className, ...rest }: ChatProps) {
                         input_value: control,
                       });
                       if (control === ChatControl.NO && findIfEndOfSession(messages)) await fetchChat(true);
+                      // if (control === ChatControl.NO && messages[messages.length - 1] == "No") await fetchChat(true);
                       else await fetchChat(false);
                       if (control === ChatControl.EDIT_IT) {
                         setUserInput({
