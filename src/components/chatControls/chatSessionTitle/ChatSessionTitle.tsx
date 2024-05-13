@@ -5,7 +5,7 @@ import useStore from "../../../hooks/state/useStore";
 import styles from "./ChatSessionTitle.module.css";
 
 function ChatSessionTitle() {
-    const clsn = clsx("h1 mb-0 me-2", styles.title);
+  const clsn = clsx("h1 mb-0 me-2", styles.title);
   const sessionTitle = useStore((state) => state.currentChatSession?.title);
   const titleRef = useRef<HTMLParagraphElement>(null);
   const onSessionTitleChange = useOnSessionTitleChange();
@@ -21,11 +21,20 @@ function ChatSessionTitle() {
       titleRef.current.textContent = sessionTitle;
     }
   }, [sessionTitle]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLParagraphElement>) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        e.currentTarget.blur();
+    }
+};
+
   return (
     <p
       ref={titleRef}
       contentEditable={true}
       onBlur={(e) => onSessionTitleChange(e.currentTarget.textContent)}
+      onKeyDown={handleKeyDown}
       className={clsn}
     />
   );
