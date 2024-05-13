@@ -10,13 +10,10 @@ import ChatMessage from "../chatMessage/ChatMessage";
 import UserDocumentsDisplay from "../chatControls/userDocumentsDisplay/UserDocumentsDisplay";
 import styles from "./Chat.module.scss";
 import useStoreApi from "../../hooks/state/useStoreApi";
-import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO";
 import useDB from "../../hooks/useDB";
 import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
 import { Message } from "../../types/Messages";
 import EndSessionPopUp from "../endSessionPopUp/EndSessionPopUp";
-import fetchNewSession from "../../state/slices/ApiSlice";
-// import storeContext from "../../context/Store";
 
 const buttonChatControls = [
   ChatControl.YES,
@@ -50,9 +47,7 @@ function Chat({ className, ...rest }: ChatProps) {
   const setUserInput = useStore((state) => state.setUserInput);
   const fetchChat = useStore((state) => state.fetchChat);
   const currentUser = useStore((state) => state.user);
-  const { setState, getState } = useStoreApi();
   const store = useStoreApi();
-  const { getLastUserChatSession } = useDB();
   const fetchAndSaveSession = useFetchAndSaveSession();
   const rootClassName = clsx(
     "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
@@ -63,7 +58,6 @@ function Chat({ className, ...rest }: ChatProps) {
   const currentChatSession = useStore(
     (state) => state.currentChatSession
   );
-  const clearChatSession = useStore((state) => state.clearChatSession);
   const [isEndOfSession, setIsEndOfSession] = useState(false);
 
   const findMessaageToEdit = (messages : Message []) => {
@@ -97,25 +91,6 @@ function Chat({ className, ...rest }: ChatProps) {
   }, []);
 
 
-  // useEffect(() => {
-  //   if (!currentUser || currentChatSession) return;
-  //   clearChatSession();
-  //   fetchNewSession(setState, getState, store);
-  //   fetchAndSaveSession();
-    // getLastUserChatSession(currentUser.uid).then((lastSession) => {
-    //   if (lastSession) {
-    //     const s = ChatSessionDTO.toState(lastSession);
-    //     if (s.editorState && s.questions) {
-    //       s.questions = s.questions.map((q, i) =>
-    //         q.index === s.editorState?.index ? s.editorState : q
-    //       );
-    //     }
-    //     setState(s);
-    //   } else {
-    //     fetchAndSaveSession();
-    //   }
-    // });
-  // }, [currentUser, setState, fetchAndSaveSession, getLastUserChatSession]);
 
   useEffect(() => {
     listRef.current?.scrollTo(0, listRef.current?.scrollHeight || 0);
@@ -164,7 +139,6 @@ function Chat({ className, ...rest }: ChatProps) {
                         input_value: control,
                       });
                       if (control === ChatControl.NO && findIfEndOfSession(messages)) await fetchChat(true);
-                      // if (control === ChatControl.NO && messages[messages.length - 1] == "No") await fetchChat(true);
                       else await fetchChat(false);
                       if (control === ChatControl.EDIT_IT) {
                         setUserInput({

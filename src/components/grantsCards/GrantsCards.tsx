@@ -130,8 +130,8 @@ const GrantsCards = () => {
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
-            <option value="createdAt">Created Time</option>
-            <option value="lastEdited">Edited Time</option>
+            <option value="Created Time">Created Time</option>
+            <option value="Edited Time">Edited Time</option>
             <option value="alphabetical">Alphabetical</option>
           </Form.Select>
           <Form.Select
