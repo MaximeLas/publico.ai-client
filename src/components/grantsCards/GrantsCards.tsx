@@ -156,18 +156,17 @@ const GrantsCards = () => {
                       Title: <strong>{session.title}</strong>
                     </Card.Title>
                     {"messages" in session && (
-                      <Card.Text style={{ color: "#116466" }}>
+                      <Card.Text style={{ color: "#116466" , "fontSize": "1rem"}}>
                         Last Edit:{" "}
                         {session["messages"][
                           session["messages"].length - 1
                         ].createdAt
                           .toDate()
                           .toLocaleString()}
+                          <br />
+                          Created Time: {session.createdAt.toDate().toLocaleString()}
                       </Card.Text>
                     )}
-                    <Card.Text style={{ color: "#116466" }}>
-                      Created Time: {session.createdAt.toDate().toLocaleString()}
-                    </Card.Text>
                   </div>
                   <div>
                     <Button
