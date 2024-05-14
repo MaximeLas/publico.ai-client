@@ -28,7 +28,11 @@ function ChatFileDropzone({
     isDragActive,
   } = useDropzone({
     accept: {
-      "text/plain": [".txt", ".doc", ".docx"],
+      "text/plain": [".txt"],
+      "application/msword": [".doc"],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
+        ".docx",
+      ],
     },
     onDragEnter: (e) => {
       setDraggedFilesAmount(e.dataTransfer.items.length);
