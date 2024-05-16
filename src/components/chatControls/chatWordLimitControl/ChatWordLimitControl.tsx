@@ -34,7 +34,7 @@ function ChatWordLimitControl({
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
-            fetchChat(false);
+            fetchChat();
           }
         }}
         className={controlClsn}

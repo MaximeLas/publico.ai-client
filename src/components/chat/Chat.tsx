@@ -30,32 +30,30 @@ export interface ChatProps
   > {}
 
 function Chat({ className, ...rest }: ChatProps) {
+  const [isEndOfSession, setIsEndOfSession] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const messages = useStore((state) => state.messages);
   const currentControls = useStore((state) => state.currentControls);
-  const currentButtonControls = currentControls.filter((control) =>
-    buttonChatControls.includes(control)
-  );
   const userDocuments = useStore((state) => state.filesInput);
-  const formRef = useRef<HTMLFormElement>(null);
-  const listGroupClassName = clsx("overflow-auto", styles.listGroup);
-  const listRef = useRef<HTMLUListElement>(null);
+  const currentChatSession = useStore((state) => state.currentChatSession);
+  const currentUser = useStore((state) => state.user);
   const isFetching = useStore((state) => state.isFetching);
   const isEditMode = useStore((state) => state.isEditMode);
-  const isDisabled = isEditMode || isFetching;
   const setUserInput = useStore((state) => state.setUserInput);
   const fetchChat = useStore((state) => state.fetchChat);
-  const currentUser = useStore((state) => state.user);
+  const setCurrentChatSession = useStore((state) => state.setCurrentChatSession);
   const fetchAndSaveSession = useFetchAndSaveSession();
+  const listGroupClassName = clsx("overflow-auto", styles.listGroup);
   const rootClassName = clsx(
     "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
     isEditMode ? styles.rootEditMode : styles.rootViewMode,
     className
   );
-
-  const currentChatSession = useStore(
-    (state) => state.currentChatSession
+  const currentButtonControls = currentControls.filter((control) =>
+    buttonChatControls.includes(control)
   );
-  const [isEndOfSession, setIsEndOfSession] = useState(false);
+  const isDisabled = isEditMode || isFetching;
 
   const findMessaageToEdit = (messages : Message []) => {
     for (let i = messages.length - 1; i >= 0; i--) {
@@ -71,14 +69,8 @@ function Chat({ className, ...rest }: ChatProps) {
         setIsEndOfSession(true);
         return true;
       } 
-     else if (messages[messages.length - 1].content.toLocaleString().startsWith('No')) {
-        setIsEndOfSession(true);
-        return true;
-     }
-      else {
-        setIsEndOfSession(false);
-        return false;
-      }
+      setIsEndOfSession(false);
+      return false;
   }
 
   useEffect(() => {
@@ -86,8 +78,6 @@ function Chat({ className, ...rest }: ChatProps) {
     if (!currentUser || currentChatSession) return;
     fetchAndSaveSession();
   }, []);
-
-
 
   useEffect(() => {
     listRef.current?.scrollTo(0, listRef.current?.scrollHeight || 0);
@@ -135,8 +125,8 @@ function Chat({ className, ...rest }: ChatProps) {
                         input_type: InputType.Button,
                         input_value: control,
                       });
-                      if (control === ChatControl.NO && findIfEndOfSession(messages)) await fetchChat(true);
-                      else await fetchChat(false);
+                      if (control === ChatControl.NO && findIfEndOfSession(messages)) setCurrentChatSession(currentChatSession);
+                      else await fetchChat();
                       if (control === ChatControl.EDIT_IT) {
                         setUserInput({
                           input_type: InputType.Chatbot,
