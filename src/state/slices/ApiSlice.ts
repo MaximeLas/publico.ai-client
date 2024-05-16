@@ -58,7 +58,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     }));
   },
   async fetchChat(isEndOfSession = false) {
-    const { isFetching, currentChatSession, userInput, user } = get();
+    const { isFetching, currentChatSession, userInput, user, filesInput } = get();
     if (!user || isFetching || !currentChatSession || !userInput?.input_value)
       return;
 
@@ -91,7 +91,7 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     if (isEndOfSession) return;
     const body: ChatRequest = {
       session_id: currentChatSession.id,
-      user_input: userInput,
+      user_input: userInput.input_type === InputType.Files ? {input_type: userInput.input_type, input_value: filesInput.map((f) => f.name)} : userInput,
     };
     const url = new URL(API_HOSTNAME);
     url.pathname = ApiRoute.Chat;

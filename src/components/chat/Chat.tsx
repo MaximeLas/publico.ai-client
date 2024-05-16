@@ -9,8 +9,6 @@ import ChatWordLimitControl from "../chatControls/chatWordLimitControl/ChatWordL
 import ChatMessage from "../chatMessage/ChatMessage";
 import UserDocumentsDisplay from "../chatControls/userDocumentsDisplay/UserDocumentsDisplay";
 import styles from "./Chat.module.scss";
-import useStoreApi from "../../hooks/state/useStoreApi";
-import useDB from "../../hooks/useDB";
 import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
 import { Message } from "../../types/Messages";
 import EndSessionPopUp from "../endSessionPopUp/EndSessionPopUp";
@@ -47,7 +45,6 @@ function Chat({ className, ...rest }: ChatProps) {
   const setUserInput = useStore((state) => state.setUserInput);
   const fetchChat = useStore((state) => state.fetchChat);
   const currentUser = useStore((state) => state.user);
-  const store = useStoreApi();
   const fetchAndSaveSession = useFetchAndSaveSession();
   const rootClassName = clsx(
     "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
