@@ -9,7 +9,7 @@ export interface QuestionTabPaneProps {
   questionTitle: string;
   wordLimit?: number;
   answer: string;
-} 
+}
 
 const QuestionTabPane = ({
   eventKey,
@@ -27,12 +27,15 @@ const QuestionTabPane = ({
         <strong>{questionTitle}</strong>
         {!!wordLimit && <span className="fs-6"> ({wordLimit} words)</span>}
       </h5>
-      {isEditMode && 
-            <TextEditor
-            onMarkdownChange={(value) => setQuestionAnswer(value)}
-            content={answer}/>
-      }
-      {!isEditMode && <Markdown className="fs-6">{answer}</Markdown>}
+      <div style={{ display: isEditMode ? 'block' : 'none' }}>
+        <TextEditor
+          onMarkdownChange={(value) => setQuestionAnswer(value)}
+          content={answer}
+        />
+      </div>
+      {(!isEditMode || !editorState) && (
+        <Markdown className="fs-6">{answer}</Markdown>
+      )}
       {!!wordLimit && !!answer.length && (
         <p className="fs-6 fst-italic">({answer.split(" ").length} words)</p>
       )}

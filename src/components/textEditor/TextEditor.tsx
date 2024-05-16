@@ -1,8 +1,7 @@
 import { useEditor, EditorContent, EditorOptions } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "tiptap-markdown";
-// import BubbleMenu from "./BubbleMenu";
-// import EditorControlBar from "./EditorControlBar";
+import { useEffect } from "react";
 
 const extensions = [StarterKit, Markdown];
 
@@ -16,6 +15,7 @@ function TextEditor({
   onMarkdownChange,
   onUpdate,
   hidden,
+  content,
   ...rest
 }: TextEditorProps) {
   const editor = useEditor({
@@ -24,8 +24,17 @@ function TextEditor({
       onMarkdownChange?.(e.editor.storage.markdown.getMarkdown());
     },
     extensions,
+    content,
     ...rest
   });
+
+  useEffect(() => {
+    if (content) {
+      editor?.commands.setContent(content?.toString());
+    }
+  }
+  , [content]);
+
   return (
     <EditorContent editor={editor} hidden={hidden}/>
   );

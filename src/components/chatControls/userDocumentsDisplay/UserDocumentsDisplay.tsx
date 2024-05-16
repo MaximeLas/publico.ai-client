@@ -9,13 +9,6 @@ function UserDocumentsDisplay() {
   const userFiles = useStore((state) => state.filesInput);
   const removeFile = useStore((state) => state.removeFile);
 
-  useEffect(() => {
-    console.log("userFiles", userFiles);
-    console.log("targetDocument", targetDocument);
-
-  }, [targetDocument, userFiles]);
-
-
   return (
     <>
       <Form.Group className="d-flex gap-1 flex-wrap">
