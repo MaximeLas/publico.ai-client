@@ -33,6 +33,8 @@ function ChatFileDropzone({
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
         ".docx",
       ],
+      // accept also pdf files
+      "application/pdf": [".pdf"],
     },
     onDragEnter: (e) => {
       setDraggedFilesAmount(e.dataTransfer.items.length);
