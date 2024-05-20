@@ -3,7 +3,7 @@ import styles from "./EndSessionPopUp.module.css";
 import { useNavigate } from "react-router-dom";
 import useStore from "../../hooks/state/useStore";
 import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
-
+import { useErrorBoundary } from "react-error-boundary";
 
 
 interface PopupProps {
@@ -14,6 +14,7 @@ const EndSessionPopUp: React.FC<PopupProps> = ({ onClose }) => {
     const navigate = useNavigate();
     const clearChatSession = useStore((state) => state.clearChatSession);
     const fetchAndSaveSession = useFetchAndSaveSession();
+    const { showBoundary } = useErrorBoundary();
 
   return (
     <div className={styles.overlay}>
@@ -31,7 +32,9 @@ const EndSessionPopUp: React.FC<PopupProps> = ({ onClose }) => {
           <button className={styles.newGrantButton} onClick={ () => {
             onClose();
             clearChatSession();
-            fetchAndSaveSession();
+            fetchAndSaveSession().catch((error) => {
+              showBoundary(error);
+            });
             navigate("/demo");
           }}>
             Start a New Grant

@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { Form, FormControlProps } from "react-bootstrap";
 import { InputType } from "../../../enums/API";
 import useStore from "../../../hooks/state/useStore";
+import { useErrorBoundary } from "react-error-boundary";
 
 function ChatWordLimitControl({
   className,
@@ -10,6 +11,15 @@ function ChatWordLimitControl({
   const userInput = useStore((state) => state.userInput);
   const setUserInput = useStore((state) => state.setUserInput);
   const fetchChat = useStore((state) => state.fetchChat);
+  const { showBoundary } = useErrorBoundary();
+  const handleFetchChat = async () => {
+    try {
+      await fetchChat();
+    } catch (error) {
+      showBoundary(error);
+    }
+  };
+
   const controlClsn = clsx("shadow-none", className);
 
   return (
@@ -34,7 +44,7 @@ function ChatWordLimitControl({
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
-            fetchChat();
+            handleFetchChat();
           }
         }}
         className={controlClsn}

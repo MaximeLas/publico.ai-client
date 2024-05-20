@@ -7,6 +7,8 @@ import useUserDocumentStorage from "../../../hooks/useUserDocumentStorage";
 import ChatFileDropzone from "../chatFileDropzone/ChatFileDropzone";
 import ChatTextInput from "../chatTextInput/ChatTextInput";
 import styles from "./ChatMainInput.module.css";
+import { useErrorBoundary } from "react-error-boundary";
+
 
 export interface ChatMainInputProps extends React.HTMLProps<HTMLDivElement> {}
 
@@ -15,6 +17,8 @@ function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
   const isFetching = useStore((state) => state.isFetching);
   const isEditMode = useStore((state) => state.isEditMode);
   const isDisabled = isFetching || isEditMode;
+  const { showBoundary } = useErrorBoundary();
+
   const isChatInputInControls = useStore((state) =>
     state.currentControls.includes(ChatControl.CHATBOT)
   );
@@ -34,6 +38,14 @@ function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
   const fetchChat = useStore((state) => state.fetchChat);
   const { uploadUserDocument } = useUserDocumentStorage();
 
+  const handleFetchChat = async () => {
+    try {
+      await fetchChat();
+    } catch (error) {
+      showBoundary(error);
+    }
+  };
+
   const onSendClicked = async () => {
     if (isSendDisabled) return;
     if (isFileDropzoneInControls) {
@@ -42,7 +54,7 @@ function ChatMainInput({ className, ...rest }: ChatMainInputProps) {
         filesInput.map((file) => uploadUserDocument(file, file.name))
       );
     }
-    await fetchChat();
+    await handleFetchChat();
   };
   return (
     <div className={clsn} {...rest}>

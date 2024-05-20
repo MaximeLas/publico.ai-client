@@ -18,6 +18,8 @@
     min-height: 50px;
     min-width: 90px;
     transition: background-color 0.1s;
+    white-space: wrap;
+    line-break: anywhere;
 }
 
 .bubble:hover {

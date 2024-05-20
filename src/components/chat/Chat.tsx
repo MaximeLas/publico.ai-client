@@ -12,6 +12,8 @@ import styles from "./Chat.module.scss";
 import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
 import { Message } from "../../types/Messages";
 import EndSessionPopUp from "../endSessionPopUp/EndSessionPopUp";
+import { useErrorBoundary } from "react-error-boundary";
+
 
 const buttonChatControls = [
   ChatControl.YES,
@@ -44,6 +46,7 @@ function Chat({ className, ...rest }: ChatProps) {
   const fetchChat = useStore((state) => state.fetchChat);
   const setCurrentChatSession = useStore((state) => state.setCurrentChatSession);
   const fetchAndSaveSession = useFetchAndSaveSession();
+  const { showBoundary, resetBoundary } = useErrorBoundary();
   const listGroupClassName = clsx("overflow-auto", styles.listGroup);
   const rootClassName = clsx(
     "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
@@ -65,18 +68,20 @@ function Chat({ className, ...rest }: ChatProps) {
   }
 
   const findIfEndOfSession = (messages : Message []) => {
-      if (messages[messages.length - 1].content.toString().startsWith("Do you want to generate an answer for another question?")) {
-        setIsEndOfSession(true);
-        return true;
-      } 
-      setIsEndOfSession(false);
-      return false;
+    if (messages[messages.length - 1].content.toString().startsWith("Do you want to generate an answer for another question?")) {
+      setIsEndOfSession(true);
+      return true;
+    }
+    setIsEndOfSession(false);
+    return false;
   }
 
   useEffect(() => {
     setIsEndOfSession(false);
     if (!currentUser || currentChatSession) return;
-    fetchAndSaveSession();
+      fetchAndSaveSession().catch((error) => {
+        showBoundary(error);
+    });
   }, []);
 
   useEffect(() => {
@@ -85,6 +90,14 @@ function Chat({ className, ...rest }: ChatProps) {
 
   const handleClosePopUp = () => {
     setIsEndOfSession(false);
+  };
+
+  const handleFetchChat = async () => {
+    try {
+      await fetchChat();
+    } catch (error) {
+      showBoundary(error);
+    }
   };
 
   return (
@@ -120,13 +133,14 @@ function Chat({ className, ...rest }: ChatProps) {
                   <Button
                     key={index}
                     disabled={isDisabled}
-                    onClick={ async () => {
+                    onClick={async () => {
                       setUserInput({
                         input_type: InputType.Button,
                         input_value: control,
                       });
-                      if (control === ChatControl.NO && findIfEndOfSession(messages)) setCurrentChatSession(currentChatSession);
-                      else await fetchChat();
+                      if (control === ChatControl.NO && findIfEndOfSession(messages)) await handleFetchChat()
+                      // if (control === ChatControl.NO && findIfEndOfSession(messages)) setCurrentChatSession(currentChatSession);
+                      else await handleFetchChat(); // Call the handler function
                       if (control === ChatControl.EDIT_IT) {
                         setUserInput({
                           input_type: InputType.Chatbot,
@@ -147,14 +161,14 @@ function Chat({ className, ...rest }: ChatProps) {
         )}
         {currentControls.includes(ChatControl.WORD_LIMIT) && (
           <ListGroupItem as="li" className="py-3" key="buttons">
-            <ChatWordLimitControl className={styles.wordLimitControl} disabled={isDisabled}/>
+            <ChatWordLimitControl className={styles.wordLimitControl} disabled={isDisabled} />
           </ListGroupItem>
         )}
       </ListGroup>
       <ChatMainInput />
-      {isEndOfSession && <EndSessionPopUp onClose={handleClosePopUp}/>}
+      {/* {isEndOfSession && <EndSessionPopUp onClose={handleClosePopUp} />} */}
     </Form>
   );
-} 
+}
 
 export default Chat;

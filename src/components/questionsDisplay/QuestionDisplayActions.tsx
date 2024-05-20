@@ -8,6 +8,7 @@ import useFetchAndSaveSession from "../../hooks/helpers/useFetchAndSaveSession";
 import useOnEditModeChange from "../../hooks/FormHandlers/useOnEditModeChange";
 import useStore from "../../hooks/state/useStore";
 import Switch from "../../sharedComponents/switch/Switch";
+import { useErrorBoundary } from "react-error-boundary";
 
 function QuestionDisplayActions() {
   const questionsLength = useStore((state) => state.questions.length);
@@ -16,12 +17,15 @@ function QuestionDisplayActions() {
   const [tooltipTarget, setTooltipTarget] = useState<HTMLElement | null>(null);
   const onEditModeChange = useOnEditModeChange();
   const fetchAndSaveSession = useFetchAndSaveSession();
+  const { showBoundary } = useErrorBoundary();
   const clearChatSession = useStore((state) => state.clearChatSession);
   const onDownloadQuestionClick = useDownloadQuestions();
 
   const restartSession = useCallback(() => {
     clearChatSession();
-    fetchAndSaveSession();
+      fetchAndSaveSession().catch((error) => {
+        showBoundary(error);
+      });
   }, [clearChatSession, fetchAndSaveSession]);
 
   const onRestartSessionClick = useDebounce(restartSession);
