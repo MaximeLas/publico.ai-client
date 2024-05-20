@@ -1,23 +1,31 @@
-import { ErrorBoundary } from 'react-error-boundary'
+import { Container, Card, Button } from 'react-bootstrap';
+import styles from './ErrorFallback.module.scss';
 
 interface ErrorFallbackProps {
   error: Error;
   resetErrorBoundary: () => void;
 }
 
-window.onerror = function (message, source, lineno, colno, error) {
-  // Customize this logic to handle or suppress specific errors
-  console.error('Global error handler:', message, source, lineno, colno, error);
-  return true; // Prevent the default handling of the error
-};
-
 function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
   return (
-    <div role="alert">
-      <p>Something went wrong:</p>
-      <pre>{error.message}</pre>
-      <button onClick={resetErrorBoundary}>Try again</button>
-    </div>
+    <Container className={styles.container}>
+      <Card className={styles.card}>
+        <Card.Header className={styles.cardHeader}>
+          <i className="bi bi-exclamation-triangle-fill me-2"></i>
+          Oops! Something went wrong
+        </Card.Header>
+        <Card.Body className={styles.cardBody}>
+          <Card.Text className={styles.errorMessage}>
+            Something went wrong:
+          </Card.Text>
+          <pre className={styles.preformattedText}>{error.message}</pre>
+          <Button className={styles.animatedButton} variant="success" onClick={() => {
+            resetErrorBoundary();
+            window.location.reload();
+          }}>Try Again</Button>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }
 
