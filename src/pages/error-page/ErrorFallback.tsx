@@ -1,10 +1,10 @@
-import { Container, Card, Button } from 'react-bootstrap';
-import styles from './ErrorFallback.module.scss';
+import { Container, Card, Button } from "react-bootstrap";
+import styles from "./ErrorFallback.module.scss";
 import useStore from "../../hooks/state/useStore";
 import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO";
 import useStoreApi from "../../hooks/state/useStoreApi";
 import useDB from "../../hooks/useDB";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 interface ErrorFallbackProps {
   error: Error;
@@ -12,6 +12,7 @@ interface ErrorFallbackProps {
 }
 
 function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
+  const currentChatSession = useStore((state) => state.currentChatSession);
   const user = useStore((state) => state.user);
   const { setState } = useStoreApi();
   const db = useDB();
@@ -21,14 +22,17 @@ function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
     const fetchUserChatSessions = async () => {
       try {
         if (user) {
-          const res = await db.getLastUserChatSession(user.uid);
-          if (res) {
-            const dto = ChatSessionDTO.toState(res);
-            if (isMounted) {
-              setState(dto);
+          const res = await db.getUserChatSessions(user.uid);
+          for (let i = 0; i < res.length; i++) {
+            if (res[i]?.id === currentChatSession?.id) {
+              const dto = ChatSessionDTO.toState(res[i]);
+              if (isMounted) {
+                setState(dto);
+              }
+              break;
+            }
           }
-        }
-      } 
+      }
     }
       catch (error) {
         console.error("Failed to fetch user chat sessions", error);
@@ -53,9 +57,15 @@ function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
             Something went wrong:
           </Card.Text>
           <pre className={styles.preformattedText}>{error.message}</pre>
-          <Button className={styles.animatedButton} variant="success" onClick={() => {
-            resetErrorBoundary();
-          }}>Try Again</Button>
+          <Button
+            className={styles.animatedButton}
+            variant="success"
+            onClick={async () => {
+              resetErrorBoundary();
+            }}
+          >
+            Try Again
+          </Button>
         </Card.Body>
       </Card>
     </Container>
