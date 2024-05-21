@@ -12,6 +12,8 @@ import {
 import { ApiSliceState, RootState } from "../types";
 import { BotMessage } from "../../types/Messages";
 import { fetchAuthorized } from "../../utilities/api";
+import ChatSessionDTO from "../../db/DTOs/ChatSessionDTO"
+import DBClient from "../../db/DBClient";
 
 const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
   set,
@@ -62,11 +64,13 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     if (!user || isFetching || !currentChatSession || !userInput?.input_value)
       return;
 
+    let response, afterChatResponse;
+
     // Add user message
     set((state) => ({
       ...state,
       currentControls: [],
-      userInput: null,
+      userInput: null,  
       isFetching: true,
       filesInput:
         userInput.input_type === InputType.Files
@@ -95,8 +99,9 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     const url = new URL(API_HOSTNAME);
     url.pathname = ApiRoute.Chat;
 
+    try {
     // Fetch chat route stream
-    const response = await fetchAuthorized(
+    response = await fetchAuthorized(
       url,
       {
         method: "POST",
@@ -109,6 +114,12 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     if (!response.body) {
       throw new Error("Response body is empty");
     }
+  }
+  catch (error) {
+    set({ isFetching: false });
+    throw error;
+  }
+
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     const loopRunner = true;
@@ -137,9 +148,10 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
       });
     }
 
+    try {
     // Fetch after chat route
     url.pathname = ApiRoute.AfterChat;
-    const afterChatResponse = await fetchAuthorized(url, {
+    afterChatResponse = await fetchAuthorized(url, {
       method: "POST",
       body: JSON.stringify({ session_id: currentChatSession.id }),
       headers: { "Content-Type": "application/json" },
@@ -147,7 +159,13 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
     if (!afterChatResponse.ok) {
       throw afterChatResponse.statusText;
     }
-    const afterChatJson = (await afterChatResponse.json()) as AfterChatResponse;
+  }
+  catch (error) {
+    set({ isFetching: false });
+    throw error;
+  }
+
+  const afterChatJson = (await afterChatResponse.json()) as AfterChatResponse;
 
     set((state): RootState => {
       const questions = [...state.questions];
@@ -199,6 +217,17 @@ const createApiSlice: StateCreator<RootState, [], [], ApiSliceState> = (
         ],
       };
     });
+
+    const { currentControls, messages, questions } = get();
+
+    await DBClient.updateSession(
+      currentChatSession.id,
+      ChatSessionDTO.fromPartialState({
+        currentControls,
+        messages,
+        questions,
+      })
+    );
   },
   async fetchEditQuestions() {
     const { isFetching, currentChatSession, editorState, user } = get();

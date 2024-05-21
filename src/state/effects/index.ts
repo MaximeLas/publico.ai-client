@@ -5,10 +5,10 @@ import dbEffects from './db';
 
 export default function runStoreEffects(store: StoreApi<RootState>) {
   const unsubscribeFirebaseAuth = firebaseAuthEffects(store);
-  const unsubscribeDb = dbEffects(store);
+  // const unsubscribeDb = dbEffects(store);
 
   return () => {
     unsubscribeFirebaseAuth();
-    unsubscribeDb();
+    // unsubscribeDb();
   };
 }

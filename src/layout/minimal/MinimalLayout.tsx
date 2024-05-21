@@ -4,6 +4,7 @@ import Logo from "../../components/logo/Logo";
 import styles from "./MinimalLayout.module.scss";
 import Footer from "../../components/footer/Footer";
 import clsx from "clsx";
+import { ErrorBoundary } from "react-error-boundary";
 
 function MinimalLayout() {
   const className = clsx(
@@ -12,6 +13,7 @@ function MinimalLayout() {
   );
   return (
     <StoreContextProvider>
+      <ErrorBoundary fallback={<div>oops</div>}>
       <div className={className}>
         <div className="pt-3 ps-3 w-100">
           <Link to="/">
@@ -25,6 +27,7 @@ function MinimalLayout() {
           <Footer />
         </div>
       </div>
+      </ErrorBoundary>
     </StoreContextProvider>
   );
 }

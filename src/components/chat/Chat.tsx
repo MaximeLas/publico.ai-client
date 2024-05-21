@@ -69,6 +69,11 @@ function Chat({ className, ...rest }: ChatProps) {
 
   const findIfEndOfSession = (messages : Message []) => {
     if (messages[messages.length - 1].content.toString().startsWith("Do you want to generate an answer for another question?")) {
+      setUserInput({
+        input_type: InputType.Chatbot,
+        input_value: '',
+      
+      });
       setIsEndOfSession(true);
       return true;
     }
@@ -138,9 +143,16 @@ function Chat({ className, ...rest }: ChatProps) {
                         input_type: InputType.Button,
                         input_value: control,
                       });
-                      if (control === ChatControl.NO && findIfEndOfSession(messages)) await handleFetchChat()
+                      if (control === ChatControl.NO && findIfEndOfSession(messages)) {
+                        try {
+                          throw new Error("End of session");
+                        }
+                        catch (error) {
+                          showBoundary(error);
+                        }
+                      }
                       // if (control === ChatControl.NO && findIfEndOfSession(messages)) setCurrentChatSession(currentChatSession);
-                      else await handleFetchChat(); // Call the handler function
+                      else await handleFetchChat();
                       if (control === ChatControl.EDIT_IT) {
                         setUserInput({
                           input_type: InputType.Chatbot,
@@ -166,7 +178,7 @@ function Chat({ className, ...rest }: ChatProps) {
         )}
       </ListGroup>
       <ChatMainInput />
-      {/* {isEndOfSession && <EndSessionPopUp onClose={handleClosePopUp} />} */}
+      {isEndOfSession && <EndSessionPopUp onClose={handleClosePopUp} />}
     </Form>
   );
 }
