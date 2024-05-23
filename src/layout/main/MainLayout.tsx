@@ -23,7 +23,6 @@ function MainLayout() {
               Publico.ai © {new Date().getFullYear()}
             </p>
           </footer>
-          {/* <Footer /> */}
         </div>
         </ErrorBoundary>
       </StoreContextProvider>

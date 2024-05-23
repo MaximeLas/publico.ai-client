@@ -1,5 +1,3 @@
-
-
 .rootEditMode {
   --input-height: 60px;
   --message-text-font-size: 0.8rem;
@@ -21,17 +19,10 @@
   box-shadow: 0 0 15px rgba(173, 255, 47, 0.8);
 }
 
-
 .listGroup {
-    /* height: calc(85% - var(--input-height, 0)); */
     flex: 1;
     overflow-y: scroll;
-
 }
-
-/* .listGroup li:last-child {
-  flex: 1;
-} */
 
 .input {
   height: var(--input-height);
@@ -47,6 +38,5 @@
 }
 
 .wordLimitControl {
-  // box-shadow: none !important;
   width: 80px;
 }

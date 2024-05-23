@@ -1,5 +1,5 @@
 .schedule-demo-container {
-  max-width: 700px; /* Adjust width as necessary */
+  max-width: 700px;
   margin: 2rem auto;
   padding: 2rem;
   text-align: center;
@@ -9,38 +9,38 @@
   margin-bottom: 2rem;
 }
 
-/* Style for input and textarea elements */
+
 .schedule-demo-container input,
 .schedule-demo-container textarea {
-  width: 100%; /* Make sure the input takes the full width of its parent */
-  margin-bottom: 1rem; /* Add some space below each input */
+  width: 100%;
+  margin-bottom: 1rem;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-/* Style for the submit button */
+
 .schedule-demo-container input[type="submit"] {
-  background-color: #c9e265; /* Use your brand color */
+  background-color: #c9e265; 
   color: #333;
   font-weight: bold;
   border: none;
   padding: 1rem;
-  margin-top: 20px; /* Space between the last input and the submit button */
+  margin-top: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   border-radius: 4px;
 }
 
-/* Add hover effect for the submit button */
+
 .schedule-demo-container input[type="submit"]:hover {
   background-color: #b0b957;
   color: #fff;
 }
 
-/* Style for the form response message */
+
 .form-response-message {
-  margin-top: 20px; /* Space after the submit button or form */
+  margin-top: 20px; 
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;

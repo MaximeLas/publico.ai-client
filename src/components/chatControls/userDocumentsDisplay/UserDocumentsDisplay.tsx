@@ -15,7 +15,6 @@ function UserDocumentsDisplay() {
         {userFiles.map((file, index) => (
           <Badge
             key={index}
-            // disabled={isFetching || isEditMode}
             onPointerEnter={(e) => {
               setTargetDocument(file);
               setTarget(e.target as HTMLElement);
@@ -24,7 +23,6 @@ function UserDocumentsDisplay() {
               setTargetDocument(null);
               setTarget(null);
             }}
-            // variant="primary"
             className="rounded rounded-pill d-flex justify-content-between align-items-center ps-4 max-w-50"
           >
             <span className="fs-6 text-dark text-truncate d-inline-block">

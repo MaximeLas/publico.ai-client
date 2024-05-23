@@ -70,14 +70,14 @@
 }
 
 .button-container {
-  margin-top: 2rem; /* Adjust as necessary */
+  margin-top: 2rem;
   text-align: center;
 }
 
 .placeholder-button {
   margin: 7.5rem;
   padding: 1rem 2rem;
-  font-size: 1.2rem; /* Adjust to match your design */
+  font-size: 1.2rem;
   background-color: #c9e265;
   color: black;
   border: 3px solid black;
@@ -86,9 +86,4 @@
   animation: fadeIn 1.5s ease-in forwards;
   animation-delay: 2.25s;
   opacity: 0;
-}
-
-/* You can add :hover states for the buttons if desired */
-.placeholder-button:hover {
-  /* hover state styles */
 }
