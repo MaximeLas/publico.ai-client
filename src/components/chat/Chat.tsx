@@ -46,7 +46,7 @@ function Chat({ className, ...rest }: ChatProps) {
   const fetchChat = useStore((state) => state.fetchChat);
   const setCurrentChatSession = useStore((state) => state.setCurrentChatSession);
   const fetchAndSaveSession = useFetchAndSaveSession();
-  const { showBoundary, resetBoundary } = useErrorBoundary();
+  const { showBoundary } = useErrorBoundary();
   const listGroupClassName = clsx("overflow-auto", styles.listGroup);
   const rootClassName = clsx(
     "bg-light-subtle pt-1 border rounded rounded-2 d-flex flex-column",
@@ -87,7 +87,7 @@ function Chat({ className, ...rest }: ChatProps) {
       fetchAndSaveSession().catch((error) => {
         showBoundary(error);
     });
-  }, []);
+  }, [currentUser, currentChatSession, fetchAndSaveSession, showBoundary]);
 
   useEffect(() => {
     listRef.current?.scrollTo(0, listRef.current?.scrollHeight || 0);
@@ -143,15 +143,7 @@ function Chat({ className, ...rest }: ChatProps) {
                         input_type: InputType.Button,
                         input_value: control,
                       });
-                      if (control === ChatControl.NO && findIfEndOfSession(messages)) {
-                        try {
-                          throw new Error("End of session");
-                        }
-                        catch (error) {
-                          showBoundary(error);
-                        }
-                      }
-                      // if (control === ChatControl.NO && findIfEndOfSession(messages)) setCurrentChatSession(currentChatSession);
+                      if (control === ChatControl.NO && findIfEndOfSession(messages)) setCurrentChatSession(currentChatSession);
                       else await handleFetchChat();
                       if (control === ChatControl.EDIT_IT) {
                         setUserInput({

@@ -33,7 +33,7 @@ function TextEditor({
       editor?.commands.setContent(content?.toString());
     }
   }
-  , [content]);
+  , [content, editor]);
 
   return (
     <EditorContent editor={editor} hidden={hidden}/>

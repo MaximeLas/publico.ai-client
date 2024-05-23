@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Badge, Button, Form, Overlay, Tooltip } from "react-bootstrap";
 import { BsX as DeleteIcon } from "react-icons/bs";
 import useStore from "../../../hooks/state/useStore";

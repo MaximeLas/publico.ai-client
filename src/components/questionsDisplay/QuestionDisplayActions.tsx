@@ -26,7 +26,7 @@ function QuestionDisplayActions() {
       fetchAndSaveSession().catch((error) => {
         showBoundary(error);
       });
-  }, [clearChatSession, fetchAndSaveSession]);
+  }, [clearChatSession, fetchAndSaveSession, showBoundary]);
 
   const onRestartSessionClick = useDebounce(restartSession);
 

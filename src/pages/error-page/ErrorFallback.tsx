@@ -44,7 +44,7 @@ function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
     return () => {
       isMounted = false;
     };
-  }, [user, db, setState]);
+  }, [user, db, currentChatSession, setState]);
   return (
     <Container className={styles.container}>
       <Card className={styles.card}>

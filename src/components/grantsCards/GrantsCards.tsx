@@ -66,7 +66,7 @@ const GrantsCards = () => {
     db.getUserChatSessions(user.uid).then((res) => {
       setSessions(res.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis()));
     });
-  }, [user]);
+  }, [user, db]);
 
   useEffect(() => {
     if (!filteredSessions.length && activePage !== 1) {
@@ -100,7 +100,7 @@ const GrantsCards = () => {
 
     setSessions(sortedSessions);
     goToFirstPage();
-  }, [sortBy, sortOrder]);
+  }, [sortBy, sortOrder, sessions]);
 
   return (
     <div className={styles.scrollableContainer}>

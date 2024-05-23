@@ -1,7 +1,7 @@
 import { StoreApi } from 'zustand';
 import firebaseAuthEffects from './firebaseAuth';
 import { RootState } from '../types';
-import dbEffects from './db';
+// import dbEffects from './db';
 
 export default function runStoreEffects(store: StoreApi<RootState>) {
   const unsubscribeFirebaseAuth = firebaseAuthEffects(store);
